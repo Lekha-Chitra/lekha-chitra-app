@@ -1,7 +1,7 @@
 import LoginForm from "../components/LoginForm";
 import SplitLogo from "../components/SplitLogo";
 import Branding from "../components/Branding";
-import logo from "../../../assets/images/logo.png";
+// import logo from "../../../assets/images/logo.png";
 import bgImage from "../../../assets/images/login-banner.jpg";
 
 function Login() {
