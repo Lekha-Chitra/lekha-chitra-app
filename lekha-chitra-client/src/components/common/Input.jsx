@@ -5,10 +5,13 @@ function Input({ type = "text", placeholder, ...props }) {
       placeholder={placeholder}
       {...props}
       className="
-        w-full
-        h-[50px]
-        md:h-[60px]
-        xl:h-[70px]
+       w-full
+        sm:w-[90%]
+        md:w-[80%]
+        xl:w-[70%]
+        h-[40px]
+        md:h-[50px]
+        xl:h-[60px]
         px-4
         md:px-6
         rounded-[10px]

@@ -33,9 +33,7 @@ function LoginForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-5
-    md:space-y-8
-    "
+    className="space-y-5 md:space-y-8 pl-8 sm:pl-10 md:pl-14"
     >
       <Input
         name="username"
