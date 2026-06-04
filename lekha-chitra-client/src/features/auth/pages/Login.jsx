@@ -17,8 +17,8 @@ function Login() {
       {/* Right Side */}
       <div className="relative w-full lg:w-1/2 bg-[#032A4E] flex flex-col items-center min-h-screen px-8">
         {/* Floating Logo */}
-        <div className="hidden lg:block absolute left-0 top-[280px] -translate-x-1/2 z-20">
-          <div className="relative w-[140px] h-[140px] xl:w-[200px] xl:h-[200px]  rounded-full overflow-hidden shadow-xl">
+        <div className="hidden lg:block absolute left-0 top-[180px] -translate-x-1/2 z-20">
+          <div className="relative w-[140px] h-[140px]   xl:w-[200px] xl:h-[200px]  rounded-full overflow-hidden shadow-xl">
             {/* Blue Half */}
             <div className="absolute left-0 top-0 w-1/2 h-full bg-[#032A4E]" />
 
@@ -37,7 +37,7 @@ function Login() {
         </div>
 
         {/* Slogan */}
-        <p className="mt-16 lg:mt-20 text-center text-white text-lg md:text-xl lg:text-2xl">
+        <p className="mt-4 lg:mt-20 text-center text-white text-lg md:text-xl lg:text-2xl">
           हरेक खर्चको स्पष्ट हिसाब, सफल निर्माणको बलियो आधार।
         </p>
 
@@ -70,7 +70,7 @@ function Login() {
         </div>
 
         {/* Footer Text */}
-        <p className="text-white text-sm md:text-base lg:text-lg mt-8">
+        <p className="text-white text-sm md:text-base lg:text-lg mt-4 xl:mt-8 ">
           Please login to your account...
         </p>
       </div>
