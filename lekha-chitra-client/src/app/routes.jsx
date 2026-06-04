@@ -1,28 +1,12 @@
-// // src/app/routes.js
+import { createBrowserRouter } from "react-router-dom";
 
-// import { createBrowserRouter } from "react-router-dom";
+import Login from "../features/auth/pages/Login";
 
-// function Login() {
-//   return <h1 className="text-4xl font-bold bg-blue-500 ">Login Page
-//   k xa khbar
-//   <p>hahaha</p>
-//   ios ma pani hunxa
-//   </h1>;
-// }
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Login />,
+  },
+]);
 
-// function Dashboard() {
-//   return <h1>Dashboard Page</h1>;
-// }
-
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <Login />,
-//   },
-//   {
-//     path: "/dashboard",
-//     element: <Dashboard />,
-//   },
-// ]);
-
-// export default router;
+export default router;
