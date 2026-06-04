@@ -26,8 +26,8 @@ function Login() {
         • z-20      → above both panels
         • pointer-events-none → logo never blocks clicks on the form
       */}
-      <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none">
-        <SplitLogo size={100} />
+      <div className="hidden lg:flex absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none">
+        <SplitLogo size={150} />
       </div>
  
       {/* ── Right: login panel ── */}

@@ -9,6 +9,7 @@ function Input({ type = "text", placeholder, ...props }) {
         sm:w-[90%]
         md:w-[80%]
         xl:w-[70%]
+        2xl:w-[350px]
         h-[40px]
         md:h-[50px]
         xl:h-[60px]
