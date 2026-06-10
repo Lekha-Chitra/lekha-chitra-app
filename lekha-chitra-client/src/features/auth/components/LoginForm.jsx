@@ -3,60 +3,110 @@ import Input from "../../../components/common/Input";
 import Button from "../../../components/common/Button";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
+import {validateEmail,validatePassword} from "../../../utils/validation";
 function LoginForm() {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
-  const [showPassword, setShowPassword] = useState(false);
 
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
 
+
+  // const handleChange = (e) => {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+   const emailError = validateEmail(formData.email);
+
+   const passwordError = validatePassword(formData.password);
+
+   if (emailError || passwordError) {
+     setErrors({
+       email: emailError,
+       password: passwordError,
+     });
+
+     return;
+   }
+
+
     console.log(formData);
-    setFormData({ username: "", password: "" });
+    //API call for login
+
+    setFormData({ email: "", password: "" });
   };
+
 
   return (
     <form
       onSubmit={handleSubmit}
       className="space-y-5 md:space-y-8 w-full flex flex-col items-center  "
     >
-      {/* Username */}
-      <Input
-        name="username"
-        placeholder="Username"
-        value={formData.username}
-        onChange={handleChange}
-      />
+      {/* Email */}
+      <div>
+        <Input
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          error={errors.email}
+        />
+        {errors.email && (
+          <p className="text-red-400 text-sm mt-1">{errors.email}</p>
+        )}
+      </div>
 
       {/* Password */}
-      <Input
-        type={showPassword ? "text" : "password"}
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-        rightIcon={
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="text-gray-400 hover:text-gray-600 cursor-pointer"
-            aria-label={showPassword ? "Hide password" : "Show password"}
-          >
-            {showPassword ? <FaEye /> : <FaEyeSlash />}
-          </button>
-        }
-      />
+      <div>
+        <Input
+          type={showPassword ? "text" : "password"}
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          error={errors.password}
+          rightIcon={
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="text-gray-400 hover:text-gray-600 cursor-pointer"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
+            </button>
+          }
+        />
+
+        {errors.password && (
+          <p className="text-red-400 text-sm mt-1">{errors.password}</p>
+        )}
+      </div>
 
       {/* Login + Forgot Password */}
       <div
