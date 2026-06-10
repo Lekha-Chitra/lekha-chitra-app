@@ -1,12 +1,22 @@
 import { useState } from "react";
 import Input from "../../../components/common/Input";
 import Button from "../../../components/common/Button";
+import {validateEmail} from "../../../utils/validation";
 
 function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const emailError = validateEmail(email);
+
+    if (emailError) {
+      setError(emailError);
+      return;
+    }
+    setError("");
     console.log(email);
     setEmail("");
   };
@@ -18,11 +28,16 @@ function ForgotPasswordForm() {
     >
       <div className="w-full items-center flex flex-col">
         <Input
-          type="email"
+          type="text"
           placeholder="Enter Email Address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+            error={error}
         />
+        {error && (
+          <p className="text-red-400 text-sm mt-1">{error}</p>
+        )}
+        
       </div>
 
       <Button

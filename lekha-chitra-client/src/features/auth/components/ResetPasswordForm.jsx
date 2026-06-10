@@ -2,6 +2,10 @@ import { useState } from "react";
 import Input from "../../../components/common/Input";
 import Button from "../../../components/common/Button";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import {
+  validatePassword,
+  validateConfirmPassword,
+} from "../../../utils/validation";
 
 function ResetPasswordForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,57 +15,108 @@ function ResetPasswordForm() {
     confirmPassword: "",
   });
 
+  const [errors, setErrors] = useState({
+    password: "",
+    confirmPassword: "",
+  });
+
+  // const handleChange = (e) => {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const passwordError = validatePassword(formData.password);
+    const confirmPasswordError = validateConfirmPassword(
+      formData.password,
+      formData.confirmPassword,
+    );
+
+    if (passwordError || confirmPasswordError) {
+      setErrors({
+        password: passwordError,
+        confirmPassword: confirmPasswordError,
+      });
+      return;
+    }
 
     console.log(formData);
-    setFormData({ password: "", confirmPassword: "" });
+
+    setFormData({
+      password: "",
+      confirmPassword: "",
+    });
+    setErrors({
+      password: "",
+      confirmPassword: "",
+    });
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5 items-center">
-      <Input
-        type={showPassword ? "text" : "password"}
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-        rightIcon={
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="text-gray-400 hover:text-gray-600 cursor-pointer"
-            aria-label={showPassword ? "Hide password" : "Show password"}
-          >
-            {showPassword ? <FaEye /> : <FaEyeSlash />}
-          </button>
-        }
-      />
+      <div>
+        <Input
+          type={showPassword ? "text" : "password"}
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          error={errors.password}
+          rightIcon={
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="text-gray-400 hover:text-gray-600 cursor-pointer"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
+            </button>
+          }
+        />
+        {errors.password && (
+          <p className="text-red-400 text-sm mt-1">{errors.password}</p>
+        )}
+      </div>
 
-      <Input
-        type={showPassword ? "text" : "password"}
-        name="confirmPassword"
-        placeholder="Confirm Password"
-        value={formData.confirmPassword}
-        onChange={handleChange}
-        rightIcon={
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="text-gray-400 hover:text-gray-600 cursor-pointer"
-            aria-label={showPassword ? "Hide password" : "Show password"}
-          >
-            {showPassword ? <FaEye /> : <FaEyeSlash />}
-          </button>
-        }
-      />
+      <div>
+        <Input
+          type={showPassword ? "text" : "password"}
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          rightIcon={
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="text-gray-400 hover:text-gray-600 cursor-pointer"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
+            </button>
+          }
+        />
+        {errors.confirmPassword && (
+          <p className="text-red-400 text-sm mt-1">{errors.confirmPassword}</p>
+        )}
+      </div>
 
       <Button
         type="submit"

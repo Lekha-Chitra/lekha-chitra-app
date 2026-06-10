@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
 import Button from "../../../components/common/Button";
-
+import { validateOtp } from "../../../utils/validation";
 function OtpForm() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [error,setError] = useState("");
 
   const inputsRef = useRef([]);
 
@@ -12,6 +13,9 @@ function OtpForm() {
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
+
+    //clear error while typing
+    setError("")
 
     if (value && index < 5) {
       inputsRef.current[index + 1]?.focus();
@@ -28,6 +32,13 @@ function OtpForm() {
     e.preventDefault();
 
     const otpValue = otp.join("");
+
+    const otpError = validateOtp(otpValue);
+    if(otpError){
+      setError(otpError);
+      return;
+    }
+    setError("");
 
     console.log("OTP:", otpValue);
     setOtp(["", "", "", "", "", ""]);
@@ -64,6 +75,10 @@ function OtpForm() {
           />
         ))}
       </div>
+
+      {error && (
+        <p className="text-red-400 text-sm mt-1">{error}</p>
+      )}
 
       <Button
         type="submit"
