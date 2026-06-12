@@ -1,13 +1,86 @@
+// import { useState } from "react";
+// import Input from "../../../components/common/Input";
+// import Button from "../../../components/common/Button";
+// import {validateEmail} from "../../../utils/validation";
+
+// function ForgotPasswordForm() {
+//   const [email, setEmail] = useState("");
+//   const [error, setError] = useState("");
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+
+//     const emailError = validateEmail(email);
+
+//     if (emailError) {
+//       setError(emailError);
+//       return;
+//     }
+//     setError("");
+//     console.log(email);
+//     setEmail("");
+//   };
+
+//   return (
+//     <form
+//       onSubmit={handleSubmit}
+//       className="w-full flex flex-col items-center gap-5"
+//     >
+//       <div className="w-full items-center flex flex-col">
+//         <Input
+//           type="text"
+//           placeholder="Enter Email Address"
+//           value={email}
+//           onChange={(e) => setEmail(e.target.value)}
+//             error={error}
+//         />
+//         {error && (
+//           <p className="text-red-400 text-sm mt-1">{error}</p>
+//         )}
+
+//       </div>
+
+//       <Button
+//         type="submit"
+//         className="
+//           w-full
+//         sm:w-[90%]
+//         md:w-[80%]
+//         xl:w-[70%]
+//         2xl:w-[350px]
+//           bg-[#E59C11]
+//           text-white
+//           h-[55px]
+//           rounded-full
+//           text-xl
+//           cursor-pointer
+//         "
+//       >
+//         Send OTP
+//       </Button>
+//     </form>
+//   );
+// }
+
+// export default ForgotPasswordForm;
+
 import { useState } from "react";
 import Input from "../../../components/common/Input";
 import Button from "../../../components/common/Button";
-import {validateEmail} from "../../../utils/validation";
+import { validateEmail } from "../../../utils/validation";
+import { sendOtp } from "../services/authService";
+import { useNavigate } from "react-router-dom";
 
 function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [apiError, setApiError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+   const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const emailError = validateEmail(email);
@@ -16,9 +89,39 @@ function ForgotPasswordForm() {
       setError(emailError);
       return;
     }
-    setError("");
-    console.log(email);
-    setEmail("");
+
+    try {
+      setLoading(true);
+      setError("");
+      setApiError("");
+      setSuccessMessage("");
+
+      const response = await sendOtp(email);
+
+      console.log("OTP Sent:", response);
+
+      setSuccessMessage(response.message || "OTP sent successfully.");
+     if (response.isSuccess) {
+       navigate("/verify-otp", {
+         state: {
+           email,
+         },
+         replace:true
+       });
+     }
+
+      // setEmail("");
+    } catch (error) {
+      console.error("Send OTP Error:", error);
+
+      setApiError(
+        error.response?.data?.message ||
+          error.response?.data?.title ||
+          "Failed to send OTP.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -26,37 +129,48 @@ function ForgotPasswordForm() {
       onSubmit={handleSubmit}
       className="w-full flex flex-col items-center gap-5"
     >
-      <div className="w-full items-center flex flex-col">
+      <div className="w-full flex flex-col items-center">
         <Input
           type="text"
           placeholder="Enter Email Address"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-            error={error}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setError("");
+            setApiError("");
+            setSuccessMessage("");
+          }}
+          error={error}
         />
-        {error && (
-          <p className="text-red-400 text-sm mt-1">{error}</p>
+
+        {error && <p className="text-red-400 text-sm mt-1">{error}</p>}
+
+        {apiError && <p className="text-red-400 text-sm mt-1">{apiError}</p>}
+
+        {successMessage && (
+          <p className="text-green-400 text-sm mt-1">{successMessage}</p>
         )}
-        
       </div>
 
       <Button
         type="submit"
+        disabled={loading}
         className="
           w-full
-        sm:w-[90%]
-        md:w-[80%]
-        xl:w-[70%]
-        2xl:w-[350px]
+          sm:w-[90%]
+          md:w-[80%]
+          xl:w-[70%]
+          2xl:w-[350px]
           bg-[#E59C11]
           text-white
           h-[55px]
           rounded-full
           text-xl
           cursor-pointer
+          disabled:opacity-50
         "
       >
-        Send OTP
+        {loading ? "Sending..." : "Send OTP"}
       </Button>
     </form>
   );

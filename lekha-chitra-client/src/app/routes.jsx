@@ -4,6 +4,7 @@ import Login from "../features/auth/pages/Login";
 import ForgotPassword from "../features/auth/pages/ForgotPassword";
 import VerifyOtp from "../features/auth/pages/VerifyOtp";
 import ResetPassword from "../features/auth/pages/ResetPassword";
+import Home from "../features/auth/pages/Home"
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
      path: "/reset-password",
     element: <ResetPassword />,
+  },
+  {
+    path:"/home",
+    element:<Home />
   }
   
 ]);

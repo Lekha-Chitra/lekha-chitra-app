@@ -14,6 +14,7 @@ function Input({
         className={`
           w-full
           
+          
           h-[40px]
           md:h-[50px]
           xl:h-[60px]
