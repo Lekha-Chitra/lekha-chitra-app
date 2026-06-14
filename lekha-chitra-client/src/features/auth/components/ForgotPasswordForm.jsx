@@ -102,6 +102,7 @@ function ForgotPasswordForm() {
 
       setSuccessMessage(response.message || "OTP sent successfully.");
      if (response.isSuccess) {
+      sessionStorage.setItem("otpEmail",email)
        navigate("/verify-otp", {
          state: {
            email,
@@ -129,11 +130,20 @@ function ForgotPasswordForm() {
       onSubmit={handleSubmit}
       className="w-full flex flex-col items-center gap-5"
     >
-      <div className="w-full flex flex-col items-center">
+      <div
+        className="w-full 
+          sm:w-[90%]
+          md:w-[70%]
+          xl:w-[60%]
+          2xl:w-[350px]
+          flex flex-col items-center
+          "
+      >
         <Input
           type="text"
           placeholder="Enter Email Address"
           value={email}
+          className="h-[55px]"
           onChange={(e) => {
             setEmail(e.target.value);
             setError("");
@@ -164,7 +174,7 @@ function ForgotPasswordForm() {
           bg-[#E59C11]
           text-white
           h-[55px]
-          rounded-full
+          rounded-2xl
           text-xl
           cursor-pointer
           disabled:opacity-50

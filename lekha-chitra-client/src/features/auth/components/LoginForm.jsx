@@ -285,8 +285,9 @@ function LoginForm() {
       onSubmit={handleSubmit}
       className="space-y-5 md:space-y-8 w-full flex flex-col items-center"
     >
-      {/* Email */}
-      
+      <div className="flex flex-col gap-6">
+        {/* Email */}
+
         <div>
           <Input
             name="email"
@@ -294,11 +295,10 @@ function LoginForm() {
             value={formData.email}
             onChange={handleChange}
             error={errors.email}
-            
           />
 
           {errors.email && (
-            <p className="text-red-400 text-sm mt-1 " >{errors.email}</p>
+            <p className="text-red-400 text-sm mt-1 ">{errors.email}</p>
           )}
         </div>
 
@@ -333,25 +333,26 @@ function LoginForm() {
             {apiError}
           </div>
         )}
-      
-      {/* Login + Forgot Password */}
-      <div
-        className="
+
+        {/* Login + Forgot Password */}
+        <div
+          className="
           w-full
-          sm:w-[50%]
-          md:w-[80%]
-          xl:w-[70%]
+          sm:w-[90%]
+          md:w-[100%]
+          xl:w-[100%]
           2xl:w-[350px]
           flex flex-col sm:flex-row
-          gap-4
+          gap-6
           sm:justify-between
           sm:items-center
+          
         "
-      >
-        <Button
-          type="submit"
-          disabled={loading}
-          className="
+        >
+          <Button
+            type="submit"
+            disabled={loading}
+            className="
             bg-[#E59C11]
             text-white
             cursor-pointer
@@ -362,21 +363,25 @@ function LoginForm() {
             pb-2.5
             disabled:opacity-50
           "
-        >
-          {loading ? "Logging In..." : "Login"}
-        </Button>
+          >
+            {loading ? "Logging In..." : "Login"}
+          </Button>
 
-        <button
-          type="button"
-          onClick={() => navigate("/forgot-password")}
-          className="
+          <button
+            type="button"
+            onClick={() => navigate("/forgot-password")}
+            className="
             text-white
             cursor-pointer
             text-sm sm:text-base md:text-lg
+            
+        
+
           "
-        >
-          Forgot Password?
-        </button>
+          >
+            Forgot Password?
+          </button>
+        </div>
       </div>
     </form>
   );

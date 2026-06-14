@@ -31,7 +31,7 @@ function ResetPassword() {
         </div>
 
         <p className="text-white mt-8 text-center">
-          Password must be at least 8 characters long.
+          Password must be at least 6 characters long.
         </p>
       </div>
     </div>

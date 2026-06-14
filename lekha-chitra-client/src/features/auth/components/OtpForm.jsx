@@ -122,11 +122,27 @@ function OtpForm() {
 
   const inputsRef = useRef([]);
 
+  // useEffect(() => {
+  //   if (!email) {
+  //     navigate("/", { replace: true });
+  //   }
+  // }, [email, navigate]);
+
   useEffect(() => {
-    if (!email) {
-      navigate("/", { replace: true });
+    const storedEmail = sessionStorage.getItem("otpEmail");
+
+    // If no stored email in sessionStorage → page was refreshed or accessed directly
+    if (!storedEmail) {
+      navigate("/forgot-password", { replace: true });
+      return;
+    }
+
+    // If email in state doesn't match stored → something is wrong
+    if (storedEmail !== email) {
+      navigate("/forgot-password", { replace: true });
     }
   }, [email, navigate]);
+
 
   const handleChange = (value, index) => {
     if (!/^\d?$/.test(value)) return;
@@ -170,17 +186,52 @@ function OtpForm() {
       console.log("Verify OTP:", response);
 
       if (response.isSuccess) {
-        navigate("/reset-password", { state: { email },replace:true });
+        sessionStorage.removeItem("otpEmail");
+        sessionStorage.setItem("resetEmail", email);
+        navigate("/reset-password", { state: { email }, replace: true });
       }
     } catch (err) {
       console.error("Verify OTP Error:", err);
 
-      setApiError(
+      const status = err.response?.status;
+      const message =
         err.response?.data?.message ||
-          err.response?.data?.title ||
-          "OTP verification failed.",
-      );
+        err.response?.data?.title ||
+        "OTP verification failed.";
+
+      // OTP locked after max attempts
+      if (status === 401) {
+        setApiError("Too many invalid attempts. Redirecting to request a new otp...");
+
+        setTimeout(() => {
+          navigate("/forgot-password", {
+            replace: true,
+          });
+        }, 2000);
+
+        return;
+      }
+
+      setApiError(message);
     } finally {
+      // } catch (err) {
+      //   console.error("Verify OTP Error:", err);
+
+      //   setApiError(
+      //     err.response?.data?.message ||
+      //       err.response?.data?.title ||
+      //       "OTP verification failed.",
+      //   );
+      //    if (status === 401) {
+      // setApiError(message);
+
+      // setTimeout(() => {
+      //   navigate("/forgot-password", {
+      //     replace: true,
+      //   });
+      // }, 2000);
+      // }
+
       setLoading(false);
     }
   };

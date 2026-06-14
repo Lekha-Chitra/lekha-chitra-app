@@ -6,15 +6,15 @@ function Input({
   ...props
 }) {
   return (
-    <div className="relative w-full sm:w-[90%] md:w-[80%] xl:w-[70%] 2xl:w-[350px]">
+    <div className="relative w-full  sm:w-[100%] md:w-[120%] xl:w-[120%] 2xl:w-[350px]">
       <input
         type={type}
         placeholder={placeholder}
         {...props}
         className={`
           w-full
-          
-          
+         
+           
           h-[40px]
           md:h-[50px]
           xl:h-[60px]

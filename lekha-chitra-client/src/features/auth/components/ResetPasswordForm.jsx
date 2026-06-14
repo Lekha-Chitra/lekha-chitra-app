@@ -144,7 +144,7 @@
 
 // export default ResetPasswordForm;
 
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Input from "../../../components/common/Input";
 import Button from "../../../components/common/Button";
@@ -173,12 +173,24 @@ function ResetPasswordForm() {
   const [apiError, setApiError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // useEffect(() => {
+  //   if (!email) {
+  //     navigate("/", { replace: true });
+  //   }
+  // }, [email, navigate]);
+
   useEffect(() => {
-    if (!email) {
-      navigate("/", { replace: true });
+    const storedEmail = sessionStorage.getItem("resetEmail");
+
+    if (!storedEmail) {
+      navigate("/forgot-password", { replace: true });
+      return;
+    }
+
+    if (storedEmail !== email) {
+      navigate("/forgot-password", { replace: true });
     }
   }, [email, navigate]);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -215,7 +227,8 @@ function ResetPasswordForm() {
       console.log("Reset Password:", response);
 
       if (response.isSuccess) {
-        navigate("/",{replace:true});
+        sessionStorage.removeItem("resetEmail");
+        navigate("/", { replace: true });
       }
     } catch (err) {
       console.error("Reset Password Error:", err);

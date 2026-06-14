@@ -1,8 +1,10 @@
 import Branding from "../components/Branding";
 import OtpForm from "../components/OtpForm";
 import bgImage from "../../../assets/images/login-banner.jpg";
+import { useNavigate } from "react-router-dom";
 
 function VerifyOtp() {
+  const navigate = useNavigate()
   return (
     <div className="relative min-h-screen flex flex-col lg:flex-row">
       {/* Left Banner */}
@@ -33,7 +35,8 @@ function VerifyOtp() {
 
         <p className="text-white mt-30 lg:mt-10 text-center">
           Didn't receive the OTP?{" "}
-          <button className="text-[#E59C11] underline cursor-pointer">
+          <button className="text-[#E59C11] underline cursor-pointer"
+         onClick={() => navigate("/forgot-password")}>
             Resend OTP
           </button>
         </p>
