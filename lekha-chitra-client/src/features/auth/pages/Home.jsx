@@ -1,8 +1,6 @@
 import logo from "../../../assets/images/logo.png";
 
-
 function Home() {
-  
   return (
     <div className="min-h-screen bg-[#F5F7FA]">
       {/* Header */}
