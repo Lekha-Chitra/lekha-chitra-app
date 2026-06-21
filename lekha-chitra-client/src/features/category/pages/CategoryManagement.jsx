@@ -1,28 +1,51 @@
 import { useState } from "react";
+
 import CategoryHeader from "../components/CategoryHeader";
 import CategoryCard from "../components/CategoryCard";
 import CategoryForm from "../components/CategoryForm";
 import SubCategoryForm from "../components/SubCategoryForm";
 import CategoryTable from "../components/CategoryTable";
 
+import {
+  getCategories,
+  addCategory,
+  addSubCategory,
+  getSubCategories,
+} from "../services/categoryService";
+
 function CategoryManagement() {
+  // Category Form
   const [category, setCategory] = useState("");
 
+  // Sub Category Form
   const [selectedCategory, setSelectedCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
 
-  // Temporary data
-  const categories = [
-    { id: 1, categoryName: "Cement" },
-    { id: 2, categoryName: "Steel" },
-    { id: 3, categoryName: "Sand" },
-  ];
+  // API Data
+  const [categories, setCategories] = useState([]);
+  // const [subCategories, setSubCategories] = useState([]);
 
-  const handleCategorySubmit = () => {
+  // =========================
+  // Fetch Categories
+  // =========================
+  const fetchCategories = async () => {
+    try {
+      const response = await getCategories();
+
+      if (response.isSuccess) {
+        setCategories(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  
+  const handleCategorySubmit = async () => {
     console.log(category);
   };
 
-  const handleSubCategorySubmit = () => {
+  const handleSubCategorySubmit = async () => {
     console.log(selectedCategory, subCategory);
   };
 
@@ -34,11 +57,9 @@ function CategoryManagement() {
         className="
           max-w-7xl
           mx-auto
-
           px-4
           sm:px-6
           lg:px-8
-
           py-8
         "
       >
@@ -74,8 +95,12 @@ function CategoryManagement() {
             />
           </CategoryCard>
         </div>
-
-        <CategoryTable />
+   <p>
+    
+    {/* {fetchCategories()} */}
+    
+   </p>
+        
       </main>
     </div>
   );

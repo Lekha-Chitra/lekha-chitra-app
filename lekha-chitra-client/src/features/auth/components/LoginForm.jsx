@@ -64,7 +64,7 @@ function LoginForm() {
       console.log(response);
 
       if (response.isSuccess) {
-        navigate("/home", { replace: true });
+        navigate("/category", { replace: true });
       }
 
       setFormData({
