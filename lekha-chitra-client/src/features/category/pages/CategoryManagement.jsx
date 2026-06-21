@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import CategoryHeader from "../components/CategoryHeader";
 import CategoryCard from "../components/CategoryCard";
@@ -28,17 +28,22 @@ function CategoryManagement() {
   // =========================
   // Fetch Categories
   // =========================
+useEffect(() => {
   const fetchCategories = async () => {
     try {
       const response = await getCategories();
-
+     // console.log(response);
       if (response.isSuccess) {
-        setCategories(response.data);
+        setCategories(response.data.categories);
+       // console.log(response.data.categories);
       }
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
   };
+
+  fetchCategories();
+}, []);
 
   
   const handleCategorySubmit = async () => {
