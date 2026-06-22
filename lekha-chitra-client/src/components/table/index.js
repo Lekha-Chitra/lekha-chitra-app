@@ -1,4 +1,4 @@
-export { default as DataTable } from "./DataTable";
+export { default as DataTable } from "../../features/category/components/SubCategoryDataTable";
 // export { default as TableToolbar } from "./TableToolbar";
 // export { default as TablePagination } from "./TablePagination";
 // export { default as LoadingState } from "./LoadingState";

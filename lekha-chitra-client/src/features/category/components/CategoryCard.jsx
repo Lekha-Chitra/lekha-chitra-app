@@ -1,34 +1,32 @@
-function CategoryCard({ title, children }) {
+import { Dialog, DialogTitle, DialogContent } from "@mui/material";
+import CategoryForm from "./CategoryForm";
+
+function CategoryCard({
+  open,
+  setOpen,
+  category,
+  setCategory,
+  handleCategorySubmit,
+}) {
   return (
-    <div
-      className="
-        w-full
-        bg-white
-        rounded-lg
-        shadow-lg
+    <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
+      <DialogTitle>Add Category</DialogTitle>
 
-        p-5
-        sm:p-6
-        lg:p-8
-      "
-    >
-      <h2
-        className="
-          text-[#1E1E1E]
-          font-semibold
-
-          text-xl
-          sm:text-2xl
-          lg:text-3xl
-
-          mb-8
-        "
-      >
-        {title}
-      </h2>
-
-      {children}
-    </div>
+      <DialogContent>
+        <CategoryForm
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          onSubmit={(e) => {
+            handleCategorySubmit(e);
+            setOpen(false);
+          }}
+          onCancel={() => {
+            setCategory("");
+            setOpen(false);
+          }}
+        />
+      </DialogContent>
+    </Dialog>
   );
 }
 

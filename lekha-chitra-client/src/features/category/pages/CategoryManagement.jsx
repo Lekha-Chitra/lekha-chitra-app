@@ -3,8 +3,9 @@ import CategoryHeader from "../components/CategoryHeader";
 import CategoryCard from "../components/CategoryCard";
 import CategoryForm from "../components/CategoryForm";
 import SubCategoryForm from "../components/SubCategoryForm";
+import SubCategoryCard from "../components/SubCategoryCard";
 // import CategoryTable from "../components/CategoryTable";
-import { DataTable } from "../../../components/table";
+import SubCategoryDataTable from "../components/SubCategoryDataTable";
 import { categoryColumns } from "../columns/categoryColumns";
 
 import {
@@ -19,7 +20,8 @@ function CategoryManagement() {
   // Form States
   // ==========================
   const [category, setCategory] = useState("");
-
+  const [open, setOpen] = useState(false);
+  const [subOpen, setSubOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
 
@@ -175,46 +177,52 @@ const tableData = subCategories.map((item) => ({
           py-8
         "
       >
-        <div
-          className="
-            grid
-            grid-cols-1
-            xl:grid-cols-2
-            gap-8
-          "
-        >
-          <CategoryCard title="ADD CATEGORY">
-            <CategoryForm
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              onSubmit={handleCategorySubmit}
-              onCancel={() => setCategory("")}
-            />
-          </CategoryCard>
+   <div className="flex gap-4 mb-6">
+  <button
+    onClick={() => setOpen(true)}
+    className="px-3 py-2 text-sm text-white rounded hover:opacity-90 bg-[#032A4E]"
+  >
+    Add Category
+  </button>
 
-          <CategoryCard title="ADD SUB CATEGORY">
-            <SubCategoryForm
-              categories={categories}
-              selectedCategory={selectedCategory}
-              onCategoryChange={(e) => setSelectedCategory(e.target.value)}
-              value={subCategory}
-              onChange={(e) => setSubCategory(e.target.value)}
-              onSubmit={handleSubCategorySubmit}
-              onCancel={() => {
-                setSelectedCategory("");
-                setSubCategory("");
-              }}
-            />
-          </CategoryCard>
-        </div>
+  <button
+    onClick={() => setSubOpen(true)}
+    className="px-3 py-2 text-sm text-white rounded hover:opacity-90 bg-[#E59C11]"
+  >
+    Add Sub Category
+  </button>
+  <CategoryCard
+  open={open}
+  setOpen={setOpen}
+  category={category}
+  setCategory={setCategory}
+  handleCategorySubmit={handleCategorySubmit}
+/>
 
-        <DataTable
+<SubCategoryCard
+  open={subOpen}
+  setOpen={setSubOpen}
+  categories={categories}
+  selectedCategory={selectedCategory}
+  setSelectedCategory={setSelectedCategory}
+  subCategory={subCategory}
+  setSubCategory={setSubCategory}
+  handleSubCategorySubmit={handleSubCategorySubmit}
+/>
+</div>
+
+        <SubCategoryDataTable
+          title="Sub Categories"
         columns ={categoryColumns} 
         data={tableData}
+         rowHeight={56}   
+        onEdit={(row) => {
+    console.log("Editing row:", row);
+    }}
         />
       </main>
     </div>
   );
 }
 
-export default CategoryManagement;
+export default CategoryManagement; 
