@@ -1,38 +1,16 @@
-import { FaPlus, FaSyncAlt, FaChartLine, FaTrash } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 
 function ActionButtons({ onAddClient }) {
   const buttons = [
     {
       title: "Add Client",
-      icon: <FaPlus className="text-white" />,
+      icon: <FaPlus size={12} className="text-white" />,
       action: onAddClient,
-    },
-    {
-      title: "Update Client",
-      icon: <FaSyncAlt className="text-[#6C3BFF]" />,
-    },
-    {
-      title: "Add Transaction",
-      icon: <FaChartLine className="text-[#FFC107]" />,
-    },
-    {
-      title: "Delete Client",
-      icon: <FaTrash className="text-[#FF4D4F]" />,
     },
   ];
 
   return (
-    <div
-      className="
-        mt-2
-        grid
-        grid-cols-1
-        sm:grid-cols-2
-        lg:grid-cols-4
-        gap-5
-        w-full
-      "
-    >
+    <div className="flex items-center">
       {buttons.map((btn) => (
         <button
           key={btn.title}
@@ -40,27 +18,25 @@ function ActionButtons({ onAddClient }) {
           className="
             bg-[#032A5C]
             text-white
-
-            h-[52px]
-
+            h-[38px]
+            px-4
             rounded-md
-            shadow-md
-
-            px-5
-
+            shadow-sm
             flex
             items-center
-            justify-between
-
-            hover:scale-[1.02]
+            gap-2
+            hover:bg-[#0B3B77]
             transition-all
             duration-200
             cursor-pointer
+            whitespace-nowrap
           "
         >
-          <span className="text-sm md:text-base">{btn.title}</span>
+          {btn.icon}
 
-          <span className="text-lg">{btn.icon}</span>
+          <span className="text-sm font-medium">
+            {btn.title}
+          </span>
         </button>
       ))}
     </div>

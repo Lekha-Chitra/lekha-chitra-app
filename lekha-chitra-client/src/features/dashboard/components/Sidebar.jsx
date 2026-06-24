@@ -6,6 +6,11 @@ import {
   FaTimes,
 } from "react-icons/fa";
 
+import { LogOut,
+          User ,
+          CircleUser,
+        LayoutGrid ,
+      Building2,Receipt,ChartColumn    } from "lucide-react";
 import { MdDashboard } from "react-icons/md";
 
 import logo from "../../../assets/images/logo.png";
@@ -17,33 +22,53 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const location = useLocation();
   const menuItems = [
     {
-      icon: <MdDashboard size={30} />,
+      icon: <Receipt
+  size={20}
+  strokeWidth={1.5}
+  className="text-[#ffffff]"
+/>,
       label: "Transactions",
       path: "/dashboard",
     },
     {
-      icon: <FaChartBar size={30} />,
+      icon: <ChartColumn
+  size={20}
+  strokeWidth={1.5}
+  className="text-[#ffffff]"
+/>,
       label: "Analytics",
       path: "/dashboard",
     },
 
     {
-      icon: <FaPlusCircle size={30} />,
+      icon: <Building2
+          size={20}
+          strokeWidth={1.5}
+          className="text-[#ffffff]"
+        />,
       label: "Client",
       path: "/dashboard",
     },
+    // {
+    //   icon: <FaPlusCircle size={30} />,
+    //   label: "VAT Bill",
+    //   path: "/dashboard",
+    // },
     {
-      icon: <FaPlusCircle size={30} />,
-      label: "VAT Bill",
-      path: "/dashboard",
-    },
-    {
-      icon: <FaPlusCircle size={30} />,
+      icon: <LayoutGrid
+  size={20}
+  strokeWidth={1.5}
+  className="text-[#ffffff]"
+/>,
       label: "Category",
       path: "/category",
     },
     {
-      icon: <FaUser size={30} />,
+      icon:<CircleUser
+  size={20}
+  strokeWidth={1.7}
+  className="text-[#ffffff]"
+/>,
       label: "Profile",
       path: "/dashboard",
     },
@@ -84,7 +109,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
           w-[180px]
 
-          md:w-[80px]
+          md:w-[70px]
           md:hover:w-[180px]
 
           overflow-hidden
@@ -147,8 +172,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               duration-300
             "
           >
-            Lekha
-            <span className="text-[#E59C11]">Chitra</span>
+            <span className="text-[#ffffff] font-bold text-xl">लेखा</span>
+          
+            <span className="text-[#E59C11] font-bold text-xl">चित्र</span>
           </h2>
         </div>
 
@@ -171,7 +197,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 items-center
 
                 px-5
-                py-6
+                py-3
 
                  hover:bg-[#0B3B77]
                  transition
@@ -219,21 +245,19 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               items-center
 
               px-5
-              py-3
+              py-0
 
               hover:bg-[#0B3B77]
               transition
               cursor-pointer
             "
           >
-            <FaSignOutAlt
-              size={30}
-              className="
-                text-[#E59C11]
-                shrink-0
-              "
-            />
 
+        <LogOut
+          size={28}
+          className="text-[#E59C11] shrink-0"
+          strokeWidth={2.0}
+        />
             <span
               className="
                 ml-3

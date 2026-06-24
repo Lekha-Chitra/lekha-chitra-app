@@ -51,13 +51,14 @@ import AddClientModal from "../components/AddClientModal";
 import ClientDataTable from "../components/ClientDataTable";
 import useClients from "../hooks/useClients";
 import { clientColumns } from "../columns/clientColumns";
-
+import Header from "../../auth/pages/Header";
 function Dashboard() {
   const [openAddClient, setOpenAddClient] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 const { clients, loading, error } = useClients();
   return (
     <div className="flex min-h-screen bg-[#F3F3F3]">
+      
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <main
@@ -69,6 +70,9 @@ const { clients, loading, error } = useClients();
           lg:p-8
         "
       >
+      <div className="-mt-2">
+  <Header title="Clients" />
+</div>
         {/* Mobile Menu Button */}
         <div className="md:hidden mb-6 flex ">
           <button
@@ -86,19 +90,7 @@ const { clients, loading, error } = useClients();
           </button>
         </div>
 
-        {/* Action Buttons */}
-        <ActionButtons onAddClient={() => setOpenAddClient(true)} />
 
-        {/* Search */}
-        <div className="mt-8">
-          <SearchBar />
-        </div>
-
-        {/* Add Client Modal */}
-        <AddClientModal
-          open={openAddClient}
-          onClose={() => setOpenAddClient(false)}
-        />
 
         {/* Future Table Section */}
         <div

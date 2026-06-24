@@ -4,7 +4,7 @@ import Login from "../features/auth/pages/Login";
 import ForgotPassword from "../features/auth/pages/ForgotPassword";
 import VerifyOtp from "../features/auth/pages/VerifyOtp";
 import ResetPassword from "../features/auth/pages/ResetPassword";
-import Home from "../features/auth/pages/Home";
+import Header from "../features/auth/pages/Header";
 import CategoryManagement from "../features/category/pages/CategoryManagement";
 import Dashboard from "../features/dashboard/pages/Dashboard";
 
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/home",
-    element: <Home />,
+    element: <Header />,
   },
   {
     path: "/category",

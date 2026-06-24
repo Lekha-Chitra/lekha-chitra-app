@@ -2,13 +2,13 @@ import { FaSearch } from "react-icons/fa";
 
 function SearchBar() {
   return (
-    <div className="relative w-full mt-8">
+    <div className="relative w-full mt-0">
       <input
         type="text"
         placeholder="Search"
         className="
           w-full
-          h-10
+          h-8
           bg-white
           rounded-md
           border

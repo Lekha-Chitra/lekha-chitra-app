@@ -1,11 +1,68 @@
-import { Box, TextField, InputAdornment, Chip, Tooltip } from "@mui/material";
-
+import {Box,
+        Button , 
+        TextField,
+        InputAdornment, 
+        Chip, 
+        Tooltip,
+        Popover,
+        Typography, 
+       FormControlLabel,
+        FormControl,
+      InputLabel,
+      Select,
+      MenuItem,
+      Checkbox} from "@mui/material";
+import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
-
+import AddIcon from "@mui/icons-material/Add";
+import SearchBar from "./SearchBar";
+import ActionButtons from "./ActionButtons";
+import AddClientModal from "./AddClientModal"
 import { DataGrid } from "@mui/x-data-grid";
 
 function ClientDataTable({ columns, data, title = "Clients", onEdit,loading }) {
+    const [searchTerm, setSearchTerm] = useState("");
+     const [anchorEl, setAnchorEl] = useState(null);
+     const [appliedFilters, setAppliedFilters] = useState({});
+       const [openAddClient, setOpenAddClient] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    const [filters, setFilters] = useState({
+      search: "",
+      category: "",
+      subCategory: "",
+      status: "",
+      minBalance: "",
+      maxBalance: "",
+      minBudget: "",
+      maxBudget: "",
+      minQuantity: "",
+      maxQuantity: "",
+      fromDate: "",
+      toDate: "",
+      sortBy: "",
+      isDescending: false,
+    });
+
+  const handleOpenFilter = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseFilter = () => {
+    setAnchorEl(null);
+  };
+  const handleFilterChange = (e) => {
+  const { name, value, type, checked } = e.target;
+
+  setFilters((prev) => ({
+    ...prev,
+    [name]: type === "checkbox" ? checked : value,
+  }));
+};
+
+  const open = Boolean(anchorEl);
+
   const rows =
     data?.map((client, index) => ({
       id: index + 1,
@@ -13,54 +70,71 @@ function ClientDataTable({ columns, data, title = "Clients", onEdit,loading }) {
       ...client,
     })) || [];
 
-  const editColumn = {
-    field: "actions",
-    headerName: "Actions",
-    width: 120,
-    sortable: false,
 
-    renderCell: (params) => (
-      <Tooltip title="Edit Client">
-        <Box
-          onClick={() => onEdit?.(params.row)}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 0.5,
-            px: 1,
-            py: 0.5,
-            cursor: "pointer",
-            borderRadius: "8px",
-            background: "#EFF6FF",
-            color: "#185FA5",
-            border: "1px solid #BFDBFE",
+ 
+  // const editColumn = {
+  //   field: "actions",
+  //   headerName: "Actions",
+  //   width: 120,
+  //   sortable: false,
 
-            "&:hover": {
-              background: "#185FA5",
-              color: "#fff",
-            },
-          }}
-        >
-          <EditIcon sx={{ fontSize: 14 }} />
-          Edit
-        </Box>
-      </Tooltip>
-    ),
-  };
+  //   renderCell: (params) => (
+  //     <Tooltip title="Edit Client">
+  //       <Box
+  //         onClick={() => onEdit?.(params.row)}
+  //         sx={{
+  //           display: "flex",
+  //           alignItems: "center",
+  //           gap: 0.5,
+  //           px: 1,
+  //           py: 0.5,
+  //           cursor: "pointer",
+  //           borderRadius: "8px",
+  //           background: "#EFF6FF",
+  //           color: "#185FA5",
+  //           border: "1px solid #BFDBFE",
 
+  //           "&:hover": {
+  //             background: "#185FA5",
+  //             color: "#fff",
+  //           },
+  //         }}
+  //       >
+  //         <EditIcon sx={{ fontSize: 14 }} />
+  //         Edit
+  //       </Box>
+  //     </Tooltip>
+  //   ),
+  // };
+
+  const compactField = {
+  "& .MuiInputBase-root": {
+    height: 30,
+    fontSize: "0.75rem",
+  },
+  "& .MuiInputLabel-root": {
+    fontSize: "0.7rem",
+  },
+  "& .MuiInputBase-input": {
+    py: 0,
+  },
+}; 
   const gridColumns = [
     {
       field: "sn",
       headerName: "#",
       width: 60,
+       cellClassName: "alt-column",
+    headerClassName: "alt-column-header",
     },
 
     ...columns.map((col) => ({
       field: col.accessorKey,
       headerName: col.header,
       flex: 1,
-      minWidth: 150,
-
+      minWidth: 100,
+        cellClassName: "alt-column",
+        headerClassName: "alt-column-header",
       renderCell:
         col.accessorKey === "status"
           ? (params) => (
@@ -73,8 +147,23 @@ function ClientDataTable({ columns, data, title = "Clients", onEdit,loading }) {
           : undefined,
     })),
 
-    editColumn,
+    // editColumn,
   ];
+const filterLabels = {
+  category: "Category",
+  subCategory: "Sub Category",
+  status: "Status",
+  minBalance: "Min Balance",
+  maxBalance: "Max Balance",
+  minBudget: "Min Budget",
+  maxBudget: "Max Budget",
+  minQuantity: "Min Qty",
+  maxQuantity: "Max Qty",
+  fromDate: "From",
+  toDate: "To",
+  sortBy: "Sort By",
+  isDescending: "Descending",
+};
 
   return (
     <Box
@@ -88,29 +177,446 @@ function ClientDataTable({ columns, data, title = "Clients", onEdit,loading }) {
       {/* Header */}
 
       <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          p: 2,
-        }}
-      >
-        <h3>{title}</h3>
+  sx={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    p: 2,
+    gap: 2,
+  }}
+>
+  {/* Left */}
+  <Box sx={{ minWidth: "fit-content" }}>
+    <ActionButtons
+      onAddClient={() => setOpenAddClient(true)}
+    />
+    <AddClientModal
+  open={openAddClient}
+  onClose={() => setOpenAddClient(false)} />
+  </Box>
 
-        <TextField
+  {/* Center */}
+  <Box
+    sx={{
+      flex: 1,
+      display: "flex",
+      justifyContent: "center",
+      maxWidth: 250,
+      
+    }}
+  >
+    <SearchBar />
+  </Box>
+      <Button
+  variant="contained"
+  size="small"
+  startIcon={<AddIcon />}
+   onClick={handleOpenFilter }
+  sx={{
+    backgroundColor: "#032A5C", // cream color
+    color: "#f1f1f1",
+    textTransform: "none",
+    fontWeight: 600,
+    minWidth: "auto",
+      ml: "auto",
+    px: 1.5,
+    py: 0.5,
+    borderRadius: "8px",
+    boxShadow: "none",
+    "&:hover": {
+      backgroundColor: "#043576",
+      boxShadow: "none",
+    },
+  }}
+>  Add Filter
+</Button>
+
+  <Popover
+  open={open}
+  anchorEl={anchorEl}
+  onClose={handleCloseFilter}
+  anchorOrigin={{
+    vertical: "bottom",
+    horizontal: "right",
+  }}
+>
+  <Box
+    sx={{
+      p: 1.5,
+      width: 320,
+      display: "flex",
+      flexDirection: "column",
+      gap: 1,
+       fontSize: "0.9rem",
+    }}
+  >
+    <Typography variant="subtitle2" fontWeight={600}>
+      Filters
+    </Typography>
+
+
+   <Box
+  sx={{
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr 1fr",
+    gap: 1,
+    
+  }}
+>
+  <FormControl
+  size="small"
+  sx={{
+    "& .MuiInputLabel-root": {
+      fontSize: "0.7rem",
+      top: "-2px",
+    },
+  }}
+>
+  <InputLabel>Category</InputLabel>
+
+  <Select
+  name="category"
+    label="Category"
+     value={filters.category}
+       onChange={handleFilterChange}
+    sx={{
+      height: 28,
+      fontSize: "0.7rem",
+
+      "& .MuiSelect-select": {
+        py: 0,
+        minHeight: "28px !important",
+      },
+    }}
+  >
+
+      
+        <MenuItem value="" 
+         sx={{
+              fontSize: "0.7rem",
+              minHeight: "28px",
+              py: 0.25,}}
+                >
+             All
+        </MenuItem>
+        <MenuItem value="Vendor" 
+              sx={{
+              fontSize: "0.7rem",
+              minHeight: "28px",
+              py: 0.25,}}
+                >
+                  Vendor
+          </MenuItem>
+            <MenuItem value="Site" 
+             sx={{
+                  fontSize: "0.7rem",
+                  minHeight: "28px",
+                  py: 0.25,
+                }}>
+          Site</MenuItem>
+    </Select>
+  </FormControl>
+
+  <FormControl size="small"
+  sx={{
+    "& .MuiInputLabel-root": {
+      fontSize: "0.7rem",
+      top: "-2px",
+    },
+  }}
+  >
+    <InputLabel>Sub Cat.</InputLabel>
+    <Select
+      name="subCategory"
+      value={filters.subCategory}
+      label="Sub Cat."
+      onChange={handleFilterChange}
+        sx={{
+      height: 28,
+      fontSize: "0.7rem",
+
+      "& .MuiSelect-select": {
+        py: 0,
+        minHeight: "28px !important",
+      },
+    }}
+  
+    >
+     
+        <MenuItem value="" 
+         sx={{
+              fontSize: "0.7rem",
+              minHeight: "28px",
+              py: 0.25,}}
+                >
+             All
+        </MenuItem>
+        <MenuItem value="PetrolPump" 
+              sx={{
+              fontSize: "0.7rem",
+              minHeight: "28px",
+              py: 0.25,}}
+                >
+                  PetrolPump
+          </MenuItem>
+            <MenuItem value="Father" 
+             sx={{
+                  fontSize: "0.7rem",
+                  minHeight: "28px",
+                  py: 0.25,
+                }}>
+          Father</MenuItem>
+            <MenuItem value="XYZ Company" 
+             sx={{
+                  fontSize: "0.7rem",
+                  minHeight: "28px",
+                  py: 0.25,
+                }}>
+          XYZ Company</MenuItem>
+    </Select>
+  </FormControl>
+
+  <FormControl size="small" 
+  sx={{
+    "& .MuiInputLabel-root": {
+      fontSize: "0.7rem",
+      top: "-2px",
+    },
+  }}>
+    <InputLabel>Status</InputLabel>
+    <Select
+      name="status"
+      value={filters.status}
+      label="Status"
+      onChange={handleFilterChange}
+     sx={{
+      height: 28,
+      fontSize: "0.7rem",
+
+      "& .MuiSelect-select": {
+        py: 0,
+        minHeight: "28px !important",
+      },
+    }}
+  
+    >
+        <MenuItem value="" 
+         sx={{
+              fontSize: "0.7rem",
+              minHeight: "28px",
+              py: 0.25,}}
+                >
+             All
+        </MenuItem>
+        <MenuItem value="Credit" 
+              sx={{
+              fontSize: "0.7rem",
+              minHeight: "28px",
+              py: 0.25,}}
+                >
+                  Credit
+          </MenuItem>
+            <MenuItem value="Debit" 
+             sx={{
+                  fontSize: "0.7rem",
+                  minHeight: "28px",
+                  py: 0.25,
+                }}>
+          Debit</MenuItem>
+    </Select>
+  </FormControl>
+</Box>
+
+   <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
+  <TextField
+    placeholder="Min Balance"
+    name="minBalance"
+    type="number"
+    value={filters.minBalance}
+    onChange={handleFilterChange}
+    sx={compactField}
+  />
+
+  <TextField
+    placeholder="Max Balance"
+    name="maxBalance"
+    type="number"
+    value={filters.maxBalance}
+    onChange={handleFilterChange}
+   sx={compactField}
+  />
+</Box>
+
+   <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
+  <TextField
+    placeholder="Min Budget"
+    name="minBudget"
+    type="number"
+    InputLabelProps={{ shrink: true }}
+    sx={compactField}
+  />
+
+  <TextField
+    placeholder="Max Budget"
+    name="maxBudget"
+    type="number"
+    InputLabelProps={{ shrink: true }}
+    sx={compactField}
+  />
+</Box>
+   <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
+  <Box>
+    <Typography
+      sx={{
+        fontSize: "0.7rem",
+        color: "text.secondary",
+        mb: 0.3,
+      }}
+    >
+      From
+    </Typography>
+
+    <TextField
+      type="date"
+      name="fromDate"
+      size="small"
+       onChange={handleFilterChange}
+      sx={{
+        width: "100%",
+        "& .MuiInputBase-root": {
+          height: 30,
+          fontSize: "0.75rem",
+        },
+      }}
+    />
+  </Box>
+
+  <Box>
+    <Typography
+      sx={{
+        fontSize: "0.7rem",
+        color: "text.secondary",
+        mb: 0.3,
+      }}
+    >
+      To
+    </Typography>
+
+    <TextField
+      type="date"
+      name="toDate"
+      size="small"
+       onChange={handleFilterChange}
+      sx={{
+        width: "100%",
+        "& .MuiInputBase-root": {
+          height: 30,
+          fontSize: "0.75rem",
+        },
+      }}
+    />
+  </Box>
+</Box>
+
+ 
+
+    
+
+    <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+      <Button
           size="small"
-          placeholder="Search..."
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
+          onClick={() => {
+            setFilters({
+              search: "",
+              category: "",
+              subCategory: "",
+              status: "",
+              minBalance: "",
+              maxBalance: "",
+              minBudget: "",
+              maxBudget: "",
+              minQuantity: "",
+              maxQuantity: "",
+              fromDate: "",
+              toDate: "",
+              sortBy: "",
+              isDescending: false,
+            });
+
+            setAppliedFilters({});
           }}
-        />
+        >
+          Reset
+      </Button>
+
+      <Button
+          size="small"
+          variant="contained"
+          onClick={() => {
+            const activeFilters = Object.fromEntries(
+              Object.entries(filters).filter(
+                ([_, value]) =>
+                  value !== "" &&
+                  value !== null &&
+                  value !== undefined &&
+                  value !== false
+              )
+            );
+
+            setAppliedFilters(activeFilters);
+            handleCloseFilter();
+          }}
+        >
+          Apply
+        </Button>
+    </Box>
+  </Box>
+</Popover>
+       
       </Box>
 
-      {/* Table */}
+{Object.keys(appliedFilters).length > 0 && (
+  <Box
+    sx={{
+      px: 2,
+      pb: 1,
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 1,
+    }}
+  >
+    {Object.entries(appliedFilters).map(([key, value]) => (
+      <Chip
+        key={key}
+        size="small"
+        label={`${filterLabels[key] || key}: ${value}`}
+        onDelete={() => {
+          const updated = { ...appliedFilters };
+          delete updated[key];
+          setAppliedFilters(updated);
+
+          setFilters((prev) => ({
+            ...prev,
+            [key]: typeof prev[key] === "boolean" ? false : "",
+          }));
+        }}
+        sx={{
+          backgroundColor: "#EFF6FF",
+          color: "#185FA5",
+          border: "1px solid #BFDBFE",
+          fontSize: "0.75rem",
+             "& .MuiChip-deleteIcon": {
+      color: "#185FA5",
+      fontSize: "16px",
+    },
+      "& .MuiChip-deleteIcon:hover": {
+      color: "#D32F2F",
+    },
+        }}
+      />
+    ))}
+  </Box>
+)}
 
       <DataGrid
         rows={rows}
@@ -125,6 +631,23 @@ function ClientDataTable({ columns, data, title = "Clients", onEdit,loading }) {
             },
           },
         }}
+
+         sx={{
+            "& .MuiDataGrid-columnHeaders": {
+      position: "sticky",
+      top: 0,
+      zIndex: 1,
+    },
+    "& .alt-column-header": {
+      backgroundColor: "#E2E8F0",
+         fontSize: "0.82rem",
+        color:"#185FA5"
+    },
+     "& .MuiDataGrid-row:hover": {
+      backgroundColor: "#F8FAFC !important",
+    },
+
+  }}
         disableColumnMenu
         autoHeight
       />
