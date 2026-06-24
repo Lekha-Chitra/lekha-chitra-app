@@ -192,7 +192,6 @@ const tableData = subCategories.map((item) => ({
 
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      <Notification message={notification.message} type={notification.type} />
       <CategoryHeader />
 
       <main
@@ -219,6 +218,7 @@ const tableData = subCategories.map((item) => ({
           >
             Add Sub Category
           </button>
+
           <CategoryCard
             open={open}
             setOpen={setOpen}
@@ -238,7 +238,12 @@ const tableData = subCategories.map((item) => ({
             handleSubCategorySubmit={handleSubCategorySubmit}
           />
         </div>
-
+        <div className="flex justify-center mb-4">
+          <Notification
+            message={notification.message}
+            type={notification.type}
+          />
+        </div>
         <SubCategoryDataTable
           title="Sub Categories"
           columns={categoryColumns}
