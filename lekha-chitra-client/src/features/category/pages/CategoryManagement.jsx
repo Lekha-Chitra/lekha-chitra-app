@@ -8,6 +8,7 @@ import SubCategoryCard from "../components/SubCategoryCard";
 import SubCategoryDataTable from "../components/SubCategoryDataTable";
 import { categoryColumns } from "../columns/categoryColumns";
 
+import Notification from "../../../components/common/Notification";
 import {
   getCategories,
   addCategory,
@@ -24,6 +25,10 @@ function CategoryManagement() {
   const [subOpen, setSubOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "",
+  });
 
   // ==========================
   // API Data
@@ -31,6 +36,20 @@ function CategoryManagement() {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
 
+
+  const showNotification = (message, type) => {
+    setNotification({
+      message,
+      type,
+    });
+
+    setTimeout(() => {
+      setNotification({
+        message: "",
+        type: "",
+      });
+    }, 5000);
+  };
   // ==========================
   // Fetch Categories
   // ==========================
@@ -76,7 +95,10 @@ function CategoryManagement() {
     const categoryName = category.trim();
 
     if (!categoryName) {
-      alert("Please enter category name.");
+      showNotification(
+        "Please enter category name.",
+        "error"
+      )
       return;
     }
 
@@ -84,10 +106,15 @@ function CategoryManagement() {
       (item) => item.toLowerCase() === categoryName.toLowerCase(),
     );
 
-    if (alreadyExists) {
-      alert("Category already exists.");
-      return;
-    }
+    // if (alreadyExists) {
+    //   alert("Category already exists.");
+    //   return;
+    // }
+     if (alreadyExists) {
+       showNotification("Category already exists.", "error");
+       return;
+     }
+
 
     try {
       const response = await addCategory({
@@ -101,11 +128,11 @@ function CategoryManagement() {
 
         await fetchCategories();
       } else {
-        alert(response.message);
+        showNotification(response.message, "error");
       }
     } catch (error) {
       console.error(error);
-      alert("Failed to add category.");
+       showNotification("Failed to add category.", "error");
     }
   };
 
@@ -116,12 +143,12 @@ function CategoryManagement() {
     const subCategoryName = subCategory.trim();
 
     if (!selectedCategory) {
-      alert("Please select a category.");
+      showNotification("Please select a category.", "error");
       return;
     }
 
     if (!subCategoryName) {
-      alert("Please enter sub category.");
+     showNotification("Please enter sub category.", "error");
       return;
     }
 
@@ -132,7 +159,7 @@ function CategoryManagement() {
     );
 
     if (alreadyExists) {
-      alert("Sub category already exists.");
+      showNotification("Sub category already exists.", "error");
       return;
     }
 
@@ -143,18 +170,18 @@ function CategoryManagement() {
       });
 
       if (response.isSuccess) {
-        alert(response.message);
+         showNotification(response.message, "success");
 
         setSelectedCategory("");
         setSubCategory("");
 
         await fetchSubCategories();
       } else {
-        alert(response.message);
+       showNotification(response.message, "error");
       }
     } catch (error) {
       console.error(error);
-      alert("Failed to add sub category.");
+      showNotification("Failed to add sub category.", "error");
     }
   };
 const tableData = subCategories.map((item) => ({
@@ -165,6 +192,7 @@ const tableData = subCategories.map((item) => ({
 
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
+      <Notification message={notification.message} type={notification.type} />
       <CategoryHeader />
 
       <main
@@ -177,48 +205,48 @@ const tableData = subCategories.map((item) => ({
           py-8
         "
       >
-   <div className="flex gap-4 mb-6">
-  <button
-    onClick={() => setOpen(true)}
-    className="px-3 py-2 text-sm text-white rounded hover:opacity-90 bg-[#032A4E]"
-  >
-    Add Category
-  </button>
+        <div className="flex gap-4 mb-6">
+          <button
+            onClick={() => setOpen(true)}
+            className="px-3 py-2 text-sm text-white rounded hover:opacity-90 bg-[#032A4E]"
+          >
+            Add Category
+          </button>
 
-  <button
-    onClick={() => setSubOpen(true)}
-    className="px-3 py-2 text-sm text-white rounded hover:opacity-90 bg-[#E59C11]"
-  >
-    Add Sub Category
-  </button>
-  <CategoryCard
-  open={open}
-  setOpen={setOpen}
-  category={category}
-  setCategory={setCategory}
-  handleCategorySubmit={handleCategorySubmit}
-/>
+          <button
+            onClick={() => setSubOpen(true)}
+            className="px-3 py-2 text-sm text-white rounded hover:opacity-90 bg-[#E59C11]"
+          >
+            Add Sub Category
+          </button>
+          <CategoryCard
+            open={open}
+            setOpen={setOpen}
+            category={category}
+            setCategory={setCategory}
+            handleCategorySubmit={handleCategorySubmit}
+          />
 
-<SubCategoryCard
-  open={subOpen}
-  setOpen={setSubOpen}
-  categories={categories}
-  selectedCategory={selectedCategory}
-  setSelectedCategory={setSelectedCategory}
-  subCategory={subCategory}
-  setSubCategory={setSubCategory}
-  handleSubCategorySubmit={handleSubCategorySubmit}
-/>
-</div>
+          <SubCategoryCard
+            open={subOpen}
+            setOpen={setSubOpen}
+            categories={categories}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            subCategory={subCategory}
+            setSubCategory={setSubCategory}
+            handleSubCategorySubmit={handleSubCategorySubmit}
+          />
+        </div>
 
         <SubCategoryDataTable
           title="Sub Categories"
-        columns ={categoryColumns} 
-        data={tableData}
-         rowHeight={56}   
-        onEdit={(row) => {
-    console.log("Editing row:", row);
-    }}
+          columns={categoryColumns}
+          data={tableData}
+          rowHeight={56}
+          onEdit={(row) => {
+            console.log("Editing row:", row);
+          }}
         />
       </main>
     </div>

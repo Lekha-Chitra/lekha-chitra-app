@@ -6,6 +6,7 @@ import VerifyOtp from "../features/auth/pages/VerifyOtp";
 import ResetPassword from "../features/auth/pages/ResetPassword";
 import Home from "../features/auth/pages/Home";
 import CategoryManagement from "../features/category/pages/CategoryManagement";
+import Dashboard from "../features/dashboard/pages/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/category",
     element: <CategoryManagement />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
   },
 ]);
 
