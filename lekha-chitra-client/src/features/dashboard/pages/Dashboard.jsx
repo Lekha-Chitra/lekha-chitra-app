@@ -50,7 +50,7 @@ import ActionButtons from "../components/ActionButtons";
 import AddClientModal from "../components/AddClientModal";
 import ClientDataTable from "../components/ClientDataTable";
 import useClients from "../hooks/useClients";
-import { clientColumns } from "../columns/clientColumns";
+import { clientColumns } from "../customData/clientColumns";
 import Header from "../../auth/pages/Header";
 function Dashboard() {
   const [openAddClient, setOpenAddClient] = useState(false);
@@ -95,7 +95,7 @@ const { clients, loading, error } = useClients();
         {/* Future Table Section */}
         <div
           className="
-            mt-8
+            mt-3
             bg-white
             rounded-lg
             min-h-[400px]

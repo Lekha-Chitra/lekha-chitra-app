@@ -117,92 +117,95 @@ function AddClientModal({ open, onClose }) {
 
   if (!open) return null;
 
-  return (
+ return (
+  <div
+    className="
+      fixed
+      inset-0
+      bg-black/40
+      flex
+      items-center
+      justify-center
+      z-50
+      p-4
+    "
+  >
     <div
       className="
-        fixed
-        inset-0
-        bg-black/40
-        flex
-        items-center
-        justify-center
-        z-50
+        bg-white
+        rounded-lg
+        shadow-xl
+        w-full
+        max-w-[430px]
         p-4
-        
+        relative
+        max-h-[85vh]
+        overflow-y-auto
       "
     >
-      <div
+      {/* Close Button */}
+      <button
+        onClick={onClose}
         className="
-          bg-white
-          rounded-xl
-          shadow-xl
-          w-full
-          max-w-md
-          p-6
-          relative
-          max-h-[85vh]
-    overflow-y-auto
+          absolute
+          top-3
+          right-3
+          text-gray-500
+          hover:text-black
+          cursor-pointer
         "
       >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="
-            absolute
-            top-4
-            right-4
-            text-gray-500
-            hover:text-black
-            cursor-pointer
-          "
-        >
-          ✕
-        </button>
+        ✕
+      </button>
 
-        {/* Title */}
-        <h2
-          className="
-            text-xl
-            font-semibold
-            text-[#032A5C]
-            mb-4
-          "
-        >
-          Add Client
-        </h2>
+      {/* Title */}
+      <h2
+        className="
+          text-lg
+          font-semibold
+          text-[#032A5C]
+          mb-3
+        "
+      >
+        Add Client
+      </h2>
 
-        {/* Notification */}
-        <Notification message={message} type={messageType} />
+      {/* Notification */}
+      <Notification message={message} type={messageType} />
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Client Name */}
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="space-y-1.5">
+        {/* Client Name */}
+        <div>
+          <label className="block mb-0.5 text-xs font-medium text-gray-700">
+            Client Name
+          </label>
+          <input
+            type="text"
+            name="clientName"
+            value={formData.clientName}
+            onChange={handleChange}
+            placeholder="Enter client name"
+            className="
+              w-full
+              border
+              border-[#E59C11]
+              rounded-md
+              px-2.5
+              py-1
+              text-sm
+              outline-none
+            "
+            required
+          />
+        </div>
+
+        {/* Subcategory + Status */}
+        <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="block mb-1 text-sm">Client Name</label>
-
-            <input
-              type="text"
-              name="clientName"
-              value={formData.clientName}
-              onChange={handleChange}
-              placeholder="Enter client name"
-              className="
-                w-full
-                border
-                border-[#E59C11]
-                rounded-md
-                px-3
-                py-2
-                outline-none
-              "
-              required
-            />
-          </div>
-
-          {/* Subcategory */}
-          <div>
-            <label className="block mb-1 text-sm">Subcategory</label>
-
+            <label className="block mb-0.5 text-xs font-medium text-gray-700">
+              Subcategory
+            </label>
             <select
               name="subcategory"
               value={formData.subcategory}
@@ -212,14 +215,14 @@ function AddClientModal({ open, onClose }) {
                 border
                 border-[#E59C11]
                 rounded-md
-                px-3
-                py-2
+                px-2.5
+                py-1
+                text-sm
                 outline-none
               "
               required
             >
-              <option value="">Select Subcategory</option>
-
+              <option value="">Select</option>
               {subCategories.map((item, index) => (
                 <option key={index} value={item.subCategory}>
                   {item.subCategory}
@@ -228,31 +231,39 @@ function AddClientModal({ open, onClose }) {
             </select>
           </div>
 
-          {/* Quantity */}
           <div>
-            <label className="block mb-1 text-sm">Quantity</label>
-
-            <input
-              type="number"
-              name="quantity"
-              value={formData.quantity}
+            <label className="block mb-0.5 text-xs font-medium text-gray-700">
+              Status
+            </label>
+            <select
+              name="status"
+              value={formData.status}
               onChange={handleChange}
               className="
                 w-full
                 border
                 border-[#E59C11]
                 rounded-md
-                px-3
-                py-2
+                px-2.5
+                py-1
+                text-sm
                 outline-none
               "
-            />
+              required
+            >
+              <option value="">Select</option>
+              <option value="Credit">Credit</option>
+              <option value="Debit">Debit</option>
+            </select>
           </div>
+        </div>
 
-          {/* Amount */}
+        {/* Balance + Estimated Budget */}
+        <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="block mb-1 text-sm">Amount</label>
-
+            <label className="block mb-0.5 text-xs font-medium text-gray-700">
+              Balance
+            </label>
             <input
               type="number"
               name="amount"
@@ -263,17 +274,18 @@ function AddClientModal({ open, onClose }) {
                 border
                 border-[#E59C11]
                 rounded-md
-                px-3
-                py-2
+                px-2.5
+                py-1
+                text-sm
                 outline-none
               "
             />
           </div>
 
-          {/* Estimated Budget */}
           <div>
-            <label className="block mb-1 text-sm">Estimated Budget</label>
-
+            <label className="block mb-0.5 text-xs font-medium text-gray-700">
+              Estimated Budget
+            </label>
             <input
               type="number"
               name="estimatedBudget"
@@ -284,44 +296,43 @@ function AddClientModal({ open, onClose }) {
                 border
                 border-[#E59C11]
                 rounded-md
-                px-3
-                py-2
+                px-2.5
+                py-1
+                text-sm
                 outline-none
               "
             />
           </div>
+        </div>
 
-          {/* Status */}
+        {/* Quantity + Remarks */}
+        <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="block mb-1 text-sm">Status</label>
-
-            <select
-              name="status"
-              value={formData.status}
+            <label className="block mb-0.5 text-xs font-medium text-gray-700">
+              Quantity
+            </label>
+            <input
+              type="number"
+              name="quantity"
+              value={formData.quantity}
               onChange={handleChange}
               className="
                 w-full
                 border
                 border-[#E59C11]
                 rounded-md
-                px-3
-                py-2
+                px-2.5
+                py-1
+                text-sm
                 outline-none
               "
-              required
-            >
-              <option value="">Select Status</option>
-
-              <option value="Credit">Credit</option>
-
-              <option value="Debit">Debit</option>
-            </select>
+            />
           </div>
 
-          {/* Remarks */}
           <div>
-            <label className="block mb-1 text-sm">Remarks</label>
-
+            <label className="block mb-0.5 text-xs font-medium text-gray-700">
+              Remarks
+            </label>
             <input
               type="text"
               name="remarks"
@@ -332,57 +343,62 @@ function AddClientModal({ open, onClose }) {
                 border
                 border-[#E59C11]
                 rounded-md
-                px-3
-                py-2
+                px-2.5
+                py-1
+                text-sm
                 outline-none
               "
             />
           </div>
+        </div>
 
-          {/* Description */}
-          <div>
-            <label className="block mb-1 text-sm">Description</label>
-
-            <textarea
-              rows="3"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="
-                w-full
-                border
-                border-[#E59C11]
-                rounded-md
-                px-3
-                py-2
-                resize-none
-                outline-none
-              "
-            />
-          </div>
-
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={loading}
+        {/* Description */}
+        <div>
+          <label className="block mb-0.5 text-xs font-medium text-gray-700">
+            Description
+          </label>
+          <textarea
+            rows="2"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
             className="
               w-full
-              bg-[#032A5C]
-              text-white
-              py-3
-              rounded-lg
-              font-medium
-              cursor-pointer
-              hover:opacity-90
-              disabled:opacity-50
+              border
+              border-[#E59C11]
+              rounded-md
+              px-2.5
+              py-1
+              text-sm
+              resize-none
+              outline-none
             "
-          >
-            {loading ? "Adding Client..." : "Add Client"}
-          </button>
-        </form>
-      </div>
+          />
+        </div>
+
+        {/* Submit */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="
+            w-full
+            bg-[#032A5C]
+            text-white
+            py-1.5
+            rounded-md
+            text-sm
+            font-medium
+            cursor-pointer
+            hover:opacity-90
+            disabled:opacity-50
+          "
+        >
+          {loading ? "Adding Client..." : "Add Client"}
+        </button>
+      </form>
     </div>
-  );
+  </div>
+);
 }
 
 export default AddClientModal;

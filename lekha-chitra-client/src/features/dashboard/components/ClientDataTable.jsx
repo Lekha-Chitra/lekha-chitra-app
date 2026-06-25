@@ -20,7 +20,7 @@ import SearchBar from "./SearchBar";
 import ActionButtons from "./ActionButtons";
 import AddClientModal from "./AddClientModal"
 import { DataGrid } from "@mui/x-data-grid";
-
+import CustomPagination from "../customData/customnPagination";
 function ClientDataTable({ columns, data, title = "Clients", onEdit,loading }) {
     const [searchTerm, setSearchTerm] = useState("");
      const [anchorEl, setAnchorEl] = useState(null);
@@ -119,11 +119,13 @@ function ClientDataTable({ columns, data, title = "Clients", onEdit,loading }) {
     py: 0,
   },
 }; 
+
   const gridColumns = [
     {
       field: "sn",
       headerName: "#",
       width: 60,
+      
        cellClassName: "alt-column",
     headerClassName: "alt-column-header",
     },
@@ -132,7 +134,7 @@ function ClientDataTable({ columns, data, title = "Clients", onEdit,loading }) {
       field: col.accessorKey,
       headerName: col.header,
       flex: 1,
-      minWidth: 100,
+      minWidth: 120,
         cellClassName: "alt-column",
         headerClassName: "alt-column-header",
       renderCell:
@@ -142,8 +144,28 @@ function ClientDataTable({ columns, data, title = "Clients", onEdit,loading }) {
                 label={params.value}
                 size="small"
                 color={params.value === "Credit" ? "success" : "error"}
-              />
+                 sx={{
+                   width: 60,
+                    height:20,
+                  fontWeight: 200,
+                  color: "#fff",
+                   ...(params.value === "Credit"
+              ? {
+                  color: "#ffffff",
+                  backgroundColor: "#032A5C",
+                }
+              : {
+                  color: "#78350F",
+                  backgroundColor: "#E59C11",
+                }),
+                  }}
+            />
             )
+             : ["addedDate", "modifiedDate"].includes(col.accessorKey)
+    ? (params) =>
+        params.value
+          ?  new Date(params.value).toLocaleString()
+          : ""
           : undefined,
     })),
 
@@ -617,40 +639,69 @@ const filterLabels = {
     ))}
   </Box>
 )}
-
+<Box
+  sx={{
+    height: 350, // fixed table height
+    width: "100%",
+  }}
+>
       <DataGrid
         rows={rows}
+         rowHeight={40}
+            // getRowHeight={() => "auto"}
         columns={gridColumns}
+        
         loading={loading}
         pageSizeOptions={[5, 10, 20]}
+         slots={{
+    pagination: CustomPagination,
+  }}
         initialState={{
           pagination: {
             paginationModel: {
               page: 0,
-              pageSize: 5,
+              pageSize: 10,
             },
           },
         }}
 
          sx={{
             "& .MuiDataGrid-columnHeaders": {
-      position: "sticky",
-      top: 0,
-      zIndex: 1,
-    },
-    "& .alt-column-header": {
-      backgroundColor: "#E2E8F0",
-         fontSize: "0.82rem",
-        color:"#185FA5"
-    },
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              whiteSpace: "normal",
+              lineHeight: "1.2",
+              textAlign: "center",
+            },
+          "& .alt-column-header": {
+            background: "linear-gradient(180deg, #F8FAFC 0%, #EDF2F7 100%)",
+            color: "#032A5C",
+             fontSize: "0.9rem",
+            letterSpacing: "0.4px",
+            textTransform: "-moz-initial",
+            borderBottom: "2px solid #CBD5E1",
+              },
+               "& .MuiDataGrid-columnHeader.alt-column-header .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: 700,
+            },
+              "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: "#F8FAFC",
+            borderBottom: "1px solid #E2E8F0",
+          },
      "& .MuiDataGrid-row:hover": {
       backgroundColor: "#F8FAFC !important",
     },
 
+  
+
   }}
         disableColumnMenu
-        autoHeight
+        
       />
+      </Box>
     </Box>
   );
 }
