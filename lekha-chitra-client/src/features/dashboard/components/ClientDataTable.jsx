@@ -673,16 +673,16 @@ const filterLabels = {
             },
             "& .MuiDataGrid-columnHeaderTitle": {
               whiteSpace: "normal",
-              lineHeight: "1.2",
+              lineHeight: "1.0",
               textAlign: "center",
             },
           "& .alt-column-header": {
-            background: "linear-gradient(180deg, #F8FAFC 0%, #EDF2F7 100%)",
+            background: "linear-gradient(180deg, #e4f2ff 10%, #EDF2F7 100%)",
             color: "#032A5C",
              fontSize: "0.9rem",
             letterSpacing: "0.4px",
             textTransform: "-moz-initial",
-            borderBottom: "2px solid #CBD5E1",
+            borderBottom: "1px solid #CBD5E1",
               },
                "& .MuiDataGrid-columnHeader.alt-column-header .MuiDataGrid-columnHeaderTitle": {
               fontWeight: 700,
