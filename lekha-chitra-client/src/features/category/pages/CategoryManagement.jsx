@@ -7,7 +7,7 @@ import SubCategoryCard from "../components/SubCategoryCard";
 // import CategoryTable from "../components/CategoryTable";
 import SubCategoryDataTable from "../components/SubCategoryDataTable";
 import { categoryColumns } from "../columns/categoryColumns";
-
+import Sidebar from "../../dashboard/components/Sidebar";
 import Notification from "../../../components/common/Notification";
 import {
   getCategories,
@@ -15,24 +15,22 @@ import {
   getSubCategories,
   addSubCategory,
 } from "../services/categoryService";
+import Header from "../../auth/pages/Header";
 
 function CategoryManagement() {
-  // ==========================
-  // Form States
-  // ==========================
+  
   const [category, setCategory] = useState("");
   const [open, setOpen] = useState(false);
   const [subOpen, setSubOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
+    const [openAddClient, setOpenAddClient] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notification, setNotification] = useState({
     message: "",
     type: "",
   });
 
-  // ==========================
-  // API Data
-  // ==========================
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
 
@@ -191,20 +189,23 @@ const tableData = subCategories.map((item) => ({
 
 
   return (
-    <div className="min-h-screen bg-[#F5F5F5]">
-      <CategoryHeader />
+     <div className="flex min-h-screen bg-[#F3F3F3]">
+      
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <main
         className="
-          max-w-7xl
-          mx-auto
-          px-4
-          sm:px-6
-          lg:px-8
-          py-8
+          flex-1
+          overflow-x-hidden
+          p-4
+          md:p-6
+          lg:p-8
         "
       >
-        <div className="flex gap-4 mb-6">
+        <div className="-mt-2">
+  <Header title="Category" />
+</div>
+        <div className="flex gap-4 m-1">
           <button
             onClick={() => setOpen(true)}
             className="px-3 py-2 text-sm text-white rounded hover:opacity-90 bg-[#032A4E]"
@@ -238,7 +239,7 @@ const tableData = subCategories.map((item) => ({
             handleSubCategorySubmit={handleSubCategorySubmit}
           />
         </div>
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-1">
           <Notification
             message={notification.message}
             type={notification.type}

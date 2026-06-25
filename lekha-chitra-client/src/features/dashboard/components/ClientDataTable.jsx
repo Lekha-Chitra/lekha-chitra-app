@@ -125,8 +125,7 @@ function ClientDataTable({ columns, data, title = "Clients", onEdit,loading }) {
       field: "sn",
       headerName: "#",
       width: 60,
-      
-       cellClassName: "alt-column",
+    cellClassName: "alt-column",
     headerClassName: "alt-column-header",
     },
 
@@ -643,6 +642,8 @@ const filterLabels = {
   sx={{
     height: 350, // fixed table height
     width: "100%",
+     p: 2,
+     
   }}
 >
       <DataGrid
@@ -666,6 +667,7 @@ const filterLabels = {
         }}
 
          sx={{
+            borderRadius: "12px",
             "& .MuiDataGrid-columnHeaders": {
               position: "sticky",
               top: 0,
@@ -677,9 +679,9 @@ const filterLabels = {
               textAlign: "center",
             },
           "& .alt-column-header": {
-            background: "linear-gradient(180deg, #e4f2ff 10%, #EDF2F7 100%)",
+            background: "linear-gradient(180deg, #ffffff 10%, #ffffff 100%)",
             color: "#032A5C",
-             fontSize: "0.9rem",
+             fontSize: "0.65rem",
             letterSpacing: "0.4px",
             textTransform: "-moz-initial",
             borderBottom: "1px solid #CBD5E1",
@@ -693,11 +695,8 @@ const filterLabels = {
           },
      "& .MuiDataGrid-row:hover": {
       backgroundColor: "#F8FAFC !important",
-    },
-
-  
-
-  }}
+        },
+       }}
         disableColumnMenu
         
       />
