@@ -7,7 +7,7 @@ import SubCategoryCard from "../components/SubCategoryCard";
 // import CategoryTable from "../components/CategoryTable";
 import SubCategoryDataTable from "../components/SubCategoryDataTable";
 import { categoryColumns } from "../columns/categoryColumns";
-import Sidebar from "../../dashboard/components/Sidebar";
+import Sidebar from "../../client/components/Sidebar";
 import Notification from "../../../components/common/Notification";
 import {
   getCategories,

@@ -2,7 +2,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box, TextField, InputAdornment, IconButton, Tooltip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
-import CustomPagination from "../../dashboard/customData/customnPagination";
+import CustomPagination from "../../client/customData/customnPagination";
 import { useState } from "react";
 function SubCategoryDataTable({ columns, data, title = "Records", onEdit ,loading}) {
   const rows = data?.map((row, index) => ({
