@@ -52,10 +52,14 @@ import ClientDataTable from "../components/ClientDataTable";
 import useClients from "../hooks/useClients";
 import { clientColumns } from "../customData/clientColumns";
 import Header from "../../auth/pages/Header";
-function Dashboard() {
+function ClientPage() {
   const [openAddClient, setOpenAddClient] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-const { clients, loading, error } = useClients();
+const {
+        clients,
+        pagination,
+        loading,
+        fetchClients, } = useClients();
   return (
     <div className="flex min-h-screen bg-[#F3F3F3]">
       
@@ -106,6 +110,8 @@ const { clients, loading, error } = useClients();
             columns={clientColumns}
             data={clients}
             loading={loading}
+            pagination={pagination}
+            fetchClients={fetchClients}
             onEdit={(client) => {
               console.log(client);
             }}
@@ -116,4 +122,4 @@ const { clients, loading, error } = useClients();
   );
 }
 
-export default Dashboard;
+export default ClientPage;

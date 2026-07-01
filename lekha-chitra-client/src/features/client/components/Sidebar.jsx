@@ -28,7 +28,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   className="text-[#ffffff]"
 />,
       label: "Transactions",
-      path: "/dashboard",
+      path: "/transactions",
     },
     {
       icon: <ChartColumn
@@ -37,7 +37,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   className="text-[#ffffff]"
 />,
       label: "Analytics",
-      path: "/dashboard",
+      path: "/analytics",
     },
 
     {
@@ -47,7 +47,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
           className="text-[#ffffff]"
         />,
       label: "Client",
-      path: "/dashboard",
+      path: "/clients",
     },
     // {
     //   icon: <FaPlusCircle size={30} />,
@@ -70,7 +70,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   className="text-[#ffffff]"
 />,
       label: "Profile",
-      path: "/dashboard",
+      path: "/profile",
     },
   ];
 

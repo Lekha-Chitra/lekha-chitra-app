@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getClients } from "../services/clientServices";
+import { getClients, filterClients } from "../services/clientServices";
 
 function useClients() {
   const [clients, setClients] = useState([]);
@@ -7,17 +7,22 @@ function useClients() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
- 
-  const fetchClients = async (pageNumber = 1, pageSize = 10) => {
+
+  const fetchClients = async (
+    pageNumber = 1,
+    pageSize = 10,
+    filters = {}
+  ) => {
     try {
       setLoading(true);
 
-      const response = await getClients(pageNumber, pageSize);
+      const response =
+        Object.keys(filters).length === 0
+          ? await getClients(pageNumber, pageSize)
+          : await filterClients(filters, pageNumber, pageSize);
 
       setClients(response.data.clients);
-
       setPagination(response.data.pagination);
-
       setError("");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load clients");

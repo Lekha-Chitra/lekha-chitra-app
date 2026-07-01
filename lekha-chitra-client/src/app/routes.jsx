@@ -6,8 +6,8 @@ import VerifyOtp from "../features/auth/pages/VerifyOtp";
 import ResetPassword from "../features/auth/pages/ResetPassword";
 import Header from "../features/auth/pages/Header";
 import CategoryManagement from "../features/category/pages/CategoryManagement";
-import Dashboard from "../features/dashboard/pages/Dashboard";
-
+import ClientPage from "../features/client/pages/ClientPage";
+import DashboardPage from "../features/dashboard/pages/dashboardPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,8 +34,12 @@ const router = createBrowserRouter([
     element: <CategoryManagement />,
   },
   {
-    path: "/dashboard",
-    element: <Dashboard />,
+    path: "/clients",
+    element: <ClientPage />,
+  },
+   {
+    path: "/analytics",
+    element: <DashboardPage />,
   },
 ]);
 

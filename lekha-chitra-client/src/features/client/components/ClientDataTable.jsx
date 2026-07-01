@@ -21,12 +21,13 @@ import ActionButtons from "./ActionButtons";
 import AddClientModal from "./AddClientModal"
 import { DataGrid } from "@mui/x-data-grid";
 import CustomPagination from "../customData/customnPagination";
-function ClientDataTable({ columns, data, title = "Clients", onEdit,loading }) {
+import { filterClients, getClients } from "../services/clientServices";
+
+function ClientDataTable({ columns, data, title = "Clients",pagination,fetchClients, onEdit,loading }) {
     const [searchTerm, setSearchTerm] = useState("");
-     const [anchorEl, setAnchorEl] = useState(null);
-     const [appliedFilters, setAppliedFilters] = useState({});
-       const [openAddClient, setOpenAddClient] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [openAddClient, setOpenAddClient] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const [filters, setFilters] = useState({
       search: "",
@@ -44,6 +45,7 @@ function ClientDataTable({ columns, data, title = "Clients", onEdit,loading }) {
       sortBy: "",
       isDescending: false,
     });
+  const [appliedFilters, setAppliedFilters] = useState({});
 
   const handleOpenFilter = (event) => {
     setAnchorEl(event.currentTarget);
@@ -59,6 +61,33 @@ function ClientDataTable({ columns, data, title = "Clients", onEdit,loading }) {
     ...prev,
     [name]: type === "checkbox" ? checked : value,
   }));
+};
+
+const handleApplyFilters = async () => {
+  const activeFilters = Object.fromEntries(
+    Object.entries(filters).filter(
+      ([_, value]) =>
+        value !== "" &&
+        value !== null &&
+        value !== undefined &&
+        value !== false
+    )
+  );
+
+  setAppliedFilters(activeFilters);
+
+  await fetchClients(1, 10, activeFilters);
+
+  handleCloseFilter();
+};
+
+const handleResetFilters = async () => {
+  setFilters(initialFilters);
+  setAppliedFilters({});
+
+  await fetchClients();
+
+  handleCloseFilter();
 };
 
   const open = Boolean(anchorEl);
@@ -585,6 +614,7 @@ const filterLabels = {
             );
 
             setAppliedFilters(activeFilters);
+            handleApplyFilters();
             handleCloseFilter();
           }}
         >
