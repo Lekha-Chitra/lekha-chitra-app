@@ -1,55 +1,226 @@
+import { useRef, useState } from "react";
+import { FaBars } from "react-icons/fa";
+import {
+  FaChartPie,
+  FaUsers,
+  FaMoneyBillWave,
+  FaWallet,
+  FaChartBar,
+  FaFilter,
+} from "react-icons/fa";
+
 import Summary from "../components/summary";
 import Clients from "../components/clients";
 import Sidebar from "../../client/components/Sidebar";
 import Header from "../../auth/pages/Header";
-import { useState } from "react";
-import { FaBars } from "react-icons/fa";
 
 function DashboardPage() {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const overviewRef = useRef(null);
+  const clientsRef = useRef(null);
+  const transactionsRef = useRef(null);
+
+  const [filters, setFilters] = useState({
+  fromDate: "",
+  toDate: "",
+});
+
+  const scrollToSection = (ref) => {
+    ref.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
+  const sections = [
+    {
+      title: "Overview",
+      icon: <FaChartPie size={13} />,
+      ref: overviewRef,
+    },
+    {
+      title: "Clients",
+      icon: <FaUsers size={13} />,
+      ref: clientsRef,
+    },
+    {
+      title: "Transactions",
+      icon: <FaMoneyBillWave size={13} />,
+      ref: transactionsRef,
+    },
+  ];
 
   return (
-   <div className="flex min-h-screen bg-[#F3F3F3]">
+    <div className="flex min-h-screen bg-[#F6F8FB]">
       <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
       />
 
-      <main
-        className="
-          flex-1
-          overflow-x-hidden
-          p-4
-          md:p-6
-          lg:p-8
-        "
-      >
-        <div className="-mt-2">
-          <Header title="Dashboard" />
-        </div>
+      <main className="flex-1 overflow-x-hidden p-4 md:p-6 lg:p-8">
+        <Header title="Dashboard" />
 
         {/* Mobile Menu */}
-        <div className="md:hidden mb-6">
+        <div className="md:hidden mt-4 mb-5">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="
-              bg-[#032A5C]
-              text-white
-              p-3
-              rounded-md
-              shadow-md
-            "
+            className="bg-[#032A5C] text-white p-3 rounded-lg shadow"
           >
-            <FaBars size={10} />
+            <FaBars size={14} />
           </button>
         </div>
 
-        <div className="space-y-6">
-          {/* Summary Cards */}
-          <Summary />
+     {/* Dashboard Navigation */}
+<div className="sticky top-0 z-20 bg-[#F6F8FB] py-1.5 mb-2">
+  <div className="flex items-center justify-between gap-3">
 
-          {/* Client Analytics */}
-          <Clients />
+    {/* Navigation */}
+    <div className="flex flex-wrap gap-5">
+      {sections.map((section) => (
+        <button
+          key={section.title}
+          onClick={() => scrollToSection(section.ref)}
+          className="
+            flex
+            items-center
+            gap-1.5
+            px-3
+            py-1.5
+            rounded-full
+            bg-white
+            border
+            border-gray-200
+            text-gray-700
+            text-sm
+            font-medium
+            shadow-sm
+            hover:bg-[#032A5C]
+            hover:border-[#032A5C]
+            hover:text-white
+            transition-all
+            duration-200
+          "
+        >
+          {section.icon}
+          {section.title}
+        </button>
+      ))}
+    </div>
+
+    {/* Filters */}
+    <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2 shadow-sm">
+
+      <FaFilter className="text-[#032A5C] text-sm" />
+
+      <div className="flex items-center gap-1">
+        <span className="text-[11px] text-gray-500">From</span>
+
+        <input
+          type="date"
+          value={filters.fromDate}
+          onChange={(e) =>
+            setFilters((prev) => ({
+              ...prev,
+              fromDate: e.target.value,
+            }))
+          }
+          className="
+            h-8
+            text-xs
+            border
+            border-gray-200
+            rounded-md
+            px-2
+            outline-none
+            focus:border-[#032A5C]
+          "
+        />
+      </div>
+
+      <div className="flex items-center gap-1">
+        <span className="text-[11px] text-gray-500">To</span>
+
+        <input
+          type="date"
+          value={filters.toDate}
+          onChange={(e) =>
+            setFilters((prev) => ({
+              ...prev,
+              toDate: e.target.value,
+            }))
+          }
+          className="
+            h-8
+            text-xs
+            border
+            border-gray-200
+            rounded-md
+            px-2
+            outline-none
+            focus:border-[#032A5C]
+          "
+        />
+      </div>
+
+      <button
+        className="
+          h-8
+          px-3
+          rounded-md
+          bg-[#032A5C]
+          text-white
+          text-xs
+          font-medium
+          hover:bg-[#021d40]
+          transition
+        "
+      >
+        Apply
+      </button>
+        <button
+        className="
+          h-8
+          px-3
+          rounded-md
+          bg-[#032A5C]
+          text-white
+          text-xs
+          font-medium
+          hover:bg-[#021d40]
+          transition
+        "
+      >
+        Reset
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+        {/* Dashboard Content */}
+        <div className="space-y-5">
+          <section ref={overviewRef}>
+            <Summary />
+          </section>
+
+          <section ref={clientsRef}>
+            <Clients />
+          </section>
+
+          <section
+            ref={transactionsRef}
+            className="bg-white rounded-xl shadow-sm border border-gray-100 p-8"
+          >
+            <h2 className="text-xl font-semibold text-[#032A5C]">
+              Transaction Analytics
+            </h2>
+
+            <p className="mt-2 text-sm text-gray-500">
+              Transaction analytics will appear here.
+            </p>
+          </section>
         </div>
       </main>
     </div>

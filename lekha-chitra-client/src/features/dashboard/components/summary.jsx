@@ -1,5 +1,9 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
+import { FaWallet } from "react-icons/fa6";
+import { FaArrowTrendUp, FaArrowTrendDown } from "react-icons/fa6";
+
 import { getSummary } from "../services/dashboardServices";
+
 function Summary() {
   const [summary, setSummary] = useState({
     totalClients: 0,
@@ -7,39 +11,8 @@ function Summary() {
     creditAmount: 0,
     debitAmount: 0,
   });
+
   const [loading, setLoading] = useState(true);
-
-
-const cards = [
-  {
-    title: "Total Clients",
-    value: summary.totalClients,
-    sub: "Active accounts",
-    accent: "#032A5C",
-    bg: "#EEF4FF",
-  },
-  {
-    title: "Current Balance",
-    value: `Rs. ${summary.currentBalance}`,
-    sub: "Net position",
-    accent: "#E59C11",
-    bg: "#FFF8E6",
-  },
-  {
-    title: "Credit Amount",
-    value: `Rs. ${summary.creditAmount}`,
-    sub: "Total inflow",
-    accent: "#16A34A",
-    bg: "#ECFDF5",
-  },
-  {
-    title: "Debit Amount",
-    value: `Rs. ${summary.debitAmount}`,
-    sub: "Total outflow",
-    accent: "#DC2626",
-    bg: "#FEF2F2",
-  },
-];
 
   useEffect(() => {
     fetchSummary();
@@ -52,7 +25,6 @@ const cards = [
       const response = await getSummary();
 
       setSummary(response.data);
-     
     } catch (error) {
       console.error("Failed to fetch summary:", error);
     } finally {
@@ -60,39 +32,109 @@ const cards = [
     }
   };
 
-  return (
-    <section>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-[#032A5C]">Summary</h2>
-        <div className="h-1 w-12 rounded-full bg-[#E59C11]" />
-      </div>
+  if (loading) {
+    return (
+      <div className="h-44 bg-white rounded-2xl border border-gray-200 animate-pulse" />
+    );
+  }
 
-      <div className="grid grid-cols-4 gap-2.5">
+  const cards = [
+    {
+      title: "Current Balance",
+      value: summary.currentBalance,
+      subtitle: "Net Position",
+      icon: <FaWallet />,
+      color: "#032A5C",
+    },
+    {
+      title: "Credit Amount",
+      value: summary.creditAmount,
+      subtitle: "Total Inflow",
+      icon: <FaArrowTrendUp />,
+      color: "#16A34A",
+    },
+    {
+      title: "Debit Amount",
+      value: summary.debitAmount,
+      subtitle: "Total Outflow",
+      icon: <FaArrowTrendDown />,
+      color: "#E59C11",
+    },
+  ];
+
+  return (
+    <section className="mb-8">
+      <div
+        className="grid gap-6"
+        style={{
+          gridTemplateColumns: `repeat(${cards.length}, minmax(0,1fr))`,
+        }}
+      >
         {cards.map((card) => (
           <div
             key={card.title}
-            className="relative bg-white rounded-[10px] border border-gray-100 hover:border-gray-200 transition-all duration-200 overflow-hidden py-2.5 pr-3 pl-4"
+            className="
+              relative
+              overflow-hidden
+              rounded-2xl
+              bg-white
+              border
+              border-gray-200
+              shadow-sm
+              hover:shadow-xl
+              hover:-translate-y-1
+              transition-all
+              duration-300
+            "
           >
+           
+
+            <div className="relative p-6">
+              {/* Header */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-widest font-semibold text-gray-500">
+                    {card.title}
+                  </p>
+
+                  <h2
+                    className="mt-3 text-xl font-bold"
+                    style={{ color: card.color }}
+                  >
+                    Rs. {Number(card.value).toLocaleString()}
+                  </h2>
+
+                  <p className="mt-2 text-sm text-gray-500">
+                    {card.subtitle}
+                  </p>
+                </div>
+
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center"
+                  style={{
+                    backgroundColor: `${card.color}15`,
+                  }}
+                >
+                  <span
+                    className="text-xl"
+                    style={{
+                      color: card.color,
+                    }}
+                  >
+                    {card.icon}
+                  </span>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Accent Bar */}
             <div
-              className="absolute left-0 top-0 bottom-0 w-[3px]"
-              style={{ backgroundColor: card.accent }}
+              className="absolute bottom-0 left-0 h-1 w-full"
+              style={{
+                background: `linear-gradient(to right, ${card.color}, transparent)`,
+              }}
             />
-
-            <p className="text-[10px] font-medium uppercase tracking-widest text-gray-400 mb-1.5">
-              {card.title}
-            </p>
-
-            <h3
-              className="text-[17px] font-semibold leading-tight truncate"
-              style={{ color: card.accent }}
-            >
-              {card.value}
-            </h3>
-
-            <p className="mt-1 text-[11px] text-gray-400 flex items-center gap-1">
-              <span className="inline-block w-1 h-1 rounded-full flex-shrink-0" style={{ backgroundColor: card.accent }} />
-              {card.sub}
-            </p>
           </div>
         ))}
       </div>
