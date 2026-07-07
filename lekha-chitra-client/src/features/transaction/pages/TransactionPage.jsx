@@ -115,7 +115,7 @@ function TransactionPage() {
         </div>
 
         {/* Header */}
-        <Header />
+        <Header title="Transaction" />
 
         {/* Buttons + Search + Filter */}
         <div className="mt-6">

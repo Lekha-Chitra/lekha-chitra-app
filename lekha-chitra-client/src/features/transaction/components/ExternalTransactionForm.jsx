@@ -20,7 +20,7 @@ function ExternalTransactionForm({
 
   return (
     <form
-      className="space-y-5"
+      className="space-y-4"
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit();
