@@ -18,8 +18,9 @@ function ActionButtons({ onAddClient }) {
           className="
             bg-[#032A5C]
             text-white
-            h-[38px]
+            h-[48px]
             px-4
+               py-3
             rounded-md
             shadow-sm
             flex
@@ -30,13 +31,12 @@ function ActionButtons({ onAddClient }) {
             duration-200
             cursor-pointer
             whitespace-nowrap
+            w-[220px]
           "
         >
           {btn.icon}
 
-          <span className="text-sm font-medium">
-            {btn.title}
-          </span>
+          <span className="text-sm font-medium">{btn.title}</span>
         </button>
       ))}
     </div>

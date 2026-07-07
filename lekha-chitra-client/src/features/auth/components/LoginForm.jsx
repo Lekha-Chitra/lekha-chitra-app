@@ -62,8 +62,9 @@ function LoginForm() {
 
       console.log("Login Success");
       console.log(response);
-
+      
       if (response.isSuccess) {
+        sessionStorage.setItem("isLoggedIn", "true");
         navigate("/analytics", { replace: true });
       }
 

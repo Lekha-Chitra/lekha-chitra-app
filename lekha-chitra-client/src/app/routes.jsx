@@ -1,13 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
-
 import Login from "../features/auth/pages/Login";
 import ForgotPassword from "../features/auth/pages/ForgotPassword";
 import VerifyOtp from "../features/auth/pages/VerifyOtp";
 import ResetPassword from "../features/auth/pages/ResetPassword";
-import Header from "../features/auth/pages/Header";
 import CategoryManagement from "../features/category/pages/CategoryManagement";
 import ClientPage from "../features/client/pages/ClientPage";
 import DashboardPage from "../features/dashboard/pages/dashboardPage";
+import TransactionPage from "../features/transaction/pages/TransactionPage";
+import ProtectedRoute from "../routes/ProtectedRoute"
+import NotFound from "../routes/NotFound";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,22 +26,43 @@ const router = createBrowserRouter([
     path: "/reset-password",
     element: <ResetPassword />,
   },
-  {
-    path: "/home",
-    element: <Header />,
-  },
+ 
   {
     path: "/category",
-    element: <CategoryManagement />,
+    element: (
+      <ProtectedRoute>
+        <CategoryManagement />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/clients",
-    element: <ClientPage />,
+    element: (
+      <ProtectedRoute>
+        <ClientPage />
+      </ProtectedRoute>
+    ),
   },
-   {
+  {
     path: "/analytics",
-    element: <DashboardPage />,
+    element: (
+      <ProtectedRoute>
+        <DashboardPage />
+      </ProtectedRoute>
+    ),
   },
+  {
+    path: "/transactions",
+    element: (
+      <ProtectedRoute>
+        <TransactionPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  }
 ]);
 
 export default router;

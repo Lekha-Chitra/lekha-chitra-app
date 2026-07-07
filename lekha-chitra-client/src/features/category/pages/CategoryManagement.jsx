@@ -205,17 +205,17 @@ const tableData = subCategories.map((item) => ({
         <div className="-mt-2">
   <Header title="Category" />
 </div>
-        <div className="flex gap-4 m-1">
+        <div className="flex gap-4 m-1 mt-6 ">
           <button
             onClick={() => setOpen(true)}
-            className="px-3 py-2 text-sm text-white rounded hover:opacity-90 bg-[#032A4E]"
+            className="px-3 py-2 w-[220px] h-[50px] rounded-lg text-sm text-white rounded hover:opacity-90 bg-[#032A4E]"
           >
             Add Category
           </button>
 
           <button
             onClick={() => setSubOpen(true)}
-            className="px-3 py-2 text-sm text-white rounded hover:opacity-90 bg-[#E59C11]"
+            className="px-3 py-2 w-[220px] h-[50px] rounded-lg text-sm text-white rounded hover:opacity-90 bg-[#E59C11]"
           >
             Add Sub Category
           </button>

@@ -33,11 +33,7 @@ function Header({ title = "Dashboard" }) {
           className="text-gray-600 cursor-pointer"
         />
 
-        <LogOut
-          size={20}
-          strokeWidth={1.5}
-          className="text-[#E59C11] cursor-pointer"
-        />
+       
       </div>
     </header>
   );

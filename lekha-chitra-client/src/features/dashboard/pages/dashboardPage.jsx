@@ -53,12 +53,9 @@ function DashboardPage() {
 
   return (
     <div className="flex min-h-screen bg-[#F6F8FB]">
-      <Sidebar
-        sidebarOpen={sidebarOpen}
-        setSidebarOpen={setSidebarOpen}
-      />
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-      <main className="flex-1 overflow-x-hidden p-4 md:p-6 lg:p-8">
+      <main className="flex-1 h-screen overflow-hidden p-4 md:p-6 lg:p-8   ">
         <Header title="Dashboard" />
 
         {/* Mobile Menu */}
@@ -71,17 +68,16 @@ function DashboardPage() {
           </button>
         </div>
 
-     {/* Dashboard Navigation */}
-<div className="sticky top-0 z-20 bg-[#F6F8FB] py-1.5 mb-2">
-  <div className="flex items-center justify-between gap-3">
-
-    {/* Navigation */}
-    <div className="flex flex-wrap gap-5">
-      {sections.map((section) => (
-        <button
-          key={section.title}
-          onClick={() => scrollToSection(section.ref)}
-          className="
+        {/* Dashboard Navigation */}
+        <div className="sticky top-0 z-20 bg-[#F6F8FB] py-1.5 mb-2">
+          <div className="flex items-center justify-between gap-3">
+            {/* Navigation */}
+            <div className="flex flex-wrap gap-5">
+              {sections.map((section) => (
+                <button
+                  key={section.title}
+                  onClick={() => scrollToSection(section.ref)}
+                  className="
             flex
             items-center
             gap-1.5
@@ -101,31 +97,30 @@ function DashboardPage() {
             transition-all
             duration-200
           "
-        >
-          {section.icon}
-          {section.title}
-        </button>
-      ))}
-    </div>
+                >
+                  {section.icon}
+                  {section.title}
+                </button>
+              ))}
+            </div>
 
-    {/* Filters */}
-    <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2 shadow-sm">
+            {/* Filters */}
+            <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2 shadow-sm">
+              <FaFilter className="text-[#032A5C] text-sm" />
 
-      <FaFilter className="text-[#032A5C] text-sm" />
+              <div className="flex items-center gap-1">
+                <span className="text-[11px] text-gray-500">From</span>
 
-      <div className="flex items-center gap-1">
-        <span className="text-[11px] text-gray-500">From</span>
-
-        <input
-          type="date"
-          value={filters.fromDate}
-          onChange={(e) =>
-            setFilters((prev) => ({
-              ...prev,
-              fromDate: e.target.value,
-            }))
-          }
-          className="
+                <input
+                  type="date"
+                  value={filters.fromDate}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      fromDate: e.target.value,
+                    }))
+                  }
+                  className="
             h-8
             text-xs
             border
@@ -135,22 +130,22 @@ function DashboardPage() {
             outline-none
             focus:border-[#032A5C]
           "
-        />
-      </div>
+                />
+              </div>
 
-      <div className="flex items-center gap-1">
-        <span className="text-[11px] text-gray-500">To</span>
+              <div className="flex items-center gap-1">
+                <span className="text-[11px] text-gray-500">To</span>
 
-        <input
-          type="date"
-          value={filters.toDate}
-          onChange={(e) =>
-            setFilters((prev) => ({
-              ...prev,
-              toDate: e.target.value,
-            }))
-          }
-          className="
+                <input
+                  type="date"
+                  value={filters.toDate}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      toDate: e.target.value,
+                    }))
+                  }
+                  className="
             h-8
             text-xs
             border
@@ -160,11 +155,11 @@ function DashboardPage() {
             outline-none
             focus:border-[#032A5C]
           "
-        />
-      </div>
+                />
+              </div>
 
-      <button
-        className="
+              <button
+                className="
           h-8
           px-3
           rounded-md
@@ -175,11 +170,11 @@ function DashboardPage() {
           hover:bg-[#021d40]
           transition
         "
-      >
-        Apply
-      </button>
-        <button
-        className="
+              >
+                Apply
+              </button>
+              <button
+                className="
           h-8
           px-3
           rounded-md
@@ -190,14 +185,12 @@ function DashboardPage() {
           hover:bg-[#021d40]
           transition
         "
-      >
-        Reset
-      </button>
-
-    </div>
-
-  </div>
-</div>
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
 
         {/* Dashboard Content */}
         <div className="space-y-5">

@@ -1,0 +1,201 @@
+import { useState } from "react";
+
+import TransactionModalHeader from "./TransactionModalHeader";
+import InternalTransactionForm from "./InternalTransactionForm";
+import ExternalTransactionForm from "./ExternalTransactionForm";
+
+import Notification from "../../../components/common/Notification";
+
+import useTransactionClients from "../hooks/useTransactionsClients";
+import useAddTransaction from "../hooks/useAddTransaction";
+
+const initialForm = {
+  transactionType: "Internal",
+  paymentType: "",
+  from: "",
+  to: "",
+  clientName: "",
+  amount: "",
+  paymentMethod: "",
+  remarks: "",
+};
+
+function AddTransactionModal({ open, onClose, onSuccess }) {
+  const [formData, setFormData] = useState(initialForm);
+
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "",
+  });
+
+  const { clients, loading: clientLoading } = useTransactionClients();
+
+  const { loading: saveLoading, saveTransaction } = useAddTransaction();
+
+  if (!open) return null;
+
+  const loading = clientLoading || saveLoading;
+
+  const showNotification = (message, type) => {
+    setNotification({
+      message,
+      type,
+    });
+
+    setTimeout(() => {
+      setNotification({
+        message: "",
+        type: "",
+      });
+    }, 3000);
+  };
+
+  const resetForm = () => {
+    setFormData(initialForm);
+  };
+
+  const handleTransactionType = (type) => {
+    setFormData({
+      ...initialForm,
+      transactionType: type,
+    });
+  };
+
+  const validateForm = () => {
+    if (!formData.paymentType) {
+      showNotification("Please select payment type.", "error");
+      return false;
+    }
+
+    if (!formData.paymentMethod) {
+      showNotification("Please select payment method.", "error");
+      return false;
+    }
+
+    if (!formData.amount || Number(formData.amount) <= 0) {
+      showNotification("Please enter a valid amount.", "error");
+      return false;
+    }
+
+    if (formData.transactionType === "Internal") {
+      if (!formData.from || !formData.to) {
+        showNotification("Please select From and To client.", "error");
+        return false;
+      }
+
+      if (formData.from === formData.to) {
+        showNotification("From and To client cannot be the same.", "error");
+        return false;
+      }
+    }
+
+    if (formData.transactionType === "External" && !formData.clientName) {
+      showNotification("Please select client.", "error");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) return;
+
+    try {
+      const response = await saveTransaction(formData);
+
+      if (!response.isSuccess) {
+        showNotification(response.message, "error");
+        return;
+      }
+
+      showNotification(response.message, "success");
+
+      resetForm();
+
+      onSuccess?.();
+
+      setTimeout(() => {
+        onClose();
+      }, 700);
+    } catch (error) {
+      console.error(error);
+
+      showNotification("Failed to create transaction.", "error");
+    }
+  };
+
+  return (
+    <>
+      {/* Overlay */}
+
+      <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose} />
+
+      {/* Modal */}
+
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="w-full max-w-xl h-auto  relative max-h-[90vh] overflow-y-auto bg-white rounded-xl shadow-2xl overflow-hidden">
+          <TransactionModalHeader onClose={onClose} />
+
+          <div className="px-6 pt-4">
+            <Notification
+              message={notification.message}
+              type={notification.type}
+            />
+          </div>
+
+          {/* Transaction Type */}
+
+          <div className="flex border-b mt-2">
+            <button
+              type="button"
+              onClick={() => handleTransactionType("Internal")}
+              className={`flex-1 py-3 font-semibold cursor-pointer transition ${
+                formData.transactionType === "Internal"
+                  ? "bg-[#032A5C] text-white"
+                  : "bg-white text-[#032A5C]"
+              }`}
+            >
+              Internal
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleTransactionType("External")}
+              className={`flex-1 py-3 font-semibold cursor-pointer transition ${
+                formData.transactionType === "External"
+                  ? "bg-[#032A5C] text-white"
+                  : "bg-white text-[#032A5C]"
+              }`}
+            >
+              External
+            </button>
+          </div>
+
+          {/* Form */}
+
+          <div className="p-6">
+            {formData.transactionType === "Internal" ? (
+              <InternalTransactionForm
+                formData={formData}
+                setFormData={setFormData}
+                clients={clients}
+                loading={loading}
+                handleSubmit={handleSubmit}
+              />
+            ) : (
+              <ExternalTransactionForm
+                formData={formData}
+                setFormData={setFormData}
+                clients={clients}
+                loading={loading}
+                handleSubmit={handleSubmit}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default AddTransactionModal;

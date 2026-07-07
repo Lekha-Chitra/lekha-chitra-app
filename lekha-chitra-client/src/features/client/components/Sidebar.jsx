@@ -6,46 +6,46 @@ import {
   FaTimes,
 } from "react-icons/fa";
 
-import { LogOut,
-          User ,
-          CircleUser,
-        LayoutGrid ,
-      Building2,Receipt,ChartColumn    } from "lucide-react";
+import {
+  LogOut,
+  User,
+  CircleUser,
+  LayoutGrid,
+  Building2,
+  Receipt,
+  ChartColumn,
+} from "lucide-react";
 import { MdDashboard } from "react-icons/md";
 
 import logo from "../../../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-
+import { logout } from "../../../utils/auth";
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const handleLogout = () => {
+    logout();
+    navigate("/", { replace: true });
+  };
   const menuItems = [
     {
-      icon: <Receipt
-  size={20}
-  strokeWidth={1.5}
-  className="text-[#ffffff]"
-/>,
-      label: "Transactions",
-      path: "/transactions",
-    },
-    {
-      icon: <ChartColumn
-  size={20}
-  strokeWidth={1.5}
-  className="text-[#ffffff]"
-/>,
+      icon: (
+        <ChartColumn size={20} strokeWidth={1.5} className="text-[#ffffff]" />
+      ),
       label: "Analytics",
       path: "/analytics",
     },
+    {
+      icon: <Receipt size={20} strokeWidth={1.5} className="text-[#ffffff]" />,
+      label: "Transactions",
+      path: "/transactions",
+    },
 
     {
-      icon: <Building2
-          size={20}
-          strokeWidth={1.5}
-          className="text-[#ffffff]"
-        />,
+      icon: (
+        <Building2 size={20} strokeWidth={1.5} className="text-[#ffffff]" />
+      ),
       label: "Client",
       path: "/clients",
     },
@@ -55,20 +55,16 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
     //   path: "/dashboard",
     // },
     {
-      icon: <LayoutGrid
-  size={20}
-  strokeWidth={1.5}
-  className="text-[#ffffff]"
-/>,
+      icon: (
+        <LayoutGrid size={20} strokeWidth={1.5} className="text-[#ffffff]" />
+      ),
       label: "Category",
       path: "/category",
     },
     {
-      icon:<CircleUser
-  size={20}
-  strokeWidth={1.7}
-  className="text-[#ffffff]"
-/>,
+      icon: (
+        <CircleUser size={20} strokeWidth={1.7} className="text-[#ffffff]" />
+      ),
       label: "Profile",
       path: "/profile",
     },
@@ -173,7 +169,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             "
           >
             <span className="text-[#ffffff] font-bold text-xl">लेखा</span>
-          
+
             <span className="text-[#E59C11] font-bold text-xl">चित्र</span>
           </h2>
         </div>
@@ -238,6 +234,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
         {/* Logout */}
         <div className="pb-6">
           <button
+            onClick={handleLogout}
             className="
               w-full
 
@@ -252,12 +249,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               cursor-pointer
             "
           >
-
-        <LogOut
-          size={28}
-          className="text-[#E59C11] shrink-0"
-          strokeWidth={2.0}
-        />
+            <LogOut
+              size={28}
+              className="text-[#E59C11] shrink-0"
+              strokeWidth={2.0}
+            />
             <span
               className="
                 ml-3
@@ -282,5 +278,3 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 }
 
 export default Sidebar;
-
-
