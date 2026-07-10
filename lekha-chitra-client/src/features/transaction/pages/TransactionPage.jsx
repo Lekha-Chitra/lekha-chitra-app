@@ -17,6 +17,7 @@ function TransactionPage() {
 
   // Filter Popover
   const [anchorEl, setAnchorEl] = useState(null);
+  
 
   const handleOpenFilter = (event) => {
     setAnchorEl(event.currentTarget);
@@ -104,8 +105,10 @@ function TransactionPage() {
       />
 
       <main className="flex-1 overflow-x-hidden p-4 md:p-6 lg:p-8">
+        {/* Header */}
+        <Header title="Transaction" />
         {/* Mobile Menu */}
-        <div className="md:hidden mb-4">
+        <div className="md:hidden mb-4 mt-4">
           <button
             onClick={() => setSidebarOpen(true)}
             className="bg-[#032A5C] text-white p-3 rounded-md shadow-md"
@@ -113,9 +116,6 @@ function TransactionPage() {
             <FaBars size={18} />
           </button>
         </div>
-
-        {/* Header */}
-        <Header title="Transaction" />
 
         {/* Buttons + Search + Filter */}
         <div className="mt-6">
@@ -136,9 +136,9 @@ function TransactionPage() {
           setFilters={setFilters}
           onApply={handleApplyFilters}
           onReset={handleResetFilters}
+          
         />
 
-       
         {/* Table */}
         <div className="mt-6">
           <TransactionTable

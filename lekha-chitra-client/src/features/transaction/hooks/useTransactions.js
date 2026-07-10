@@ -3,7 +3,12 @@ import { getTransactions,filterTransactions } from "../services/transactionServi
 
 function useTransactions() {
   const [transactions, setTransactions] = useState([]);
-  const [pagination, setPagination] = useState({});
+  // const [pagination, setPagination] = useState({});
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    pageSize: 10,
+    totalRecords: 0,
+  });
   const [loading, setLoading] = useState(false);
 
   const fetchTransactions = async (pageNumber = 1, pageSize = 10) => {

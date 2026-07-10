@@ -5,7 +5,7 @@ import Notification from "../../../components/common/Notification";
 import { addClient } from "../services/clientServices";
 import { getSubCategories } from "../../category/services/categoryService";
 
-function AddClientModal({ open, onClose }) {
+function AddClientModal({ open, onClose,onSuccess }) {
   const [loading, setLoading] = useState(false);
 
   const [message, setMessage] = useState("");
@@ -94,16 +94,21 @@ function AddClientModal({ open, onClose }) {
         },
       };
 
-      await addClient(payload);
+     const response = await addClient(payload);
 
-      setMessage("Client added successfully");
-      setMessageType("success");
+     if (response.isSuccess) {
+       setMessage("Client added successfully");
+       setMessageType("success");
 
-      resetForm();
+       resetForm();
 
-      setTimeout(() => {
-        onClose();
-      }, 1500);
+       // Refresh the client table
+       await onSuccess?.();
+
+       setTimeout(() => {
+         onClose();
+       }, 1000);
+     }
     } catch (error) {
       console.error(error);
 

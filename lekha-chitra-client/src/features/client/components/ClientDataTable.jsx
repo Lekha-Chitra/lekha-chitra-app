@@ -222,7 +222,6 @@ const filterLabels = {
         borderRadius: "12px",
         overflow: "hidden",
         boxShadow: 2,
-        
       }}
     >
       {/* Header */}
@@ -242,6 +241,9 @@ const filterLabels = {
           <AddClientModal
             open={openAddClient}
             onClose={() => setOpenAddClient(false)}
+            onSuccess={async () => {
+              await fetchClients(pagination.currentPage, pagination.pageSize);
+            }}
           />
         </Box>
 
@@ -266,8 +268,8 @@ const filterLabels = {
             color: "#f1f1f1",
             textTransform: "none",
             fontWeight: 600,
-            width:220,
-            height:50,
+            width: 220,
+            height: 50,
             minWidth: "auto",
             ml: "auto",
             px: 1.5,

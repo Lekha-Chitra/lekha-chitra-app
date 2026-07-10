@@ -14,7 +14,17 @@ import {
 } from "recharts";
 
 function Clients() {
- const [data, setData] = useState(null);
+//  const [data, setData] = useState(null);
+const [data, setData] = useState({
+  totalClients: 0,
+  totalCreditClients: 0,
+  totalDebitClients: 0,
+  totalBalance: 0,
+  highestBalance: 0,
+  lowestBalance: 0,
+  averageBalance: 0,
+  clientGrowth: [],
+});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,6 +34,7 @@ function Clients() {
   const loadClientSummary = async () => {
     try {
       const response = await getClientSummary();
+      console.log(response);
       setData(response.data);
     } catch (error) {
       console.error(error);
@@ -90,13 +101,13 @@ function Clients() {
 
   return (
     <section>
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
         {/* Growth chart */}
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm p-4 md:p-5">
           <div className="flex items-center gap-2 mb-4">
-          
-            <h3 className="text-sm font-semibold text-[#032A5C]">Client Growth</h3>
+            <h3 className="text-sm font-semibold text-[#032A5C]">
+              Client Growth
+            </h3>
           </div>
 
           <ResponsiveContainer width="100%" height={260}>
@@ -107,7 +118,11 @@ function Clients() {
                   <stop offset="100%" stopColor="#032A5C" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                vertical={false}
+                stroke="#f0f0f0"
+              />
               <XAxis
                 dataKey="monthName"
                 tick={{ fontSize: 12, fill: "#9CA3AF" }}
@@ -122,7 +137,11 @@ function Clients() {
                 width={30}
               />
               <Tooltip
-                contentStyle={{ borderRadius: 8, border: "1px solid #f0f0f0", fontSize: 12 }}
+                contentStyle={{
+                  borderRadius: 8,
+                  border: "1px solid #f0f0f0",
+                  fontSize: 12,
+                }}
                 labelFormatter={(label, payload) =>
                   payload?.[0]?.payload
                     ? `${payload[0].payload.monthName} ${payload[0].payload.year}`
@@ -144,41 +163,47 @@ function Clients() {
 
         {/* Balance breakdown */}
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 md:p-5">
-         
           <div className=" pt-1 border-b border-gray-100">
-      <h3 className="text-sm font-semibold text-[#032A5C] mb-4">
-            Client Distribution
-          </h3>
-  <div className="flex items-center justify-between mb-2">
-    <span className="text-xs text-gray-400">{totalClients} total</span>
-    <div className="flex gap-3">
-      <span className="text-xs font-medium text-[#032A5C]">● {totalCreditClients} credit</span>
-      <span className="text-xs font-medium text-[#E59C11]">● {totalDebitClients} debit</span>
-    </div>
-  </div>
-  <div className="w-full h-2 rounded-full bg-gray-100 overflow-hidden flex">
-    <div
-      className="h-full"
-      style={{
-        width: `${(totalCreditClients / totalClients) * 100 || 0}%`,
-        backgroundColor: "#032A5C",
-      }}
-    /><div
-      className="h-full"
-      style={{
-        width: `${(totalDebitClients / totalClients) * 100 || 0}%`,
-        backgroundColor: "#E59C11",
-      }}
-    />
-  </div>
-  <div className="flex justify-between mt-1.5">
-    <span className="text-[11px] text-gray-400">
-      {((totalCreditClients / totalClients) * 100 || 0).toFixed(1)}%
-    </span>
-    <span className="text-[11px] text-gray-400">
-      {((totalDebitClients / totalClients) * 100 || 0).toFixed(1)}%
-    </span>
-    </div>     
+            <h3 className="text-sm font-semibold text-[#032A5C] mb-4">
+              Client Distribution
+            </h3>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs text-gray-400">
+                {totalClients} total
+              </span>
+              <div className="flex gap-3">
+                <span className="text-xs font-medium text-[#032A5C]">
+                  ● {totalCreditClients} credit
+                </span>
+                <span className="text-xs font-medium text-[#E59C11]">
+                  ● {totalDebitClients} debit
+                </span>
+              </div>
+            </div>
+            <div className="w-full h-2 rounded-full bg-gray-100 overflow-hidden flex">
+              <div
+                className="h-full"
+                style={{
+                  width: `${(totalCreditClients / totalClients) * 100 || 0}%`,
+                  backgroundColor: "#032A5C",
+                }}
+              />
+              <div
+                className="h-full"
+                style={{
+                  width: `${(totalDebitClients / totalClients) * 100 || 0}%`,
+                  backgroundColor: "#E59C11",
+                }}
+              />
+            </div>
+            <div className="flex justify-between mt-1.5">
+              <span className="text-[11px] text-gray-400">
+                {((totalCreditClients / totalClients) * 100 || 0).toFixed(1)}%
+              </span>
+              <span className="text-[11px] text-gray-400">
+                {((totalDebitClients / totalClients) * 100 || 0).toFixed(1)}%
+              </span>
+            </div>
           </div>
           <h3 className="text-sm font-semibold text-[#032A5C] mt-5 mb-4">
             Balance Breakdown
@@ -191,7 +216,7 @@ function Clients() {
               >
                 <span className="text-xs text-gray-500">{stat.label}</span>
                 <span className={`text-sm font-bold ${stat.tone}`}>
-                  Rs. {stat.value.toLocaleString()}
+                  Rs. {Number(stat.value ?? 0).toLocaleString()}
                 </span>
               </div>
             ))}

@@ -24,6 +24,7 @@ function Summary() {
 
       const response = await getSummary();
 
+      console.log(response);
       setSummary(response.data);
     } catch (error) {
       console.error("Failed to fetch summary:", error);
@@ -87,8 +88,6 @@ function Summary() {
               duration-300
             "
           >
-           
-
             <div className="relative p-6">
               {/* Header */}
               <div className="flex items-center justify-between">
@@ -104,9 +103,7 @@ function Summary() {
                     Rs. {Number(card.value).toLocaleString()}
                   </h2>
 
-                  <p className="mt-2 text-sm text-gray-500">
-                    {card.subtitle}
-                  </p>
+                  <p className="mt-2 text-sm text-gray-500">{card.subtitle}</p>
                 </div>
 
                 <div
@@ -125,7 +122,6 @@ function Summary() {
                   </span>
                 </div>
               </div>
-
             </div>
 
             {/* Accent Bar */}

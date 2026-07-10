@@ -20,14 +20,22 @@ import { MdDashboard } from "react-icons/md";
 import logo from "../../../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { logout } from "../../../utils/auth";
+import { logout } from "../../../app/logout";
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const handleLogout = () => {
-    logout();
+
+
+  const handleLogout = async() => {
+    try{
+      await logout();
+    
     navigate("/", { replace: true });
+  }catch(error){
+    console.error(error);
   };
+
+}
   const menuItems = [
     {
       icon: (

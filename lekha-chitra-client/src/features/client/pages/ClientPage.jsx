@@ -45,6 +45,7 @@ const {
               rounded-md
               shadow-md
               cursor-pointer
+              mt-4
             "
           >
             <FaBars size={10} />
@@ -80,3 +81,5 @@ const {
 }
 
 export default ClientPage;
+
+

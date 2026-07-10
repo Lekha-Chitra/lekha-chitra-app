@@ -1,4 +1,3 @@
-
 import {
   Popover,
   Box,
@@ -30,46 +29,59 @@ function TransactionFilterPopover({
         vertical: "top",
         horizontal: "right",
       }}
+      PaperProps={{
+        sx: {
+          borderRadius: 2,
+        },
+      }}
     >
       <Box
         sx={{
-          width: 520,
-          p: 3,
+          width: 320,
+          p: 1.5,
           display: "flex",
           flexDirection: "column",
-          gap: 2.5,
+          gap: 1,
+          "& .MuiInputBase-root": {
+            height: 38,
+            fontSize: "0.82rem",
+          },
+          "& .MuiInputLabel-root": {
+            fontSize: "0.82rem",
+          },
         }}
       >
-        <Typography variant="h6" fontWeight={600}>
+        <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 0.5 }}>
           Filters
         </Typography>
 
-        {/* Row 1 */}
+        {/* Transaction Type */}
+        <TextField
+          select
+          label="Transaction Type"
+          size="small"
+          fullWidth
+          value={filters.transactionType}
+          onChange={(e) =>
+            setFilters((prev) => ({
+              ...prev,
+              transactionType: e.target.value,
+            }))
+          }
+        >
+          <MenuItem value="">All</MenuItem>
+          <MenuItem value="Internal">Internal</MenuItem>
+          <MenuItem value="External">External</MenuItem>
+        </TextField>
+
+        {/* Payment Type + Method */}
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
-            gap: 2,
+            gridTemplateColumns: "1fr 1fr",
+            gap: 1,
           }}
         >
-          <TextField
-            select
-            label="Transaction Type"
-            size="small"
-            fullWidth
-            value={filters.transactionType}
-            onChange={(e) =>
-              setFilters((prev) => ({
-                ...prev,
-                transactionType: e.target.value,
-              }))
-            }
-          >
-            <MenuItem value="">All</MenuItem>
-            <MenuItem value="Internal">Internal</MenuItem>
-            <MenuItem value="External">External</MenuItem>
-          </TextField>
-
           <TextField
             select
             label="Payment Type"
@@ -109,12 +121,12 @@ function TransactionFilterPopover({
           </TextField>
         </Box>
 
-        {/* Row 2 */}
+        {/* Amount */}
         <Box
           sx={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            gap: 2,
+            gap: 1,
           }}
         >
           <TextField
@@ -146,20 +158,34 @@ function TransactionFilterPopover({
           />
         </Box>
 
-       
+        {/* Dates */}
         <Box
           sx={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            gap: 2,
+            gap: 1,
           }}
         >
+          {/* <TextField
+            label="From"
+            type="date"
+            size="small"
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+            value={filters.fromDate}
+            onChange={(e) =>
+              setFilters((prev) => ({
+                ...prev,
+                fromDate: e.target.value,
+              }))
+            }
+          /> */}
           <Box>
             <Typography
               variant="body2"
               sx={{
                 mb: 0.5,
-                fontWeight: 500,
+                fontSize: "0.75rem",
                 color: "text.secondary",
               }}
             >
@@ -180,12 +206,26 @@ function TransactionFilterPopover({
             />
           </Box>
 
+          {/* <TextField
+            label="To"
+            type="date"
+            size="small"
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+            value={filters.toDate}
+            onChange={(e) =>
+              setFilters((prev) => ({
+                ...prev,
+                toDate: e.target.value,
+              }))
+            }
+          /> */}
           <Box>
             <Typography
               variant="body2"
               sx={{
                 mb: 0.5,
-                fontWeight: 500,
+                fontSize: "0.75rem",
                 color: "text.secondary",
               }}
             >
@@ -212,14 +252,15 @@ function TransactionFilterPopover({
           sx={{
             display: "flex",
             justifyContent: "flex-end",
-            gap: 2,
+            gap: 1,
             mt: 1,
           }}
         >
           <Button
+            size="small"
             onClick={onReset}
             sx={{
-              textTransform: "uppercase",
+              textTransform: "none",
               fontWeight: 600,
             }}
           >
@@ -227,11 +268,12 @@ function TransactionFilterPopover({
           </Button>
 
           <Button
+            size="small"
             variant="contained"
             onClick={onApply}
             sx={{
-              px: 4,
-              textTransform: "uppercase",
+              px: 2,
+              textTransform: "none",
               fontWeight: 600,
               backgroundColor: "#032A5C",
               "&:hover": {

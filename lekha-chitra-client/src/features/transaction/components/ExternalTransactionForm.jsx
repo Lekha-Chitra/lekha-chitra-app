@@ -20,7 +20,7 @@ function ExternalTransactionForm({
 
   return (
     <form
-      className="space-y-4"
+      className="space-y-1.5"
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit();
@@ -29,7 +29,7 @@ function ExternalTransactionForm({
       {/* Client */}
 
       <div>
-        <label className="block mb-2 text-sm font-medium text-gray-700">
+        <label className="block mb-0.5 text-xs font-medium text-gray-700">
           Client
         </label>
 
@@ -38,7 +38,17 @@ function ExternalTransactionForm({
           value={formData.clientName}
           onChange={handleChange}
           disabled={loading}
-          className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#032A5C]"
+          className="w-full
+border
+border-[#E59C11]
+rounded-md
+px-2.5
+py-1
+text-sm
+outline-none
+focus:ring-1
+focus:ring-[#032A5C]
+"
         >
           <option value="">Select Client</option>
 
@@ -54,7 +64,7 @@ function ExternalTransactionForm({
       {/* Amount */}
 
       <div>
-        <label className="block mb-2 text-sm font-medium text-gray-700">
+        <label className="block mb-0.5 text-xs font-medium text-gray-700">
           Amount
         </label>
 
@@ -64,7 +74,7 @@ function ExternalTransactionForm({
           value={formData.amount}
           onChange={handleChange}
           placeholder="Enter Amount"
-          className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#032A5C]"
+          className="w-full border border-[#E59C11] rounded-md px-2.5 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-[#032A5C]"
         />
       </div>
 
@@ -74,7 +84,7 @@ function ExternalTransactionForm({
         {/* Payment Type */}
 
         <div>
-          <label className="block mb-2 text-sm font-medium text-gray-700">
+          <label className="block mb-0.5 text-xs font-medium text-gray-700">
             Payment Type
           </label>
 
@@ -82,7 +92,18 @@ function ExternalTransactionForm({
             name="paymentType"
             value={formData.paymentType}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#032A5C]"
+            className="
+w-full
+border
+border-[#E59C11]
+rounded-md
+px-2.5
+py-1
+text-sm
+outline-none
+focus:ring-1
+focus:ring-[#032A5C]
+"
           >
             <option value="">Select</option>
 
@@ -97,7 +118,7 @@ function ExternalTransactionForm({
         {/* Payment Method */}
 
         <div>
-          <label className="block mb-2 text-sm font-medium text-gray-700">
+          <label className="block mb-0.5 text-xs font-medium text-gray-700">
             Payment Method
           </label>
 
@@ -105,7 +126,18 @@ function ExternalTransactionForm({
             name="paymentMethod"
             value={formData.paymentMethod}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#032A5C]"
+            className="
+w-full
+border
+border-[#E59C11]
+rounded-md
+px-2.5
+py-1
+text-sm
+outline-none
+focus:ring-1
+focus:ring-[#032A5C]
+"
           >
             <option value="">Select</option>
 
@@ -121,17 +153,27 @@ function ExternalTransactionForm({
       {/* Remarks */}
 
       <div>
-        <label className="block mb-2 text-sm font-medium text-gray-700">
+        <label className="block mb-0.5 text-xs font-medium text-gray-700">
           Remarks
         </label>
 
         <textarea
-          rows={4}
+          rows={2}
           name="remarks"
           value={formData.remarks}
           onChange={handleChange}
           placeholder="Remarks..."
-          className="w-full border rounded-lg px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-[#032A5C]"
+          className="w-full
+border
+border-[#E59C11]
+rounded-md
+px-2.5
+py-1
+text-sm
+outline-none
+focus:ring-1
+focus:ring-[#032A5C]
+"
         />
       </div>
 
@@ -142,16 +184,17 @@ function ExternalTransactionForm({
           type="submit"
           disabled={loading}
           className="
-            bg-[#032A5C]
-            text-white
-            px-6
-            py-3
-            rounded-lg
-            transition
-            hover:bg-[#043a7c]
-            disabled:opacity-50
-            disabled:cursor-not-allowed
-          "
+w-full
+bg-[#032A5C]
+text-white
+py-1.5
+rounded-md
+text-sm
+font-medium
+cursor-pointer
+hover:opacity-90
+disabled:opacity-50
+"
         >
           {loading ? "Saving..." : "Save Transaction"}
         </button>

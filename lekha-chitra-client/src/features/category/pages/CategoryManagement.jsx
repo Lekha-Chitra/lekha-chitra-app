@@ -120,7 +120,8 @@ function CategoryManagement() {
       });
 
       if (response.isSuccess) {
-        alert(response.message);
+        // alert(response.message);
+        showNotification(response.message, "success");
 
         setCategory("");
 
@@ -129,7 +130,7 @@ function CategoryManagement() {
         showNotification(response.message, "error");
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
        showNotification("Failed to add category.", "error");
     }
   };
@@ -178,7 +179,7 @@ function CategoryManagement() {
        showNotification(response.message, "error");
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       showNotification("Failed to add sub category.", "error");
     }
   };
@@ -189,33 +190,80 @@ const tableData = subCategories.map((item) => ({
 
 
   return (
-     <div className="flex min-h-screen bg-[#F3F3F3]">
-      
+    <div className="flex min-h-screen bg-[#F3F3F3]">
+      {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
+      {/* Main Content */}
       <main
         className="
-          flex-1
-          overflow-x-hidden
-          p-4
-          md:p-6
-          lg:p-8
-        "
+        flex-1
+        min-h-screen
+        overflow-y-auto
+        overflow-x-hidden
+        p-4
+        md:p-6
+        lg:p-8
+      "
       >
-        <div className="-mt-2">
-  <Header title="Category" />
-</div>
-        <div className="flex gap-4 m-1 mt-6 ">
+        {/* Header */}
+        <Header title="Category" />
+
+        {/* Mobile Hamburger */}
+        <div className="md:hidden mt-4 mb-5">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="bg-[#032A5C] text-white p-3 rounded-lg shadow-md"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap gap-4 mt-6 mb-4">
           <button
             onClick={() => setOpen(true)}
-            className="px-3 py-2 w-[220px] h-[50px] rounded-lg text-sm text-white rounded hover:opacity-90 bg-[#032A4E]"
+            className="
+            flex-1
+            min-w-[200px]
+            h-[50px]
+            rounded-lg
+            text-sm
+            font-medium
+            text-white
+            bg-[#032A4E]
+            hover:opacity-90
+          "
           >
             Add Category
           </button>
 
           <button
             onClick={() => setSubOpen(true)}
-            className="px-3 py-2 w-[220px] h-[50px] rounded-lg text-sm text-white rounded hover:opacity-90 bg-[#E59C11]"
+            className="
+            flex-1
+            min-w-[200px]
+            h-[50px]
+            rounded-lg
+            text-sm
+            font-medium
+            text-white
+            bg-[#E59C11]
+            hover:opacity-90
+          "
           >
             Add Sub Category
           </button>
@@ -239,21 +287,27 @@ const tableData = subCategories.map((item) => ({
             handleSubCategorySubmit={handleSubCategorySubmit}
           />
         </div>
-        <div className="flex justify-center mb-1">
+
+        {/* Notification */}
+        <div className="flex justify-center mb-4">
           <Notification
             message={notification.message}
             type={notification.type}
           />
         </div>
-        <SubCategoryDataTable
-          title="Sub Categories"
-          columns={categoryColumns}
-          data={tableData}
-          rowHeight={56}
-          onEdit={(row) => {
-            console.log("Editing row:", row);
-          }}
-        />
+
+        {/* Table */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+          <SubCategoryDataTable
+            title="Sub Categories"
+            columns={categoryColumns}
+            data={tableData}
+            rowHeight={56}
+            onEdit={(row) => {
+              console.log("Editing row:", row);
+            }}
+          />
+        </div>
       </main>
     </div>
   );

@@ -1,11 +1,10 @@
+
 import { useRef, useState } from "react";
-import { FaBars } from "react-icons/fa";
 import {
+  FaBars,
   FaChartPie,
   FaUsers,
   FaMoneyBillWave,
-  FaWallet,
-  FaChartBar,
   FaFilter,
 } from "react-icons/fa";
 
@@ -22,9 +21,9 @@ function DashboardPage() {
   const transactionsRef = useRef(null);
 
   const [filters, setFilters] = useState({
-  fromDate: "",
-  toDate: "",
-});
+    fromDate: "",
+    toDate: "",
+  });
 
   const scrollToSection = (ref) => {
     ref.current?.scrollIntoView({
@@ -55,7 +54,17 @@ function DashboardPage() {
     <div className="flex min-h-screen bg-[#F6F8FB]">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-      <main className="flex-1 h-screen overflow-hidden p-4 md:p-6 lg:p-8   ">
+      <main
+        className="
+          flex-1
+          min-h-screen
+          overflow-y-auto
+          overflow-x-hidden
+          p-4
+          md:p-6
+          lg:p-8
+        "
+      >
         <Header title="Dashboard" />
 
         {/* Mobile Menu */}
@@ -68,35 +77,34 @@ function DashboardPage() {
           </button>
         </div>
 
-        {/* Dashboard Navigation */}
-        <div className="sticky top-0 z-20 bg-[#F6F8FB] py-1.5 mb-2">
-          <div className="flex items-center justify-between gap-3">
+        {/* Navigation + Filters */}
+        <div className="sticky top-0 z-20 bg-[#F6F8FB] py-2 mb-6">
+          <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
             {/* Navigation */}
-            <div className="flex flex-wrap gap-5">
+            <div className="flex flex-wrap gap-3">
               {sections.map((section) => (
                 <button
                   key={section.title}
                   onClick={() => scrollToSection(section.ref)}
                   className="
-            flex
-            items-center
-            gap-1.5
-            px-3
-            py-1.5
-            rounded-full
-            bg-white
-            border
-            border-gray-200
-            text-gray-700
-            text-sm
-            font-medium
-            shadow-sm
-            hover:bg-[#032A5C]
-            hover:border-[#032A5C]
-            hover:text-white
-            transition-all
-            duration-200
-          "
+                    flex
+                    items-center
+                    gap-2
+                    px-4
+                    py-2
+                    rounded-full
+                    bg-white
+                    border
+                    border-gray-200
+                    text-gray-700
+                    text-sm
+                    font-medium
+                    shadow-sm
+                    hover:bg-[#032A5C]
+                    hover:text-white
+                    hover:border-[#032A5C]
+                    transition
+                  "
                 >
                   {section.icon}
                   {section.title}
@@ -105,11 +113,28 @@ function DashboardPage() {
             </div>
 
             {/* Filters */}
-            <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2 shadow-sm">
-              <FaFilter className="text-[#032A5C] text-sm" />
+            <div
+              className="
+                flex
+                flex-wrap
+                items-center
+                gap-3
+                bg-white
+                border
+                border-gray-200
+                rounded-xl
+                shadow-sm
+                p-3
+                w-full
+                xl:w-auto
+              "
+            >
+              <FaFilter className="text-[#032A5C]" />
 
-              <div className="flex items-center gap-1">
-                <span className="text-[11px] text-gray-500">From</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-500 whitespace-nowrap">
+                  From
+                </span>
 
                 <input
                   type="date"
@@ -121,20 +146,22 @@ function DashboardPage() {
                     }))
                   }
                   className="
-            h-8
-            text-xs
-            border
-            border-gray-200
-            rounded-md
-            px-2
-            outline-none
-            focus:border-[#032A5C]
-          "
+                    border
+                    border-gray-300
+                    rounded-md
+                    px-2
+                    py-1
+                    text-xs
+                    focus:outline-none
+                    focus:border-[#032A5C]
+                  "
                 />
               </div>
 
-              <div className="flex items-center gap-1">
-                <span className="text-[11px] text-gray-500">To</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-500 whitespace-nowrap">
+                  To
+                </span>
 
                 <input
                   type="date"
@@ -146,45 +173,48 @@ function DashboardPage() {
                     }))
                   }
                   className="
-            h-8
-            text-xs
-            border
-            border-gray-200
-            rounded-md
-            px-2
-            outline-none
-            focus:border-[#032A5C]
-          "
+                    border
+                    border-gray-300
+                    rounded-md
+                    px-2
+                    py-1
+                    text-xs
+                    focus:outline-none
+                    focus:border-[#032A5C]
+                  "
                 />
               </div>
 
               <button
                 className="
-          h-8
-          px-3
-          rounded-md
-          bg-[#032A5C]
-          text-white
-          text-xs
-          font-medium
-          hover:bg-[#021d40]
-          transition
-        "
+                  px-4
+                  py-2
+                  rounded-md
+                  bg-[#032A5C]
+                  text-white
+                  text-xs
+                  font-medium
+                  hover:bg-[#021d40]
+                  transition
+                "
               >
                 Apply
               </button>
+
               <button
                 className="
-          h-8
-          px-3
-          rounded-md
-          bg-[#032A5C]
-          text-white
-          text-xs
-          font-medium
-          hover:bg-[#021d40]
-          transition
-        "
+                  px-4
+                  py-2
+                  rounded-md
+                  border
+                  border-[#032A5C]
+                  text-[#032A5C]
+                  text-xs
+                  font-medium
+                  hover:bg-[#032A5C]
+                  hover:text-white
+                  transition
+                "
               >
                 Reset
               </button>
@@ -192,8 +222,8 @@ function DashboardPage() {
           </div>
         </div>
 
-        {/* Dashboard Content */}
-        <div className="space-y-5">
+        {/* Content */}
+        <div className="space-y-6">
           <section ref={overviewRef}>
             <Summary />
           </section>
@@ -204,7 +234,14 @@ function DashboardPage() {
 
           <section
             ref={transactionsRef}
-            className="bg-white rounded-xl shadow-sm border border-gray-100 p-8"
+            className="
+              bg-white
+              rounded-xl
+              shadow-sm
+              border
+              border-gray-100
+              p-6
+            "
           >
             <h2 className="text-xl font-semibold text-[#032A5C]">
               Transaction Analytics
