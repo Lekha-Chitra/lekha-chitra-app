@@ -124,78 +124,80 @@ function AddTransactionModal({ open, onClose, onSuccess }) {
     }
   };
 
-  return (
-    <>
-      {/* Overlay */}
+return (
+  <>
+    {/* Overlay */}
+    <div
+      className="fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px]"
+      onClick={onClose}
+    />
 
-      <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose} />
+    {/* Modal */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="relative w-full max-w-lg rounded-2xl bg-white shadow-xl">
+        {/* Header */}
+        <TransactionModalHeader onClose={onClose} />
 
-      {/* Modal */}
+        {/* Notification + Transaction Type */}
+        <div className="px-5  pb-4">
+          <Notification
+            message={notification.message}
+            type={notification.type}
+          />
 
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="w-full max-w-xl h-auto  relative max-h-[90vh] overflow-y-auto bg-white rounded-xl shadow-2xl overflow-hidden">
-          <TransactionModalHeader onClose={onClose} />
+          <div className="mt-3 flex justify-center">
+            <div className="inline-flex w-full sm:w-auto rounded-lg bg-gray-100 p-1">
+              <button
+                type="button"
+                onClick={() => handleTransactionType("Internal")}
+                className={`flex-1 sm:flex-none px-5 py-2 rounded-md text-sm font-medium transition-all ${
+                  formData.transactionType === "Internal"
+                    ? "bg-[#032A5C] text-white shadow-sm"
+                    : "text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                Internal
+              </button>
 
-          <div className="px-6 pt-4">
-            <Notification
-              message={notification.message}
-              type={notification.type}
-            />
-          </div>
-
-          {/* Transaction Type */}
-
-          <div className="flex border-b mt-2">
-            <button
-              type="button"
-              onClick={() => handleTransactionType("Internal")}
-              className={`flex-1 py-3 font-semibold cursor-pointer transition ${
-                formData.transactionType === "Internal"
-                  ? "bg-[#032A5C] text-white"
-                  : "bg-white text-[#032A5C]"
-              }`}
-            >
-              Internal
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleTransactionType("External")}
-              className={`flex-1 py-3 font-semibold cursor-pointer transition ${
-                formData.transactionType === "External"
-                  ? "bg-[#032A5C] text-white"
-                  : "bg-white text-[#032A5C]"
-              }`}
-            >
-              External
-            </button>
-          </div>
-
-          {/* Form */}
-
-          <div className="p-6">
-            {formData.transactionType === "Internal" ? (
-              <InternalTransactionForm
-                formData={formData}
-                setFormData={setFormData}
-                clients={clients}
-                loading={loading}
-                handleSubmit={handleSubmit}
-              />
-            ) : (
-              <ExternalTransactionForm
-                formData={formData}
-                setFormData={setFormData}
-                clients={clients}
-                loading={loading}
-                handleSubmit={handleSubmit}
-              />
-            )}
+              <button
+                type="button"
+                onClick={() => handleTransactionType("External")}
+                className={`flex-1 sm:flex-none px-5 py-2 rounded-md text-sm font-medium transition-all ${
+                  formData.transactionType === "External"
+                    ? "bg-[#032A5C] text-white shadow-sm"
+                    : "text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                External
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* Form */}
+        <div className="px-5 pb-5">
+          {formData.transactionType === "Internal" ? (
+            <InternalTransactionForm
+              formData={formData}
+              setFormData={setFormData}
+              clients={clients}
+              loading={loading}
+              handleSubmit={handleSubmit}
+            />
+          ) : (
+            <ExternalTransactionForm
+              formData={formData}
+              setFormData={setFormData}
+              clients={clients}
+              loading={loading}
+              handleSubmit={handleSubmit}
+            />
+          )}
+        </div>
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 }
 
 export default AddTransactionModal;

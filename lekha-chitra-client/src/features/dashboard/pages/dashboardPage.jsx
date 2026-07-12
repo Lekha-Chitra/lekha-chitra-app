@@ -82,149 +82,148 @@ function DashboardPage() {
         </div>
 
         {/* Navigation + Filters */}
-        <div className="sticky top-0 z-20 bg-[#F6F8FB] py-2 mb-6">
-          <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
-            {/* Navigation */}
-            <div className="flex flex-wrap gap-3">
-              {sections.map((section) => (
-                <button
-                  key={section.title}
-                  onClick={() => scrollToSection(section.ref)}
-                  className="
-                    flex
-                    items-center
-                    gap-2
-                    px-4
-                    py-2
-                    rounded-full
-                    bg-white
-                    border
-                    border-gray-200
-                    text-gray-700
-                    text-sm
-                    font-medium
-                    shadow-sm
-                    hover:bg-[#032A5C]
-                    hover:text-white
-                    hover:border-[#032A5C]
-                    transition
-                  "
-                >
-                  {section.icon}
-                  {section.title}
-                </button>
-              ))}
-            </div>
+     <div className="sticky top-0 z-20 bg-[#F6F8FB] py-2 mb-6">
+  <div className="flex flex-wrap items-center justify-between gap-3">
+    {/* Navigation */}
+    <div className="flex flex-wrap items-center gap-2 flex-1">
+      {sections.map((section) => (
+        <button
+          key={section.title}
+          onClick={() => scrollToSection(section.ref)}
+          className="
+            flex
+            items-center
+            gap-1.5
+            px-3
+            py-1.5
+            rounded-full
+            bg-white
+            border
+            border-gray-200
+            text-xs
+            font-medium
+            text-gray-700
+            shadow-sm
+            hover:bg-[#032A5C]
+            hover:text-white
+            hover:border-[#032A5C]
+            transition-all
+            duration-200
+          "
+        >
+          {section.icon}
+          <span>{section.title}</span>
+        </button>
+      ))}
+    </div>
 
-            {/* Filters */}
-            <div
-              className="
-                flex
-                flex-wrap
-                items-center
-                gap-3
-                bg-white
-                border
-                border-gray-200
-                rounded-xl
-                shadow-sm
-                p-3
-                w-full
-                xl:w-auto
-              "
-            >
-              <FaFilter className="text-[#032A5C]" />
+    {/* Filters */}
+    <div
+      className="
+        flex
+        flex-wrap
+        items-center
+        gap-2
+        bg-white
+        border
+        border-gray-200
+        rounded-xl
+        shadow-sm
+        p-2.5
+      "
+    >
+      <FaFilter className="text-[#032A5C] text-sm" />
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-500 whitespace-nowrap">
-                  From
-                </span>
+      <div className="flex items-center gap-1">
+        <span className="text-xs text-gray-500 whitespace-nowrap">
+          From
+        </span>
+        <input
+          type="date"
+          value={filters.fromDate}
+          onChange={(e) =>
+            setFilters((prev) => ({
+              ...prev,
+              fromDate: e.target.value,
+            }))
+          }
+          className="
+            w-32
+            border
+            border-gray-300
+            rounded-md
+            px-2
+            py-1
+            text-xs
+            focus:outline-none
+            focus:border-[#032A5C]
+          "
+        />
+      </div>
 
-                <input
-                  type="date"
-                  value={filters.fromDate}
-                  onChange={(e) =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      fromDate: e.target.value,
-                    }))
-                  }
-                  className="
-                    border
-                    border-gray-300
-                    rounded-md
-                    px-2
-                    py-1
-                    text-xs
-                    focus:outline-none
-                    focus:border-[#032A5C]
-                  "
-                />
-              </div>
+      <div className="flex items-center gap-1">
+        <span className="text-xs text-gray-500 whitespace-nowrap">
+          To
+        </span>
+        <input
+          type="date"
+          value={filters.toDate}
+          onChange={(e) =>
+            setFilters((prev) => ({
+              ...prev,
+              toDate: e.target.value,
+            }))
+          }
+          className="
+            w-32
+            border
+            border-gray-300
+            rounded-md
+            px-2
+            py-1
+            text-xs
+            focus:outline-none
+            focus:border-[#032A5C]
+          "
+        />
+      </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-500 whitespace-nowrap">
-                  To
-                </span>
+      <button
+        className="
+          px-3
+          py-1.5
+          rounded-md
+          bg-[#032A5C]
+          text-white
+          text-xs
+          font-medium
+          hover:bg-[#021d40]
+          transition
+        "
+      >
+        Apply
+      </button>
 
-                <input
-                  type="date"
-                  value={filters.toDate}
-                  onChange={(e) =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      toDate: e.target.value,
-                    }))
-                  }
-                  className="
-                    border
-                    border-gray-300
-                    rounded-md
-                    px-2
-                    py-1
-                    text-xs
-                    focus:outline-none
-                    focus:border-[#032A5C]
-                  "
-                />
-              </div>
-
-              <button
-                className="
-                  px-4
-                  py-2
-                  rounded-md
-                  bg-[#032A5C]
-                  text-white
-                  text-xs
-                  font-medium
-                  hover:bg-[#021d40]
-                  transition
-                "
-              >
-                Apply
-              </button>
-
-              <button
-                className="
-                  px-4
-                  py-2
-                  rounded-md
-                  border
-                  border-[#032A5C]
-                  text-[#032A5C]
-                  text-xs
-                  font-medium
-                  hover:bg-[#032A5C]
-                  hover:text-white
-                  transition
-                "
-              >
-                Reset
-              </button>
-            </div>
-          </div>
-        </div>
+      <button
+        className="
+          px-3
+          py-1.5
+          rounded-md
+          border
+          border-[#032A5C]
+          text-[#032A5C]
+          text-xs
+          font-medium
+          hover:bg-[#032A5C]
+          hover:text-white
+          transition
+        "
+      >
+        Reset
+      </button>
+    </div>
+  </div>
+</div>
 
         {/* Content */}
         <div className="space-y-6">

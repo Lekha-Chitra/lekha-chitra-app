@@ -10,7 +10,7 @@ function TransactionSearchBar({ search, setSearch }) {
         placeholder="Search transaction..."
         className="
           w-full
-          h-[50px]
+          h-[40px]
           rounded-lg
           border
           border-gray-300

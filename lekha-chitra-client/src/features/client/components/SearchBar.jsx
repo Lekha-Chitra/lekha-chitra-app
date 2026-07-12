@@ -8,7 +8,7 @@ function SearchBar() {
         placeholder="Search"
         className="
           w-full
-          h-[50px]
+          h-[40px]
           bg-white
           rounded-md
           border

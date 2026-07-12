@@ -17,7 +17,7 @@ function TransactionActionButtons({
           onClick={onAddTransaction}
           className="
             flex-1
-            h-[48px]
+            h-[40px]
             bg-[#032A5C]
             text-white
             rounded-lg
@@ -39,7 +39,7 @@ function TransactionActionButtons({
           onClick={onOpenFilter}
           className="
             flex-1
-            h-[48px]
+            h-[40px]
             bg-[#032A5C]
             text-white
             rounded-lg
@@ -68,8 +68,8 @@ function TransactionActionButtons({
         <button
           onClick={onAddTransaction}
           className="
-            w-[220px]
-            h-[48px]
+            w-[180px]
+            h-[40px]
             bg-[#032A5C]
             text-white
             rounded-lg
@@ -95,8 +95,8 @@ function TransactionActionButtons({
         <button
           onClick={onOpenFilter}
           className="
-            w-[220px]
-            h-[48px]
+             w-[180px]
+            h-[40px]
             bg-[#032A5C]
             text-white
             rounded-lg
