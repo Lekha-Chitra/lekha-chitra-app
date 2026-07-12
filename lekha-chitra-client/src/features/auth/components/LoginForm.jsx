@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { validateEmail, validatePassword } from "../../../utils/validation";
 import { loginUser } from "../services/authService";
-
+import LoadingSpinner from "../../../components/common/LoadingSpinner";
 function LoginForm() {
   const [formData, setFormData] = useState({
     email: "",
@@ -89,12 +89,136 @@ function LoginForm() {
     }
   };
 
+  // return (
+  //   <form
+  //     onSubmit={handleSubmit}
+  //     className="space-y-5 md:space-y-8 w-full flex flex-col items-center"
+  //   >
+  //     <div className="flex flex-col gap-6">
+  //       {/* Email */}
+
+  //       <div>
+  //         <Input
+  //           name="email"
+  //           placeholder="Email"
+  //           value={formData.email}
+  //           onChange={handleChange}
+  //           error={errors.email}
+  //         />
+
+  //         {errors.email && (
+  //           <p className="text-red-400 text-sm mt-1 ">{errors.email}</p>
+  //         )}
+  //       </div>
+
+  //       {/* Password */}
+  //       <div>
+  //         <Input
+  //           type={showPassword ? "text" : "password"}
+  //           name="password"
+  //           placeholder="Password"
+  //           value={formData.password}
+  //           onChange={handleChange}
+  //           error={errors.password}
+  //           rightIcon={
+  //             <button
+  //               type="button"
+  //               onClick={() => setShowPassword(!showPassword)}
+  //               className="text-gray-400 hover:text-gray-600 cursor-pointer"
+  //             >
+  //               {showPassword ? <FaEye /> : <FaEyeSlash />}
+  //             </button>
+  //           }
+  //         />
+
+  //         {errors.password && (
+  //           <p className="text-red-400 text-sm mt-1">{errors.password}</p>
+  //         )}
+  //       </div>
+
+  //       {/* API Error Message */}
+  //       {apiError && (
+  //         <div className="w-full max-w-sm rounded-md border border-red-500 bg-red-100 px-4 py-3 text-sm text-red-700">
+  //           {apiError}
+  //         </div>
+  //       )}
+
+  //       {/* Login + Forgot Password */}
+  //       <div
+  //         className="
+  //         w-full
+  //         sm:w-[90%]
+  //         md:w-[100%]
+  //         xl:w-[100%]
+  //         2xl:w-[350px]
+  //         flex flex-col sm:flex-row
+  //         gap-6
+  //         sm:justify-between
+  //         sm:items-center
+          
+  //       "
+  //       >
+  //         <Button
+  //           type="submit"
+  //           disabled={loading}
+  //           className="
+  //           bg-[#E59C11]
+  //           text-white
+  //           cursor-pointer
+  //           w-full sm:w-[140px] md:w-[170px]
+  //           h-[45px] sm:h-[50px] md:h-[55px]
+  //           rounded-full
+  //           text-lg sm:text-xl md:text-2xl
+  //           pb-2.5
+  //           disabled:opacity-50
+  //         "
+  //         >
+  //           {loading ? "Logging In..." : "Login"}
+  //         </Button>
+
+  //         <button
+  //           type="button"
+  //           onClick={() => navigate("/forgot-password")}
+  //           className="
+  //           text-white
+  //           cursor-pointer
+  //           text-sm sm:text-base md:text-lg
+            
+        
+
+  //         "
+  //         >
+  //           Forgot Password?
+  //         </button>
+  //       </div>
+  //     </div>
+  //   </form>
+  // );
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-5 md:space-y-8 w-full flex flex-col items-center"
+      className="
+     w-full
+flex
+flex-col
+items-center
+
+space-y-3
+sm:space-y-4
+md:space-y-5
+    "
     >
-      <div className="flex flex-col gap-6">
+      <div
+        className="
+       
+
+        flex
+        flex-col
+
+        gap-4
+        sm:gap-5
+      "
+      >
         {/* Email */}
 
         <div>
@@ -107,11 +231,14 @@ function LoginForm() {
           />
 
           {errors.email && (
-            <p className="text-red-400 text-sm mt-1 ">{errors.email}</p>
+            <p className="text-red-400 text-xs md:text-sm mt-1">
+              {errors.email}
+            </p>
           )}
         </div>
 
         {/* Password */}
+
         <div>
           <Input
             type={showPassword ? "text" : "password"}
@@ -124,7 +251,7 @@ function LoginForm() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="text-gray-400 hover:text-gray-600 cursor-pointer"
+                className="text-gray-400 hover:text-gray-600"
               >
                 {showPassword ? <FaEye /> : <FaEyeSlash />}
               </button>
@@ -132,30 +259,32 @@ function LoginForm() {
           />
 
           {errors.password && (
-            <p className="text-red-400 text-sm mt-1">{errors.password}</p>
+            <p className="text-red-400 text-xs md:text-sm mt-1">
+              {errors.password}
+            </p>
           )}
         </div>
 
-        {/* API Error Message */}
+        {/* API Error */}
+
         {apiError && (
-          <div className="w-full max-w-sm rounded-md border border-red-500 bg-red-100 px-4 py-3 text-sm text-red-700">
+          <div className="rounded-md border border-red-500 bg-red-100 px-3 py-2 text-sm text-red-700">
             {apiError}
           </div>
         )}
 
-        {/* Login + Forgot Password */}
+        {/* Login Button + Forgot Password */}
+
         <div
           className="
-          w-full
-          sm:w-[90%]
-          md:w-[100%]
-          xl:w-[100%]
-          2xl:w-[350px]
-          flex flex-col sm:flex-row
-          gap-6
-          sm:justify-between
-          sm:items-center
-          
+          flex
+          flex-col
+          sm:flex-row
+
+          items-center
+          justify-between
+
+          gap-4
         "
         >
           <Button
@@ -164,16 +293,34 @@ function LoginForm() {
             className="
             bg-[#E59C11]
             text-white
-            cursor-pointer
-            w-full sm:w-[140px] md:w-[170px]
-            h-[45px] sm:h-[50px] md:h-[55px]
+
+            w-full
+            sm:w-[150px]
+
+            h-10
+            sm:h-11
+            md:h-12
+            
+
             rounded-full
-            text-lg sm:text-xl md:text-2xl
-            pb-2.5
+
+            text-sm
+            sm:text-lg
+            md:text-xl
+
+            cursor-pointer
             disabled:opacity-50
           "
           >
-            {loading ? "Logging In..." : "Login"}
+            
+            {loading ? (
+              <div className="flex items-center justify-center gap-2">
+                <LoadingSpinner size={18} />
+               
+              </div>
+            ) : (
+              "Login"
+            )}
           </Button>
 
           <button
@@ -181,11 +328,12 @@ function LoginForm() {
             onClick={() => navigate("/forgot-password")}
             className="
             text-white
-            cursor-pointer
-            text-sm sm:text-base md:text-lg
-            
-        
 
+            text-sm
+            md:text-base
+
+            hover:underline
+            cursor-pointer
           "
           >
             Forgot Password?

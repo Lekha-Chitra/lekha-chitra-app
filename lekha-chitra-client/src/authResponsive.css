@@ -1,0 +1,44 @@
+/* Default */
+.auth-wrapper{
+    width:100%;
+    max-width:450px;
+    margin:auto;
+
+    transition:.25s ease;
+}
+
+/* Small laptops */
+@media (max-height:850px){
+
+.auth-wrapper{
+    transform:scale(.95);
+}
+
+}
+
+/* 14 inch laptops */
+@media (max-height:760px){
+
+.auth-wrapper{
+    transform:scale(.88);
+}
+
+}
+
+/* Very short screens */
+@media (max-height:680px){
+
+.auth-wrapper{
+    transform:scale(.82);
+}
+
+}
+
+/* Extremely short */
+@media (max-height:600px){
+
+.auth-wrapper{
+    transform:scale(.75);
+}
+
+}

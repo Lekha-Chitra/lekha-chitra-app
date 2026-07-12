@@ -8,7 +8,7 @@ import {
   validateConfirmPassword,
 } from "../../../utils/validation";
 import { resetPassword } from "../services/authService";
-
+import LoadingSpinner from "../../../components/common/LoadingSpinner";
 function ResetPasswordForm() {
   // console.log("email from state", email)
   const location = useLocation();
@@ -92,8 +92,11 @@ function ResetPasswordForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5 items-center">
-      <div>
+    <form
+      onSubmit={handleSubmit}
+      className="w-full flex flex-col  items-center gap-4 sm:gap-5"
+    >
+      <div className="w-full">
         <Input
           type={showPassword ? "text" : "password"}
           name="password"
@@ -117,7 +120,7 @@ function ResetPasswordForm() {
         )}
       </div>
 
-      <div>
+      <div className="w-full">
         <Input
           type={showPassword ? "text" : "password"}
           name="confirmPassword"
@@ -141,27 +144,49 @@ function ResetPasswordForm() {
         )}
       </div>
 
-      {apiError && <p className="text-red-400 text-sm mt-1">{apiError}</p>}
+      {/* {apiError && <p className="text-red-400 text-sm mt-1">{apiError}</p>} */}
+      <div className="min-h-[24px] flex items-center justify-center">
+        {apiError && (
+          <p className="text-red-400 text-xs md:text-sm text-center">
+            {apiError}
+          </p>
+        )}
+      </div>
 
       <Button
         type="submit"
         disabled={loading}
         className="
-          w-full
-          sm:w-[90%]
-          md:w-[80%]
-          xl:w-[70%]
-          2xl:w-[350px]
-          bg-[#E59C11]
-          text-white
-          h-[55px]
-          rounded-full
-          text-xl
-          cursor-pointer
-          disabled:opacity-50
-        "
+w-full
+
+h-10
+sm:h-11
+md:h-12
+
+bg-[#E59C11]
+text-white
+
+rounded-full
+
+text-sm
+sm:text-base
+md:text-lg
+
+cursor-pointer
+
+disabled:opacity-50
+"
       >
-        {loading ? "Resetting..." : "Reset Password"}
+        {/* {loading ? "Resetting..." : "Reset Password"}
+         */}
+        {loading ? (
+          <div className="flex items-center justify-center gap-2">
+            <LoadingSpinner size={18} />
+           
+          </div>
+        ) : (
+          "Reset Password"
+        )}
       </Button>
     </form>
   );

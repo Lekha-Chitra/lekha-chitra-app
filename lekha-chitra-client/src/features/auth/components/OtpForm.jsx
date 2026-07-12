@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../components/common/Button";
 import { validateOtp } from "../../../utils/validation";
 import { verifyOtp } from "../services/authService";
-
+import LoadingSpinner from "../../../components/common/LoadingSpinner";
 function OtpForm() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -107,10 +107,85 @@ function OtpForm() {
     }
   };
 
+  // return (
+  //   <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+  //     {/* OTP Boxes */}
+  //     <div className="flex justify-center gap-3">
+  //       {otp.map((digit, index) => (
+  //         <input
+  //           key={index}
+  //           ref={(el) => (inputsRef.current[index] = el)}
+  //           type="text"
+  //           maxLength={1}
+  //           value={digit}
+  //           onChange={(e) => handleChange(e.target.value, index)}
+  //           onKeyDown={(e) => handleKeyDown(e, index)}
+  //           className="
+  //             w-12
+  //             h-12
+  //             md:w-14
+  //             md:h-14
+  //             xl:w-16
+  //             xl:h-16
+  //             bg-white
+  //             rounded-lg
+  //             text-center
+  //             text-xl
+  //             md:text-2xl
+  //             font-semibold
+  //             outline-none
+  //           "
+  //         />
+  //       ))}
+  //     </div>
+
+  //     {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+  //     {apiError && (
+  //       <p className="text-red-400 text-sm text-center">{apiError}</p>
+  //     )}
+
+  //     <Button
+  //       type="submit"
+  //       disabled={loading}
+  //       className="
+  //         w-full
+  //         bg-[#E59C11]
+  //         text-white
+  //         h-[55px]
+  //         rounded-full
+  //         text-xl
+  //         cursor-pointer
+  //         disabled:opacity-50
+  //       "
+  //     >
+  //       {loading ? "Verifying..." : "Verify OTP"}
+  //     </Button>
+  //   </form>
+  // );
+
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+    <form
+      onSubmit={handleSubmit}
+      className="
+      w-full
+      flex
+      flex-col
+      items-center
+
+      gap-5
+      md:gap-6
+    "
+    >
       {/* OTP Boxes */}
-      <div className="flex justify-center gap-3">
+      <div
+        className="
+        flex
+        justify-center
+        gap-1.5
+        sm:gap-2
+        md:gap-3
+      "
+      >
         {otp.map((digit, index) => (
           <input
             key={index}
@@ -121,44 +196,91 @@ function OtpForm() {
             onChange={(e) => handleChange(e.target.value, index)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             className="
-              w-12
-              h-12
-              md:w-14
-              md:h-14
-              xl:w-16
-              xl:h-16
-              bg-white
-              rounded-lg
-              text-center
-              text-xl
-              md:text-2xl
-              font-semibold
-              outline-none
-            "
+            w-9
+            h-9
+
+            sm:w-10
+            sm:h-10
+
+            md:w-11
+            md:h-11
+
+            lg:w-12
+            lg:h-12
+
+            xl:w-14
+            xl:h-14
+
+            bg-white
+            rounded-lg
+
+            text-center
+
+            text-sm
+            sm:text-base
+            md:text-lg
+
+            font-semibold
+
+            outline-none
+
+            transition-all
+            duration-200focus:ring-2
+focus:ring-[#E59C11]
+          "
           />
         ))}
       </div>
 
-      {error && <p className="text-red-400 text-sm text-center">{error}</p>}
-      {apiError && (
-        <p className="text-red-400 text-sm text-center">{apiError}</p>
-      )}
+      {/* Error Messages */}
+      <div className="min-h-[24px] flex items-center justify-center">
+        {error && (
+          <p className="text-red-400 text-xs md:text-sm text-center">{error}</p>
+        )}
 
+        {!error && apiError && (
+          <p className="text-red-400 text-xs md:text-sm text-center">
+            {apiError}
+          </p>
+        )}
+      </div>
+
+      {/* Verify Button */}
       <Button
         type="submit"
         disabled={loading}
         className="
-          w-full
-          bg-[#E59C11]
-          text-white
-          h-[55px]
-          rounded-full
-          text-xl
-          cursor-pointer
-          disabled:opacity-50
-        "
+        w-full
+
+        h-10
+        sm:h-11
+        md:h-12
+        
+
+        bg-[#E59C11]
+        text-white
+
+        rounded-full
+
+        text-sm
+        sm:text-base
+        md:text-lg
+        
+
+        cursor-pointer
+
+        disabled:opacity-50
+      "
       >
-        {loading ? "Verifying..." : "Verify OTP"}
+       
+        {loading ? (
+          <div className="flex items-center justify-center gap-2">
+            <LoadingSpinner size={18} />
+            
+          </div>
+        ) : (
+          "Verify OTP"
+        )}
       </Button>
     </form>
   );
