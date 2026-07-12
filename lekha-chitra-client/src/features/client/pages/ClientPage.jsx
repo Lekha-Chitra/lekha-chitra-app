@@ -1,78 +1,53 @@
-
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
+
 import Sidebar from "../components/Sidebar";
-import SearchBar from "../components/SearchBar";
-import ActionButtons from "../components/ActionButtons";
-import AddClientModal from "../components/AddClientModal";
 import ClientDataTable from "../components/ClientDataTable";
+import Header from "../../auth/pages/Header";
+
 import useClients from "../hooks/useClients";
 import { clientColumns } from "../customData/clientColumns";
-import Header from "../../auth/pages/Header";
+
 function ClientPage() {
-  const [openAddClient, setOpenAddClient] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-const {
-        clients,
-        pagination,
-        loading,
-        fetchClients, } = useClients();
+
+  const { clients, pagination, loading, fetchClients } = useClients();
+
   return (
-    <div className="flex min-h-screen bg-[#F3F3F3]">
-      
+    <div className="bg-[#F3F3F3] min-h-screen">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <main
         className="
-          flex-1
-          overflow-x-hidden
+          md:ml-[70px]
           p-4
           md:p-6
           lg:p-8
+          min-h-screen
+          transition-all
+          duration-300
         "
       >
-      <div className="-mt-2">
-  <Header title="Clients" />
-</div>
-        {/* Mobile Menu Button */}
-        <div className="md:hidden mb-6 flex ">
+        <Header title="Clients" />
+
+        {/* Mobile Menu */}
+        <div className="md:hidden mt-4 mb-6">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="
-              bg-[#032A5C]
-              text-white
-              p-3
-              rounded-md
-              shadow-md
-              cursor-pointer
-              mt-4
-            "
+            className="bg-[#032A5C] text-white p-3 rounded-md shadow-md"
           >
-            <FaBars size={10} />
+            <FaBars size={18} />
           </button>
         </div>
 
-
-
-        {/* Future Table Section */}
-        <div
-          className="
-            mt-3
-            bg-white
-            rounded-lg
-            min-h-[400px]
-            shadow-sm
-          "
-        >
+        <div className="mt-4 bg-white rounded-lg shadow-sm min-h-[400px]">
           <ClientDataTable
             columns={clientColumns}
             data={clients}
             loading={loading}
             pagination={pagination}
             fetchClients={fetchClients}
-            onEdit={(client) => {
-              console.log(client);
-            }}
+            onEdit={(client) => console.log(client)}
           />
         </div>
       </main>
@@ -81,5 +56,3 @@ const {
 }
 
 export default ClientPage;
-
-

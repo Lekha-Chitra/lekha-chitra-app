@@ -104,7 +104,11 @@ function TransactionPage() {
         onSuccess={fetchTransactions}
       />
 
-      <main className="flex-1 overflow-x-hidden p-4 md:p-6 lg:p-8">
+      <main
+        className="flex-1 overflow-x-hidden p-4 md:p-6 lg:p-8 md:ml-[70px]
+          min-h-screen transition-all
+          duration-300 "
+      >
         {/* Header */}
         <Header title="Transaction" />
         {/* Mobile Menu */}
@@ -136,7 +140,6 @@ function TransactionPage() {
           setFilters={setFilters}
           onApply={handleApplyFilters}
           onReset={handleResetFilters}
-          
         />
 
         {/* Table */}

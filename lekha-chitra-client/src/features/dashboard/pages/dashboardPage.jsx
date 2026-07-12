@@ -57,12 +57,16 @@ function DashboardPage() {
       <main
         className="
           flex-1
+          md:ml-[70px]
           min-h-screen
           overflow-y-auto
+
           overflow-x-hidden
           p-4
           md:p-6
           lg:p-8
+          transition-all
+        duration-300
         "
       >
         <Header title="Dashboard" />

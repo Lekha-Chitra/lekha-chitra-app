@@ -98,13 +98,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
           flex
           flex-col
 
-          min-h-screen
+          
 
           fixed
-          md:static
+        
 
           top-0
           left-0
+          h-screen
 
           z-50
 
@@ -124,7 +125,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
         `}
       >
         {/* Mobile Close */}
-        <div className="md:hidden flex justify-end p-4">
+        <div className="md:hidden flex justify-end p-4  ">
           <button onClick={() => setSidebarOpen(false)}>
             <FaTimes size={30} />
           </button>

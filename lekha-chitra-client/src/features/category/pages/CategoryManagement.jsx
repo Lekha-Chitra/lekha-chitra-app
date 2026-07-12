@@ -198,6 +198,7 @@ const tableData = subCategories.map((item) => ({
       <main
         className="
         flex-1
+         md:ml-[70px]
         min-h-screen
         overflow-y-auto
         overflow-x-hidden
