@@ -253,7 +253,8 @@ const filterLabels = {
             flex: 1,
             display: "flex",
             justifyContent: "center",
-            maxWidth: 250,
+            maxWidth: 420,
+        
           }}
         >
           <SearchBar />
@@ -268,8 +269,8 @@ const filterLabels = {
             color: "#f1f1f1",
             textTransform: "none",
             fontWeight: 600,
-            width: 220,
-            height: 50,
+            width: 180,
+            height: 40,
             minWidth: "auto",
             ml: "auto",
             px: 1.5,
@@ -696,7 +697,7 @@ const filterLabels = {
       )}
       <Box
         sx={{
-          height: 350, // fixed table height
+          height: 480, // fixed table height
           width: "100%",
           p: 2,
         }}

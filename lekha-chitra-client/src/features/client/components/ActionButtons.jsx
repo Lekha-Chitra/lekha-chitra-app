@@ -18,7 +18,7 @@ function ActionButtons({ onAddClient }) {
           className="
             bg-[#032A5C]
             text-white
-            h-[48px]
+            h-[40px]
             px-4
                py-3
             rounded-md
@@ -31,7 +31,7 @@ function ActionButtons({ onAddClient }) {
             duration-200
             cursor-pointer
             whitespace-nowrap
-            w-[220px]
+            w-[180px]
           "
         >
           {btn.icon}
