@@ -2,7 +2,7 @@ import { CircleUser, LogOut, CalendarDays } from "lucide-react";
 
 function Header({ title = "Dashboard" }) {
   return (
-    <header className="bg-white border-b px-6 py-4  flex items-center justify-between">
+    <header className="bg-white border-b px-6 py-2  flex items-center justify-between">
       <div>
         <h1 className="text-xl font-bold text-[#032A5C]">{title}</h1>
 

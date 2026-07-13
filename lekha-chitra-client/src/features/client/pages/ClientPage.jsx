@@ -17,17 +17,17 @@ function ClientPage() {
     <div className="bg-[#F3F3F3] min-h-screen">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-      <main
-        className="
-          md:ml-[70px]
-          p-4
-          md:p-6
-          lg:p-8
-          min-h-screen
-          transition-all
-          duration-300
-        "
-      >
+     <main
+  className="
+    md:ml-[70px]
+    px-4 pt-1 pb-4
+    md:px-6 md:pt-2 md:pb-6
+    lg:px-8 lg:pt-2 lg:pb-8
+    min-h-screen
+    transition-all
+    duration-300
+  "
+>
         <Header title="Clients" />
 
         {/* Mobile Menu */}

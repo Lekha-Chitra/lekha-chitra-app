@@ -127,10 +127,18 @@ const handleResetFilters = () => {
       />
 
       <main
-        className="flex-1 overflow-x-hidden p-4 md:p-6 lg:p-8 md:ml-[70px]
-          min-h-screen transition-all
-          duration-300 "
-      >
+  className="
+    flex-1
+    overflow-x-hidden
+    md:ml-[70px]
+    px-4 pt-1 pb-4
+    md:px-6 md:pt-2 md:pb-6
+    lg:px-8 lg:pt-2 lg:pb-8
+    min-h-screen
+    transition-all
+    duration-300
+  "
+>
         {/* Header */}
         <Header title="Transaction" />
         {/* Mobile Menu */}
