@@ -668,16 +668,27 @@ const filterLabels = {
               key={key}
               size="small"
               label={`${filterLabels[key] || key}: ${value}`}
-              onDelete={() => {
-                const updated = { ...appliedFilters };
-                delete updated[key];
-                setAppliedFilters(updated);
+             onDelete={() => {
+  const updatedFilters = {
+    ...filters,
+    [key]: "",
+  };
 
-                setFilters((prev) => ({
-                  ...prev,
-                  [key]: typeof prev[key] === "boolean" ? false : "",
-                }));
-              }}
+  setFilters(updatedFilters);
+
+  const updatedAppliedFilters = { ...appliedFilters };
+  delete updatedAppliedFilters[key];
+  setAppliedFilters(updatedAppliedFilters);
+
+  console.log("Calling API with:", updatedFilters);
+
+  searchTransactions({
+    ...updatedFilters,
+    Search: search,
+    PageNumber: 1,
+    PageSize: pagination.pageSize || 10,
+  });
+}}
               sx={{
                 backgroundColor: "#EFF6FF",
                 color: "#185FA5",

@@ -20,6 +20,7 @@ function TransactionActionButtons({
             h-[40px]
             bg-[#032A5C]
             text-white
+            text-sm
             rounded-lg
             font-semibold
             flex
@@ -42,6 +43,7 @@ function TransactionActionButtons({
             h-[40px]
             bg-[#032A5C]
             text-white
+            text-sm
             rounded-lg
             font-semibold
             flex
@@ -54,7 +56,7 @@ function TransactionActionButtons({
             
           "
         >
-          <FaPlus />
+          <FaPlus size={12} />
           Add Filter
         </button>
       </div>
@@ -68,10 +70,11 @@ function TransactionActionButtons({
         <button
           onClick={onAddTransaction}
           className="
-            w-[180px]
+            w-[160px]
             h-[40px]
             bg-[#032A5C]
             text-white
+            text-sm
             rounded-lg
             font-semibold
             flex
@@ -84,7 +87,7 @@ function TransactionActionButtons({
             cursor-pointer
           "
         >
-          <FaPlus />
+          <FaPlus size={12}/>
           Add Transaction
         </button>
 
@@ -95,10 +98,11 @@ function TransactionActionButtons({
         <button
           onClick={onOpenFilter}
           className="
-             w-[180px]
+             w-[120px]
             h-[40px]
             bg-[#032A5C]
             text-white
+            text-sm
             rounded-lg
             font-semibold
             flex

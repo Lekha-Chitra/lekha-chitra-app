@@ -138,7 +138,10 @@ function TransactionTable({
             fontWeight: 700,
             fontSize: "0.72rem",
           },
-
+ "& .MuiDataGrid-columnHeader.alt-column-header .MuiDataGrid-columnHeaderTitle":
+              {
+                fontWeight: 700,
+              },
           "& .MuiDataGrid-row:hover": {
             backgroundColor: "#F8FAFC",
           },

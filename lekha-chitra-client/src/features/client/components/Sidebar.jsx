@@ -107,7 +107,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
           left-0
           h-screen
 
-          z-50
+          z-60
 
           transition-all
           duration-300
