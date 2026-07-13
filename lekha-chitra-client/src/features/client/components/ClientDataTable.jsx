@@ -12,7 +12,7 @@ import {Box,
       Select,
       MenuItem,
       Checkbox} from "@mui/material";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -24,7 +24,8 @@ import CustomPagination from "../customData/customnPagination";
 import { filterClients, getClients } from "../services/clientServices";
 
 function ClientDataTable({ columns, data, title = "Clients",pagination,fetchClients, onEdit,loading }) {
-    const [searchTerm, setSearchTerm] = useState("");
+    // frontend search term (drives client-side filtering of the grid)
+    const [search, setSearch] = useState("");
     const [anchorEl, setAnchorEl] = useState(null);
     const [openAddClient, setOpenAddClient] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -99,42 +100,21 @@ const handleResetFilters = async () => {
       ...client,
     })) || [];
 
+  // Frontend search: filter the mapped rows against every visible column value.
+  // This runs entirely in the browser, no API round-trip.
+  const filteredRows = useMemo(() => {
+    if (!search?.trim()) return rows;
 
- 
-  // const editColumn = {
-  //   field: "actions",
-  //   headerName: "Actions",
-  //   width: 120,
-  //   sortable: false,
+    const term = search.trim().toLowerCase();
 
-  //   renderCell: (params) => (
-  //     <Tooltip title="Edit Client">
-  //       <Box
-  //         onClick={() => onEdit?.(params.row)}
-  //         sx={{
-  //           display: "flex",
-  //           alignItems: "center",
-  //           gap: 0.5,
-  //           px: 1,
-  //           py: 0.5,
-  //           cursor: "pointer",
-  //           borderRadius: "8px",
-  //           background: "#EFF6FF",
-  //           color: "#185FA5",
-  //           border: "1px solid #BFDBFE",
-
-  //           "&:hover": {
-  //             background: "#185FA5",
-  //             color: "#fff",
-  //           },
-  //         }}
-  //       >
-  //         <EditIcon sx={{ fontSize: 14 }} />
-  //         Edit
-  //       </Box>
-  //     </Tooltip>
-  //   ),
-  // };
+    return rows.filter((row) =>
+      columns.some((col) => {
+        const value = row[col.accessorKey];
+        if (value === null || value === undefined) return false;
+        return String(value).toLowerCase().includes(term);
+      })
+    );
+  }, [rows, search, columns]);
 
   const compactField = {
   "& .MuiInputBase-root": {
@@ -257,7 +237,7 @@ const filterLabels = {
         
           }}
         >
-          <SearchBar />
+          <SearchBar search={search} setSearch={setSearch} />
         </Box>
         <Button
           variant="contained"
@@ -265,7 +245,7 @@ const filterLabels = {
           startIcon={<AddIcon />}
           onClick={handleOpenFilter}
           sx={{
-            backgroundColor: "#032A5C", // cream color
+            backgroundColor: "#032A5C",
             color: "#f1f1f1",
             textTransform: "none",
             fontWeight: 600,
@@ -343,34 +323,13 @@ const filterLabels = {
                     },
                   }}
                 >
-                  <MenuItem
-                    value=""
-                    sx={{
-                      fontSize: "0.7rem",
-                      minHeight: "28px",
-                      py: 0.25,
-                    }}
-                  >
+                  <MenuItem value="" sx={{ fontSize: "0.7rem", minHeight: "28px", py: 0.25 }}>
                     All
                   </MenuItem>
-                  <MenuItem
-                    value="Vendor"
-                    sx={{
-                      fontSize: "0.7rem",
-                      minHeight: "28px",
-                      py: 0.25,
-                    }}
-                  >
+                  <MenuItem value="Vendor" sx={{ fontSize: "0.7rem", minHeight: "28px", py: 0.25 }}>
                     Vendor
                   </MenuItem>
-                  <MenuItem
-                    value="Site"
-                    sx={{
-                      fontSize: "0.7rem",
-                      minHeight: "28px",
-                      py: 0.25,
-                    }}
-                  >
+                  <MenuItem value="Site" sx={{ fontSize: "0.7rem", minHeight: "28px", py: 0.25 }}>
                     Site
                   </MenuItem>
                 </Select>
@@ -401,44 +360,16 @@ const filterLabels = {
                     },
                   }}
                 >
-                  <MenuItem
-                    value=""
-                    sx={{
-                      fontSize: "0.7rem",
-                      minHeight: "28px",
-                      py: 0.25,
-                    }}
-                  >
+                  <MenuItem value="" sx={{ fontSize: "0.7rem", minHeight: "28px", py: 0.25 }}>
                     All
                   </MenuItem>
-                  <MenuItem
-                    value="PetrolPump"
-                    sx={{
-                      fontSize: "0.7rem",
-                      minHeight: "28px",
-                      py: 0.25,
-                    }}
-                  >
+                  <MenuItem value="PetrolPump" sx={{ fontSize: "0.7rem", minHeight: "28px", py: 0.25 }}>
                     PetrolPump
                   </MenuItem>
-                  <MenuItem
-                    value="Father"
-                    sx={{
-                      fontSize: "0.7rem",
-                      minHeight: "28px",
-                      py: 0.25,
-                    }}
-                  >
+                  <MenuItem value="Father" sx={{ fontSize: "0.7rem", minHeight: "28px", py: 0.25 }}>
                     Father
                   </MenuItem>
-                  <MenuItem
-                    value="XYZ Company"
-                    sx={{
-                      fontSize: "0.7rem",
-                      minHeight: "28px",
-                      py: 0.25,
-                    }}
-                  >
+                  <MenuItem value="XYZ Company" sx={{ fontSize: "0.7rem", minHeight: "28px", py: 0.25 }}>
                     XYZ Company
                   </MenuItem>
                 </Select>
@@ -469,43 +400,20 @@ const filterLabels = {
                     },
                   }}
                 >
-                  <MenuItem
-                    value=""
-                    sx={{
-                      fontSize: "0.7rem",
-                      minHeight: "28px",
-                      py: 0.25,
-                    }}
-                  >
+                  <MenuItem value="" sx={{ fontSize: "0.7rem", minHeight: "28px", py: 0.25 }}>
                     All
                   </MenuItem>
-                  <MenuItem
-                    value="Credit"
-                    sx={{
-                      fontSize: "0.7rem",
-                      minHeight: "28px",
-                      py: 0.25,
-                    }}
-                  >
+                  <MenuItem value="Credit" sx={{ fontSize: "0.7rem", minHeight: "28px", py: 0.25 }}>
                     Credit
                   </MenuItem>
-                  <MenuItem
-                    value="Debit"
-                    sx={{
-                      fontSize: "0.7rem",
-                      minHeight: "28px",
-                      py: 0.25,
-                    }}
-                  >
+                  <MenuItem value="Debit" sx={{ fontSize: "0.7rem", minHeight: "28px", py: 0.25 }}>
                     Debit
                   </MenuItem>
                 </Select>
               </FormControl>
             </Box>
 
-            <Box
-              sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}
-            >
+            <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
               <TextField
                 placeholder="Min Balance"
                 name="minBalance"
@@ -525,9 +433,7 @@ const filterLabels = {
               />
             </Box>
 
-            <Box
-              sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}
-            >
+            <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
               <TextField
                 placeholder="Min Budget"
                 name="minBudget"
@@ -544,17 +450,9 @@ const filterLabels = {
                 sx={compactField}
               />
             </Box>
-            <Box
-              sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}
-            >
+            <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
               <Box>
-                <Typography
-                  sx={{
-                    fontSize: "0.7rem",
-                    color: "text.secondary",
-                    mb: 0.3,
-                  }}
-                >
+                <Typography sx={{ fontSize: "0.7rem", color: "text.secondary", mb: 0.3 }}>
                   From
                 </Typography>
 
@@ -574,13 +472,7 @@ const filterLabels = {
               </Box>
 
               <Box>
-                <Typography
-                  sx={{
-                    fontSize: "0.7rem",
-                    color: "text.secondary",
-                    mb: 0.3,
-                  }}
-                >
+                <Typography sx={{ fontSize: "0.7rem", color: "text.secondary", mb: 0.3 }}>
                   To
                 </Typography>
 
@@ -654,41 +546,32 @@ const filterLabels = {
       </Box>
 
       {Object.keys(appliedFilters).length > 0 && (
-        <Box
-          sx={{
-            px: 2,
-            pb: 1,
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 1,
-          }}
-        >
+        <Box sx={{ px: 2, pb: 1, display: "flex", flexWrap: "wrap", gap: 1 }}>
           {Object.entries(appliedFilters).map(([key, value]) => (
             <Chip
               key={key}
               size="small"
               label={`${filterLabels[key] || key}: ${value}`}
-             onDelete={() => {
-  const updatedFilters = {
-    ...filters,
-    [key]: "",
-  };
+              onDelete={async () => {
+                const updatedFilters = {
+                  ...filters,
+                  [key]: "",
+                };
 
-  setFilters(updatedFilters);
+                setFilters(updatedFilters);
 
-  const updatedAppliedFilters = { ...appliedFilters };
-  delete updatedAppliedFilters[key];
-  setAppliedFilters(updatedAppliedFilters);
+                const updatedAppliedFilters = { ...appliedFilters };
+                delete updatedAppliedFilters[key];
+                setAppliedFilters(updatedAppliedFilters);
 
-  console.log("Calling API with:", updatedFilters);
+                const activeFilters = Object.fromEntries(
+                  Object.entries(updatedFilters).filter(
+                    ([_, v]) => v !== "" && v !== null && v !== undefined && v !== false
+                  )
+                );
 
-  searchTransactions({
-    ...updatedFilters,
-    Search: search,
-    PageNumber: 1,
-    PageSize: pagination.pageSize || 10,
-  });
-}}
+                await fetchClients(1, pagination?.pageSize || 10, activeFilters);
+              }}
               sx={{
                 backgroundColor: "#EFF6FF",
                 color: "#185FA5",
@@ -708,15 +591,14 @@ const filterLabels = {
       )}
       <Box
         sx={{
-          height: 480, // fixed table height
+          height: 480,
           width: "100%",
           p: 2,
         }}
       >
         <DataGrid
-          rows={rows}
+          rows={filteredRows}
           rowHeight={40}
-          // getRowHeight={() => "auto"}
           columns={gridColumns}
           loading={loading}
           pageSizeOptions={[5, 10, 20]}
@@ -751,10 +633,9 @@ const filterLabels = {
               textTransform: "-moz-initial",
               borderBottom: "1px solid #CBD5E1",
             },
-            "& .MuiDataGrid-columnHeader.alt-column-header .MuiDataGrid-columnHeaderTitle":
-              {
-                fontWeight: 700,
-              },
+            "& .MuiDataGrid-columnHeader.alt-column-header .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: 700,
+            },
             "& .MuiDataGrid-columnHeaders": {
               backgroundColor: "#F8FAFC",
               borderBottom: "1px solid #E2E8F0",
