@@ -640,7 +640,7 @@ function DashboardPage() {
           </button>
         </div>
 
-        <div className="px-4 md:px-6 lg:px-8">
+        <div className="sticky top-0 z-50  py-4 px-4 md:px-6 lg:px-8">
           <DashboardToolbar
             sections={sections}
             scrollToSection={scrollToSection}

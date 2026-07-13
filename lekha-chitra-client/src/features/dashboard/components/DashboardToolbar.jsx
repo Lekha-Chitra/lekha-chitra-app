@@ -226,7 +226,7 @@ function DashboardToolbar({
           md:p-5
         "
       >
-        <div className="flex flex-col gap-5 lg:flex-row lg:justify-between lg:items-start">
+        <div className="flex flex-col gap-5 lg:flex-row lg:justify-between lg:items-center">
           {/* Navigation */}
           <div className="flex flex-wrap gap-2">
             {sections.map((section) => (
@@ -237,8 +237,8 @@ function DashboardToolbar({
                   flex
                   items-center
                   gap-2
-                  px-4
-                  py-2
+                  px-2
+                  py-1
                   rounded-full
                   bg-[#F8FAFC]
                   border
@@ -303,13 +303,13 @@ function DashboardToolbar({
                 className="
                   w-full
                   sm:w-full
-                  lg:w-44
+                  lg:w-34
 
                   border
                   border-gray-300
                   rounded-lg
                   px-3
-                  py-2
+                  py-1.5
                   text-sm
 
                   focus:outline-none
@@ -334,13 +334,13 @@ function DashboardToolbar({
                 className="
                   w-full
                   sm:w-full
-                  lg:w-44
+                  lg:w-34
 
                   border
                   border-gray-300
                   rounded-lg
                   px-3
-                  py-2
+                  py-1.5
                   text-sm
 
                   focus:outline-none
@@ -364,7 +364,7 @@ function DashboardToolbar({
                   flex-1
                   lg:flex-none
 
-                  h-[42px]
+                  h-[34px]
                   px-5
 
                   rounded-lg
@@ -386,7 +386,7 @@ function DashboardToolbar({
                   flex-1
                   lg:flex-none
 
-                  h-[42px]
+                  h-[34px]
                   px-5
 
                   rounded-lg
