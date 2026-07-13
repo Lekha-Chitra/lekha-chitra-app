@@ -1,50 +1,60 @@
-import {Box,
-        Button , 
-        TextField,
-        InputAdornment, 
-        Chip, 
-        Tooltip,
-        Popover,
-        Typography, 
-       FormControlLabel,
-        FormControl,
-      InputLabel,
-      Select,
-      MenuItem,
-      Checkbox} from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  InputAdornment,
+  Chip,
+  Tooltip,
+  Popover,
+  Typography,
+  FormControlLabel,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Checkbox,
+} from "@mui/material";
 import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import SearchBar from "./SearchBar";
 import ActionButtons from "./ActionButtons";
-import AddClientModal from "./AddClientModal"
+import AddClientModal from "./AddClientModal";
 import { DataGrid } from "@mui/x-data-grid";
 import CustomPagination from "../customData/customnPagination";
 import { filterClients, getClients } from "../services/clientServices";
 
-function ClientDataTable({ columns, data, title = "Clients",pagination,fetchClients, onEdit,loading }) {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [openAddClient, setOpenAddClient] = useState(false);
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+function ClientDataTable({
+  columns,
+  data,
+  title = "Clients",
+  pagination,
+  fetchClients,
+  onEdit,
+  loading,
+}) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openAddClient, setOpenAddClient] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    const [filters, setFilters] = useState({
-      search: "",
-      category: "",
-      subCategory: "",
-      status: "",
-      minBalance: "",
-      maxBalance: "",
-      minBudget: "",
-      maxBudget: "",
-      minQuantity: "",
-      maxQuantity: "",
-      fromDate: "",
-      toDate: "",
-      sortBy: "",
-      isDescending: false,
-    });
+  const [filters, setFilters] = useState({
+    search: "",
+    category: "",
+    subCategory: "",
+    status: "",
+    minBalance: "",
+    maxBalance: "",
+    minBudget: "",
+    maxBudget: "",
+    minQuantity: "",
+    maxQuantity: "",
+    fromDate: "",
+    toDate: "",
+    sortBy: "",
+    isDescending: false,
+  });
   const [appliedFilters, setAppliedFilters] = useState({});
 
   const handleOpenFilter = (event) => {
@@ -55,40 +65,40 @@ function ClientDataTable({ columns, data, title = "Clients",pagination,fetchClie
     setAnchorEl(null);
   };
   const handleFilterChange = (e) => {
-  const { name, value, type, checked } = e.target;
+    const { name, value, type, checked } = e.target;
 
-  setFilters((prev) => ({
-    ...prev,
-    [name]: type === "checkbox" ? checked : value,
-  }));
-};
+    setFilters((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
 
-const handleApplyFilters = async () => {
-  const activeFilters = Object.fromEntries(
-    Object.entries(filters).filter(
-      ([_, value]) =>
-        value !== "" &&
-        value !== null &&
-        value !== undefined &&
-        value !== false
-    )
-  );
+  const handleApplyFilters = async () => {
+    const activeFilters = Object.fromEntries(
+      Object.entries(filters).filter(
+        ([_, value]) =>
+          value !== "" &&
+          value !== null &&
+          value !== undefined &&
+          value !== false,
+      ),
+    );
 
-  setAppliedFilters(activeFilters);
+    setAppliedFilters(activeFilters);
 
-  await fetchClients(1, 10, activeFilters);
+    await fetchClients(1, 10, activeFilters);
 
-  handleCloseFilter();
-};
+    handleCloseFilter();
+  };
 
-const handleResetFilters = async () => {
-  setFilters(initialFilters);
-  setAppliedFilters({});
+  const handleResetFilters = async () => {
+    setFilters(initialFilters);
+    setAppliedFilters({});
 
-  await fetchClients();
+    await fetchClients();
 
-  handleCloseFilter();
-};
+    handleCloseFilter();
+  };
 
   const open = Boolean(anchorEl);
 
@@ -99,8 +109,6 @@ const handleResetFilters = async () => {
       ...client,
     })) || [];
 
-
- 
   // const editColumn = {
   //   field: "actions",
   //   headerName: "Actions",
@@ -137,25 +145,25 @@ const handleResetFilters = async () => {
   // };
 
   const compactField = {
-  "& .MuiInputBase-root": {
-    height: 30,
-    fontSize: "0.75rem",
-  },
-  "& .MuiInputLabel-root": {
-    fontSize: "0.7rem",
-  },
-  "& .MuiInputBase-input": {
-    py: 0,
-  },
-}; 
+    "& .MuiInputBase-root": {
+      height: 30,
+      fontSize: "0.75rem",
+    },
+    "& .MuiInputLabel-root": {
+      fontSize: "0.7rem",
+    },
+    "& .MuiInputBase-input": {
+      py: 0,
+    },
+  };
 
   const gridColumns = [
     {
       field: "sn",
       headerName: "#",
       width: 60,
-    cellClassName: "alt-column",
-    headerClassName: "alt-column-header",
+      cellClassName: "alt-column",
+      headerClassName: "alt-column-header",
     },
 
     ...columns.map((col) => ({
@@ -163,8 +171,8 @@ const handleResetFilters = async () => {
       headerName: col.header,
       flex: 1,
       minWidth: 120,
-        cellClassName: "alt-column",
-        headerClassName: "alt-column-header",
+      cellClassName: "alt-column",
+      headerClassName: "alt-column-header",
       renderCell:
         col.accessorKey === "status"
           ? (params) => (
@@ -172,48 +180,46 @@ const handleResetFilters = async () => {
                 label={params.value}
                 size="small"
                 color={params.value === "Credit" ? "success" : "error"}
-                 sx={{
-                   width: 60,
-                    height:20,
+                sx={{
+                  width: 60,
+                  height: 20,
                   fontWeight: 200,
                   color: "#fff",
-                   ...(params.value === "Credit"
-              ? {
-                  color: "#ffffff",
-                  backgroundColor: "#032A5C",
-                }
-              : {
-                  color: "#78350F",
-                  backgroundColor: "#E59C11",
-                }),
-                  }}
-            />
+                  ...(params.value === "Credit"
+                    ? {
+                        color: "#ffffff",
+                        backgroundColor: "#032A5C",
+                      }
+                    : {
+                        color: "#78350F",
+                        backgroundColor: "#E59C11",
+                      }),
+                }}
+              />
             )
-             : ["addedDate", "modifiedDate"].includes(col.accessorKey)
-    ? (params) =>
-        params.value
-          ?  new Date(params.value).toLocaleString()
-          : ""
-          : undefined,
+          : ["addedDate", "modifiedDate"].includes(col.accessorKey)
+            ? (params) =>
+                params.value ? new Date(params.value).toLocaleString() : ""
+            : undefined,
     })),
 
     // editColumn,
   ];
-const filterLabels = {
-  category: "Category",
-  subCategory: "Sub Category",
-  status: "Status",
-  minBalance: "Min Balance",
-  maxBalance: "Max Balance",
-  minBudget: "Min Budget",
-  maxBudget: "Max Budget",
-  minQuantity: "Min Qty",
-  maxQuantity: "Max Qty",
-  fromDate: "From",
-  toDate: "To",
-  sortBy: "Sort By",
-  isDescending: "Descending",
-};
+  const filterLabels = {
+    category: "Category",
+    subCategory: "Sub Category",
+    status: "Status",
+    minBalance: "Min Balance",
+    maxBalance: "Max Balance",
+    minBudget: "Min Budget",
+    maxBudget: "Max Budget",
+    minQuantity: "Min Qty",
+    maxQuantity: "Max Qty",
+    fromDate: "From",
+    toDate: "To",
+    sortBy: "Sort By",
+    isDescending: "Descending",
+  };
 
   return (
     <Box
@@ -254,7 +260,6 @@ const filterLabels = {
             display: "flex",
             justifyContent: "center",
             maxWidth: 420,
-        
           }}
         >
           <SearchBar />

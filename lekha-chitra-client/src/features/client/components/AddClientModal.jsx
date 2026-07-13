@@ -5,7 +5,7 @@ import Notification from "../../../components/common/Notification";
 import { addClient } from "../services/clientServices";
 import { getSubCategories } from "../../category/services/categoryService";
 
-function AddClientModal({ open, onClose,onSuccess }) {
+function AddClientModal({ open, onClose, onSuccess }) {
   const [loading, setLoading] = useState(false);
 
   const [message, setMessage] = useState("");
@@ -24,12 +24,12 @@ function AddClientModal({ open, onClose,onSuccess }) {
     description: "",
   });
 
-    useEffect(() => {
-      if (open) {
-        resetForm();
-        loadSubCategories();
-      }
-    }, [open]);
+  useEffect(() => {
+    if (open) {
+      resetForm();
+      loadSubCategories();
+    }
+  }, [open]);
 
   useEffect(() => {
     if (!message) return;
@@ -94,21 +94,21 @@ function AddClientModal({ open, onClose,onSuccess }) {
         },
       };
 
-     const response = await addClient(payload);
+      const response = await addClient(payload);
 
-     if (response.isSuccess) {
-       setMessage("Client added successfully");
-       setMessageType("success");
+      if (response.isSuccess) {
+        setMessage("Client added successfully");
+        setMessageType("success");
 
-       resetForm();
+        resetForm();
 
-       // Refresh the client table
-       await onSuccess?.();
+        // Refresh the client table
+        await onSuccess?.();
 
-       setTimeout(() => {
-         onClose();
-       }, 1000);
-     }
+        setTimeout(() => {
+          onClose();
+        }, 1000);
+      }
     } catch (error) {
       console.error(error);
 
@@ -122,9 +122,9 @@ function AddClientModal({ open, onClose,onSuccess }) {
 
   if (!open) return null;
 
- return (
-  <div
-    className="
+  return (
+    <div
+      className="
       fixed
       inset-0
       bg-black/40
@@ -134,9 +134,9 @@ function AddClientModal({ open, onClose,onSuccess }) {
       z-50
       p-4
     "
-  >
-    <div
-      className="
+    >
+      <div
+        className="
         bg-white
         rounded-lg
         shadow-xl
@@ -147,11 +147,11 @@ function AddClientModal({ open, onClose,onSuccess }) {
         max-h-[85vh]
         overflow-y-auto
       "
-    >
-      {/* Close Button */}
-      <button
-        onClick={onClose}
-        className="
+      >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="
           absolute
           top-3
           right-3
@@ -159,39 +159,39 @@ function AddClientModal({ open, onClose,onSuccess }) {
           hover:text-black
           cursor-pointer
         "
-      >
-        ✕
-      </button>
+        >
+          ✕
+        </button>
 
-      {/* Title */}
-      <h2
-        className="
+        {/* Title */}
+        <h2
+          className="
           text-lg
           font-semibold
           text-[#032A5C]
           mb-3
         "
-      >
-        Add Client
-      </h2>
+        >
+          Add Client
+        </h2>
 
-      {/* Notification */}
-      <Notification message={message} type={messageType} />
+        {/* Notification */}
+        <Notification message={message} type={messageType} />
 
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-1.5">
-        {/* Client Name */}
-        <div>
-          <label className="block mb-0.5 text-xs font-medium text-gray-700">
-            Client Name
-          </label>
-          <input
-            type="text"
-            name="clientName"
-            value={formData.clientName}
-            onChange={handleChange}
-            placeholder="Enter client name"
-            className="
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-1.5">
+          {/* Client Name */}
+          <div>
+            <label className="block mb-0.5 text-xs font-medium text-gray-700">
+              Client Name
+            </label>
+            <input
+              type="text"
+              name="clientName"
+              value={formData.clientName}
+              onChange={handleChange}
+              placeholder="Enter client name"
+              className="
               w-full
               border
               border-[#E59C11]
@@ -201,102 +201,21 @@ function AddClientModal({ open, onClose,onSuccess }) {
               text-sm
               outline-none
             "
-            required
-          />
-        </div>
-
-        {/* Subcategory + Status */}
-        <div className="grid grid-cols-2 gap-2">
-          <div>
-            <label className="block mb-0.5 text-xs font-medium text-gray-700">
-              Subcategory
-            </label>
-            <select
-              name="subcategory"
-              value={formData.subcategory}
-              onChange={handleChange}
-              className="
-                w-full
-                border
-                border-[#E59C11]
-                rounded-md
-                px-2.5
-                py-1
-                text-sm
-                outline-none
-              "
               required
-            >
-              <option value="">Select</option>
-              {subCategories.map((item, index) => (
-                <option key={index} value={item.subCategory}>
-                  {item.subCategory}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block mb-0.5 text-xs font-medium text-gray-700">
-              Status
-            </label>
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              className="
-                w-full
-                border
-                border-[#E59C11]
-                rounded-md
-                px-2.5
-                py-1
-                text-sm
-                outline-none
-              "
-              required
-            >
-              <option value="">Select</option>
-              <option value="Credit">Credit</option>
-              <option value="Debit">Debit</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Balance + Estimated Budget */}
-        <div className="grid grid-cols-2 gap-2">
-          <div>
-            <label className="block mb-0.5 text-xs font-medium text-gray-700">
-              Balance
-            </label>
-            <input
-              type="number"
-              name="amount"
-              value={formData.amount}
-              onChange={handleChange}
-              className="
-                w-full
-                border
-                border-[#E59C11]
-                rounded-md
-                px-2.5
-                py-1
-                text-sm
-                outline-none
-              "
             />
           </div>
 
-          <div>
-            <label className="block mb-0.5 text-xs font-medium text-gray-700">
-              Estimated Budget
-            </label>
-            <input
-              type="number"
-              name="estimatedBudget"
-              value={formData.estimatedBudget}
-              onChange={handleChange}
-              className="
+          {/* Subcategory + Status */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="block mb-0.5 text-xs font-medium text-gray-700">
+                Subcategory
+              </label>
+              <select
+                name="subcategory"
+                value={formData.subcategory}
+                onChange={handleChange}
+                className="
                 w-full
                 border
                 border-[#E59C11]
@@ -306,22 +225,26 @@ function AddClientModal({ open, onClose,onSuccess }) {
                 text-sm
                 outline-none
               "
-            />
-          </div>
-        </div>
+                required
+              >
+                <option value="">Select</option>
+                {subCategories.map((item, index) => (
+                  <option key={index} value={item.subCategory}>
+                    {item.subCategory}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        {/* Quantity + Remarks */}
-        <div className="grid grid-cols-2 gap-2">
-          <div>
-            <label className="block mb-0.5 text-xs font-medium text-gray-700">
-              Quantity
-            </label>
-            <input
-              type="number"
-              name="quantity"
-              value={formData.quantity}
-              onChange={handleChange}
-              className="
+            <div>
+              <label className="block mb-0.5 text-xs font-medium text-gray-700">
+                Status
+              </label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="
                 w-full
                 border
                 border-[#E59C11]
@@ -331,19 +254,27 @@ function AddClientModal({ open, onClose,onSuccess }) {
                 text-sm
                 outline-none
               "
-            />
+                required
+              >
+                <option value="">Select</option>
+                <option value="Credit">Credit</option>
+                <option value="Debit">Debit</option>
+              </select>
+            </div>
           </div>
 
-          <div>
-            <label className="block mb-0.5 text-xs font-medium text-gray-700">
-              Remarks
-            </label>
-            <input
-              type="text"
-              name="remarks"
-              value={formData.remarks}
-              onChange={handleChange}
-              className="
+          {/* Balance + Estimated Budget */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="block mb-0.5 text-xs font-medium text-gray-700">
+                Balance
+              </label>
+              <input
+                type="number"
+                name="amount"
+                value={formData.amount}
+                onChange={handleChange}
+                className="
                 w-full
                 border
                 border-[#E59C11]
@@ -353,21 +284,90 @@ function AddClientModal({ open, onClose,onSuccess }) {
                 text-sm
                 outline-none
               "
-            />
-          </div>
-        </div>
+              />
+            </div>
 
-        {/* Description */}
-        <div>
-          <label className="block mb-0.5 text-xs font-medium text-gray-700">
-            Description
-          </label>
-          <textarea
-            rows="2"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="
+            <div>
+              <label className="block mb-0.5 text-xs font-medium text-gray-700">
+                Estimated Budget
+              </label>
+              <input
+                type="number"
+                name="estimatedBudget"
+                value={formData.estimatedBudget}
+                onChange={handleChange}
+                className="
+                w-full
+                border
+                border-[#E59C11]
+                rounded-md
+                px-2.5
+                py-1
+                text-sm
+                outline-none
+              "
+              />
+            </div>
+          </div>
+
+          {/* Quantity + Remarks */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="block mb-0.5 text-xs font-medium text-gray-700">
+                Quantity
+              </label>
+              <input
+                type="number"
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleChange}
+                className="
+                w-full
+                border
+                border-[#E59C11]
+                rounded-md
+                px-2.5
+                py-1
+                text-sm
+                outline-none
+              "
+              />
+            </div>
+
+            <div>
+              <label className="block mb-0.5 text-xs font-medium text-gray-700">
+                Remarks
+              </label>
+              <input
+                type="text"
+                name="remarks"
+                value={formData.remarks}
+                onChange={handleChange}
+                className="
+                w-full
+                border
+                border-[#E59C11]
+                rounded-md
+                px-2.5
+                py-1
+                text-sm
+                outline-none
+              "
+              />
+            </div>
+          </div>
+
+          {/* Description */}
+          <div>
+            <label className="block mb-0.5 text-xs font-medium text-gray-700">
+              Description
+            </label>
+            <textarea
+              rows="2"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="
               w-full
               border
               border-[#E59C11]
@@ -378,14 +378,14 @@ function AddClientModal({ open, onClose,onSuccess }) {
               resize-none
               outline-none
             "
-          />
-        </div>
+            />
+          </div>
 
-        {/* Submit */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="
             w-full
             bg-[#032A5C]
             text-white
@@ -397,14 +397,13 @@ function AddClientModal({ open, onClose,onSuccess }) {
             hover:opacity-90
             disabled:opacity-50
           "
-        >
-          {loading ? "Adding Client..." : "Add Client"}
-        </button>
-      </form>
+          >
+            {loading ? "Adding Client..." : "Add Client"}
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
-);
+  );
 }
 
 export default AddClientModal;
-

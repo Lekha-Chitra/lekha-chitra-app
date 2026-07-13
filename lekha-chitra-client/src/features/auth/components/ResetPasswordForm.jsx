@@ -31,12 +31,12 @@ function ResetPasswordForm() {
     const storedEmail = sessionStorage.getItem("resetEmail");
 
     if (!storedEmail) {
-      navigate("/forgot-password", { replace: true });
+      navigate("/login", { replace: true });
       return;
     }
 
     if (storedEmail !== email) {
-      navigate("/forgot-password", { replace: true });
+      navigate("/login", { replace: true });
     }
   }, [email, navigate]);
 
@@ -72,14 +72,14 @@ function ResetPasswordForm() {
 
       const response = await resetPassword(email, formData.password);
 
-      console.log("Reset Password:", response);
+      // console.log("Reset Password:", response);
 
       if (response.isSuccess) {
         sessionStorage.removeItem("resetEmail");
-        navigate("/", { replace: true });
+        navigate("/login", { replace: true });
       }
     } catch (err) {
-      console.error("Reset Password Error:", err);
+      // console.error("Reset Password Error:", err);
 
       setApiError(
         err.response?.data?.message ||
@@ -174,15 +174,14 @@ md:text-lg
 
 cursor-pointer
 
-disabled:opacity-50
-"
+        disabled:opacity-50
+                   "
       >
         {/* {loading ? "Resetting..." : "Reset Password"}
          */}
         {loading ? (
           <div className="flex items-center justify-center gap-2">
             <LoadingSpinner size={18} />
-           
           </div>
         ) : (
           "Reset Password"

@@ -7,13 +7,24 @@ import CategoryManagement from "../features/category/pages/CategoryManagement";
 import ClientPage from "../features/client/pages/ClientPage";
 import DashboardPage from "../features/dashboard/pages/dashboardPage";
 import TransactionPage from "../features/transaction/pages/TransactionPage";
-import ProtectedRoute from "../routes/ProtectedRoute"
+import ProtectedRoute from "../routes/ProtectedRoute";
 import NotFound from "../routes/NotFound";
+import PublicRoute from "../routes/PublicRoute";
+import { Navigate } from "react-router-dom";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />,
+    element: <Navigate to="/login" replace />,
   },
+  {
+    path: "/login",
+    element: (
+      <PublicRoute>
+        <Login />
+      </PublicRoute>
+    ),
+  },
+
   {
     path: "/forgot-password",
     element: <ForgotPassword />,
@@ -26,7 +37,7 @@ const router = createBrowserRouter([
     path: "/reset-password",
     element: <ResetPassword />,
   },
- 
+
   {
     path: "/category",
     element: (
@@ -62,7 +73,7 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <NotFound />,
-  }
+  },
 ]);
 
 export default router;

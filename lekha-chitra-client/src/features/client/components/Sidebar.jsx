@@ -25,17 +25,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-
-  const handleLogout = async() => {
-    try{
+  const handleLogout = async () => {
+    try {
       await logout();
-    
-    navigate("/", { replace: true });
-  }catch(error){
-    console.error(error);
+        sessionStorage.removeItem("isAuthenticated");
+      navigate("/login", { replace: true });
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-}
   const menuItems = [
     {
       icon: (

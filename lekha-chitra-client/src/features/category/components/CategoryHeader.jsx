@@ -30,9 +30,9 @@ function CategoryHeader() {
         <div
           className="
             w-12 h-12
-sm:w-16 sm:h-16
-md:w-20 md:h-20
-lg:w-24 lg:h-24
+            sm:w-16 sm:h-16 
+            md:w-20 md:h-20
+            lg:w-24 lg:h-24
 
             rounded-full
             bg-white

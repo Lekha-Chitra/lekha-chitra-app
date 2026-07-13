@@ -24,7 +24,7 @@ function Summary() {
 
       const response = await getSummary();
 
-      console.log(response);
+      // console.log(response);
       setSummary(response.data);
     } catch (error) {
       console.error("Failed to fetch summary:", error);

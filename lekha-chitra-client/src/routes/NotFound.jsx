@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 function NotFound() {
   const navigate = useNavigate();
+   const isAuthenticated = sessionStorage.getItem("isAuthenticated") === "true";
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#F6F8FB] px-4">
@@ -16,7 +17,7 @@ function NotFound() {
       </p>
 
       <button
-        onClick={() => navigate("/analytics")}
+        onClick={() => navigate(isAuthenticated ? "/analytics" : "/login")}
         className="
           mt-8
           px-6
@@ -28,7 +29,7 @@ function NotFound() {
           transition
         "
       >
-        Go to Dashboard
+        {isAuthenticated ? "Go to Dashboard" : "Go to Login"}
       </button>
     </div>
   );

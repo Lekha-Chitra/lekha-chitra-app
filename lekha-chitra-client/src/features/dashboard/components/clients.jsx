@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
-import {getClientSummary }from "../services/dashboardServices";
-import {
-  FaChartLine,
-} from "react-icons/fa6";
+import { getClientSummary } from "../services/dashboardServices";
+import { FaChartLine } from "react-icons/fa6";
 import {
   AreaChart,
   Area,
@@ -14,17 +12,17 @@ import {
 } from "recharts";
 
 function Clients() {
-//  const [data, setData] = useState(null);
-const [data, setData] = useState({
-  totalClients: 0,
-  totalCreditClients: 0,
-  totalDebitClients: 0,
-  totalBalance: 0,
-  highestBalance: 0,
-  lowestBalance: 0,
-  averageBalance: 0,
-  clientGrowth: [],
-});
+  //  const [data, setData] = useState(null);
+  const [data, setData] = useState({
+    totalClients: 0,
+    totalCreditClients: 0,
+    totalDebitClients: 0,
+    totalBalance: 0,
+    highestBalance: 0,
+    lowestBalance: 0,
+    averageBalance: 0,
+    clientGrowth: [],
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,7 +32,7 @@ const [data, setData] = useState({
   const loadClientSummary = async () => {
     try {
       const response = await getClientSummary();
-      console.log(response);
+      // console.log(response);
       setData(response.data);
     } catch (error) {
       console.error(error);
@@ -77,7 +75,6 @@ const [data, setData] = useState({
       sub: "Negative balance",
       accent: "#E59C11",
     },
-    
   ];
 
   const balanceStats = [
@@ -94,8 +91,7 @@ const [data, setData] = useState({
     {
       label: "Lowest Balance",
       value: lowestBalance,
-      tone:
-        lowestBalance < 0 ? "text-red-600" : "text-gray-700",
+      tone: lowestBalance < 0 ? "text-red-600" : "text-gray-700",
     },
   ];
 

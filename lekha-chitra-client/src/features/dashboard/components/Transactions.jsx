@@ -48,7 +48,7 @@ function Transactions() {
     try {
       const response = await getTransactionSummary();
 
-      console.log(response);
+      // console.log(response);
 
       setData(response.data);
     } catch (err) {
@@ -112,77 +112,6 @@ function Transactions() {
   return (
     <section className="space-y-6">
       {/* Cards */}
-
-      {/* <div
-        className="grid gap-6"
-        style={{
-          gridTemplateColumns: `repeat(${cards.length}, minmax(0,1fr))`,
-        }}
-      >
-        {cards.map((card) => (
-          <div
-            key={card.title}
-            className="
-              relative
-              overflow-hidden
-              rounded-2xl
-              bg-white
-              border
-              border-gray-200
-              shadow-sm
-              hover:shadow-xl
-              hover:-translate-y-1
-              transition-all
-              duration-300
-            "
-          >
-            <div className="p-6">
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="uppercase text-xs tracking-widest text-gray-500 font-semibold">
-                    {card.title}
-                  </p>
-
-                  <h2
-                    className="mt-3 text-2xl font-bold"
-                    style={{
-                      color: card.color,
-                    }}
-                  >
-                    {card.prefix}
-                    {Number(card.value).toLocaleString()}
-                  </h2>
-
-                  <p className="text-sm text-gray-500 mt-2">{card.subtitle}</p>
-                </div>
-
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{
-                    backgroundColor: `${card.color}15`,
-                  }}
-                >
-                  <span
-                    className="text-xl"
-                    style={{
-                      color: card.color,
-                    }}
-                  >
-                    {card.icon}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="absolute bottom-0 left-0 h-1 w-full"
-              style={{
-                background: `linear-gradient(to right, ${card.color}, transparent)`,
-              }}
-            />
-          </div>
-        ))}
-      </div> */}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Growth */}
@@ -306,15 +235,11 @@ function Transactions() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Types */}
 
-      <TransactionType
-  transactionTypes={data.transactionTypes}
-/>
+        <TransactionType transactionTypes={data.transactionTypes} />
 
         {/* Payment */}
 
-       <PaymentMethods
-  paymentMethods={data.paymentMethods}
-/>
+        <PaymentMethods paymentMethods={data.paymentMethods} />
       </div>
     </section>
   );
