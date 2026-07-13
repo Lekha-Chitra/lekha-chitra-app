@@ -54,11 +54,11 @@ function SubCategoryForm({
           >
             <option value="">Select Category</option>
 
-          {categories.map((item, index) => (
-  <option key={index} value={item}>
-    {item}
-  </option>
-))}
+            {categories.map((item, index) => (
+              <option key={index} value={item}>
+                {item}
+              </option>
+            ))}
           </select>
 
           <ChevronDown

@@ -41,17 +41,12 @@ const PaymentMethods = ({ paymentMethods }) => {
               paddingAngle={3}
             >
               {chartData.map((_, index) => (
-                <Cell
-                  key={index}
-                  fill={COLORS[index % COLORS.length]}
-                />
+                <Cell key={index} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
 
             <Tooltip
-              formatter={(value) =>
-                `Rs. ${Number(value).toLocaleString()}`
-              }
+              formatter={(value) => `Rs. ${Number(value).toLocaleString()}`}
             />
 
             <Legend

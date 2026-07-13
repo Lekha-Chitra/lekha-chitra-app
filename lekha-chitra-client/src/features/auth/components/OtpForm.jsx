@@ -17,17 +17,20 @@ function OtpForm() {
   const inputsRef = useRef([]);
 
   useEffect(() => {
+    const isRefresh =performance.getEntriesByType("navigation")[0]?.type === "reload";
     const storedEmail = sessionStorage.getItem("otpEmail");
 
     // If no stored email in sessionStorage → page was refreshed or accessed directly
-    if (!storedEmail) {
-      navigate("/forgot-password", { replace: true });
+    if (!isRefresh || !storedEmail) {
+      sessionStorage.removeItem("otpEmail");
+      navigate("/login", { replace: true });
       return;
     }
 
     // If email in state doesn't match stored → something is wrong
     if (storedEmail !== email) {
-      navigate("/forgot-password", { replace: true });
+       sessionStorage.removeItem("otpEmail");
+      navigate("/login", { replace: true });
     }
   }, [email, navigate]);
 
@@ -70,7 +73,7 @@ function OtpForm() {
 
       const response = await verifyOtp(email, otpValue);
 
-      console.log("Verify OTP:", response);
+      // console.log("Verify OTP:", response);
 
       if (response.isSuccess) {
         sessionStorage.removeItem("otpEmail");
@@ -78,7 +81,7 @@ function OtpForm() {
         navigate("/reset-password", { state: { email }, replace: true });
       }
     } catch (err) {
-      console.error("Verify OTP Error:", err);
+      // console.error("Verify OTP Error:", err);
 
       const status = err.response?.status;
       const message =
@@ -106,62 +109,6 @@ function OtpForm() {
       setLoading(false);
     }
   };
-
-  // return (
-  //   <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-  //     {/* OTP Boxes */}
-  //     <div className="flex justify-center gap-3">
-  //       {otp.map((digit, index) => (
-  //         <input
-  //           key={index}
-  //           ref={(el) => (inputsRef.current[index] = el)}
-  //           type="text"
-  //           maxLength={1}
-  //           value={digit}
-  //           onChange={(e) => handleChange(e.target.value, index)}
-  //           onKeyDown={(e) => handleKeyDown(e, index)}
-  //           className="
-  //             w-12
-  //             h-12
-  //             md:w-14
-  //             md:h-14
-  //             xl:w-16
-  //             xl:h-16
-  //             bg-white
-  //             rounded-lg
-  //             text-center
-  //             text-xl
-  //             md:text-2xl
-  //             font-semibold
-  //             outline-none
-  //           "
-  //         />
-  //       ))}
-  //     </div>
-
-  //     {error && <p className="text-red-400 text-sm text-center">{error}</p>}
-  //     {apiError && (
-  //       <p className="text-red-400 text-sm text-center">{apiError}</p>
-  //     )}
-
-  //     <Button
-  //       type="submit"
-  //       disabled={loading}
-  //       className="
-  //         w-full
-  //         bg-[#E59C11]
-  //         text-white
-  //         h-[55px]
-  //         rounded-full
-  //         text-xl
-  //         cursor-pointer
-  //         disabled:opacity-50
-  //       "
-  //     >
-  //       {loading ? "Verifying..." : "Verify OTP"}
-  //     </Button>
-  //   </form>
-  // );
 
   return (
     <form
@@ -226,7 +173,7 @@ function OtpForm() {
 
             transition-all
             duration-200focus:ring-2
-focus:ring-[#E59C11]
+          focus:ring-[#E59C11]
           "
           />
         ))}
@@ -272,11 +219,9 @@ focus:ring-[#E59C11]
         disabled:opacity-50
       "
       >
-       
         {loading ? (
           <div className="flex items-center justify-center gap-2">
             <LoadingSpinner size={18} />
-            
           </div>
         ) : (
           "Verify OTP"

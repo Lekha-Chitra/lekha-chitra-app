@@ -101,7 +101,7 @@ import LoginForm from "../components/LoginForm";
 import SplitLogo from "../components/SplitLogo";
 import Branding from "../components/Branding";
 import bgImage from "../../../assets/images/login-banner.jpg";
-import "../../../authResponsive.css"
+import "../../../authResponsive.css";
 function Login() {
   return (
     <div className="relative min-h-screen flex flex-col lg:flex-row">

@@ -8,7 +8,7 @@ function useTransactionClients() {
   const fetchClients = async () => {
     try {
       const response = await getClients();
-       console.log(response.data.clients); 
+      //  console.log(response.data.clients); 
 
       if (response.isSuccess) {
         setClients(response.data.clients);

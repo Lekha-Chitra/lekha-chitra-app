@@ -60,6 +60,7 @@ function CategoryManagement() {
       }
     } catch (error) {
       console.error("Error fetching categories:", error);
+      
     }
   };
 

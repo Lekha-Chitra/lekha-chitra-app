@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Input from "../../../components/common/Input";
 import Button from "../../../components/common/Button";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -23,6 +23,11 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    sessionStorage.removeItem("otpEmail");
+    sessionStorage.removeItem("resetEmail");
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,11 +65,11 @@ function LoginForm() {
 
       const response = await loginUser(formData);
 
-      console.log("Login Success");
-      console.log(response);
-      
+      // console.log("Login Success");
+      // console.log(response);
+
       if (response.isSuccess) {
-        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("isAuthenticated", "true");
         navigate("/analytics", { replace: true });
       }
 
@@ -73,7 +78,7 @@ function LoginForm() {
         password: "",
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
 
       if (error.response?.status === 401) {
         setApiError("Invalid email or password.");
@@ -155,7 +160,7 @@ function LoginForm() {
   //         gap-6
   //         sm:justify-between
   //         sm:items-center
-          
+
   //       "
   //       >
   //         <Button
@@ -183,8 +188,6 @@ function LoginForm() {
   //           text-white
   //           cursor-pointer
   //           text-sm sm:text-base md:text-lg
-            
-        
 
   //         "
   //         >
@@ -198,14 +201,15 @@ function LoginForm() {
     <form
       onSubmit={handleSubmit}
       className="
-     w-full
-flex
-flex-col
-items-center
 
-space-y-3
-sm:space-y-4
-md:space-y-5
+      w-full
+      flex
+      flex-col
+      items-center
+
+      space-y-3
+      sm:space-y-4
+      md:space-y-5
     "
     >
       <div
@@ -312,11 +316,9 @@ md:space-y-5
             disabled:opacity-50
           "
           >
-            
             {loading ? (
               <div className="flex items-center justify-center gap-2">
                 <LoadingSpinner size={18} />
-               
               </div>
             ) : (
               "Login"

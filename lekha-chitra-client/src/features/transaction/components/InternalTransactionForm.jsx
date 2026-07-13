@@ -1,4 +1,10 @@
-function InternalTransactionForm({ formData, setFormData, clients, loading,handleSubmit }) {
+function InternalTransactionForm({
+  formData,
+  setFormData,
+  clients,
+  loading,
+  handleSubmit,
+}) {
   const paymentTypes = ["Credit", "Debit", "Transfer"];
 
   const paymentMethods = ["Cash", "Online", "Loan"];
