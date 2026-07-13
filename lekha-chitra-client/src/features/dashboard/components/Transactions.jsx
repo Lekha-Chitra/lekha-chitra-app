@@ -16,6 +16,8 @@ import {
 } from "recharts";
 
 import { getTransactionSummary } from "../services/dashboardServices";
+import PaymentMethods from "./PaymentMethods";
+import TransactionType from "./TransactionType";
 
 function Transactions() {
   const [loading, setLoading] = useState(true);
@@ -111,7 +113,7 @@ function Transactions() {
     <section className="space-y-6">
       {/* Cards */}
 
-      <div
+      {/* <div
         className="grid gap-6"
         style={{
           gridTemplateColumns: `repeat(${cards.length}, minmax(0,1fr))`,
@@ -180,7 +182,7 @@ function Transactions() {
             />
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Graph */}
 
@@ -306,65 +308,15 @@ function Transactions() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Types */}
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
-          <h3 className="text-sm font-semibold text-[#032A5C] mb-5">
-            Transaction Types
-          </h3>
-
-          <div className="space-y-4">
-            {data.transactionTypes.map((item) => (
-              <div
-                key={item.transactionType}
-                className="flex justify-between items-center border-b border-gray-100 pb-3"
-              >
-                <div>
-                  <p className="font-medium text-gray-700">
-                    {item.transactionType}
-                  </p>
-
-                  <p className="text-xs text-gray-400">
-                    {item.totalTransactions} Transactions
-                  </p>
-                </div>
-
-                <span className="font-bold text-[#032A5C]">
-                  Rs. {Number(item.totalAmount).toLocaleString()}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+      <TransactionType
+  transactionTypes={data.transactionTypes}
+/>
 
         {/* Payment */}
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
-          <h3 className="text-sm font-semibold text-[#032A5C] mb-5">
-            Payment Methods
-          </h3>
-
-          <div className="space-y-4">
-            {data.paymentMethods.map((item) => (
-              <div
-                key={item.paymentMethod}
-                className="flex justify-between items-center border-b border-gray-100 pb-3"
-              >
-                <div>
-                  <p className="font-medium text-gray-700">
-                    {item.paymentMethod}
-                  </p>
-
-                  <p className="text-xs text-gray-400">
-                    {item.totalTransactions} Transactions
-                  </p>
-                </div>
-
-                <span className="font-bold text-[#032A5C]">
-                  Rs. {Number(item.totalAmount).toLocaleString()}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+       <PaymentMethods
+  paymentMethods={data.paymentMethods}
+/>
       </div>
     </section>
   );
