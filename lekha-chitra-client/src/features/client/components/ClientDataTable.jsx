@@ -23,7 +23,13 @@ import { DataGrid } from "@mui/x-data-grid";
 import CustomPagination from "../customData/customnPagination";
 import { filterClients, getClients } from "../services/clientServices";
 
-function ClientDataTable({ columns, data, title = "Clients",pagination,fetchClients, onEdit,loading }) {
+function ClientDataTable({ columns,
+   data,
+    title = "Clients",
+    pagination,
+    paginationModel,
+    setPaginationModel,
+    fetchClients, onEdit,loading }) {
     // frontend search term (drives client-side filtering of the grid)
     const [search, setSearch] = useState("");
     const [anchorEl, setAnchorEl] = useState(null);
@@ -594,22 +600,18 @@ function ClientDataTable({ columns, data, title = "Clients",pagination,fetchClie
         }}
       >
         <DataGrid
-          rows={filteredRows}
-          rowHeight={40}
-          columns={gridColumns}
-          loading={loading}
-          pageSizeOptions={[5, 10, 20]}
-          slots={{
-            pagination: CustomPagination,
-          }}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                page: 0,
-                pageSize: 10,
-              },
-            },
-          }}
+           rows={filteredRows}
+            columns={gridColumns}
+            loading={loading}
+            rowHeight={40}
+            pageSizeOptions={[5, 10, 20]}
+            paginationMode="server"
+            rowCount={pagination?.totalRecords ?? 0}
+            paginationModel={paginationModel}
+            onPaginationModelChange={setPaginationModel}
+            slots={{
+              pagination: CustomPagination,
+            }}
           sx={{
             borderRadius: "12px",
             "& .MuiDataGrid-columnHeaders": {
