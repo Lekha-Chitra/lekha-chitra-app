@@ -54,7 +54,7 @@ function ClientPage() {
           </button>
         </div>
 
-        <div className="mt-4 bg-white rounded-lg shadow-sm min-h-[400px]">
+        <div className="mt-4 rounded-lg shadow-sm min-h-[400px]">
           <ClientDataTable
         columns={clientColumns}
           data={clients}

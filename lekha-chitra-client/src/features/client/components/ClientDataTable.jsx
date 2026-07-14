@@ -200,23 +200,24 @@ function ClientDataTable({ columns,
   };
 
   return (
-    <Box
-      sx={{
-        background: "#fff",
-        borderRadius: "12px",
-        overflow: "hidden",
-        boxShadow: 2,
-      }}
-    >
+ <Box>
       {/* Header */}
-
+<Box  sx={{
+    backgroundColor: "#fff",
+    borderRadius: "12px",
+    border: "1px solid #E5E7EB",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+    p: 1,
+    mb: 2,
+  }}
+>
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          p: 2,
-          gap: 2,
+          p: 1,
+          gap: 1,
         }}
       >
         {/* Left */}
@@ -592,6 +593,18 @@ function ClientDataTable({ columns,
           ))}
         </Box>
       )}
+      </Box>
+    
+    
+    <Box
+      sx={{
+        background: "#fff",
+        borderRadius: "12px",
+        overflow: "hidden",
+        boxShadow: 2,
+        
+      }}
+    >
       <Box
         sx={{
           height: 480,
@@ -646,6 +659,7 @@ function ClientDataTable({ columns,
           disableColumnMenu
         />
       </Box>
+    </Box>
     </Box>
   );
 }
