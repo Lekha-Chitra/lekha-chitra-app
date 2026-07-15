@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import CategoryHeader from "../components/CategoryHeader";
 import CategoryCard from "../components/CategoryCard";
 import CategoryForm from "../components/CategoryForm";
@@ -16,6 +16,8 @@ import {
   addSubCategory,
 } from "../services/categoryService";
 import Header from "../../auth/pages/Header";
+import { Search } from "lucide-react";
+import { FaPlus } from "react-icons/fa";
 
 function CategoryManagement() {
   
@@ -33,7 +35,7 @@ function CategoryManagement() {
 
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
-
+  const [search, setSearch] = useState("");
 
   const showNotification = (message, type) => {
     setNotification({
@@ -48,6 +50,26 @@ function CategoryManagement() {
       });
     }, 5000);
   };
+
+const tableData = useMemo(() => {
+  return subCategories.map((item) => ({
+    category: item.category,
+    subCategory: item.subCategory,
+  }));
+}, [subCategories]);
+
+const filteredTableData = useMemo(() => {
+  if (!search.trim()) return tableData;
+
+  const term = search.toLowerCase();
+
+  return tableData.filter((item) => {
+    return (
+      item.category?.toLowerCase().includes(term) ||
+      item.subCategory?.toLowerCase().includes(term)
+    );
+  });
+}, [tableData, search]);
   // ==========================
   // Fetch Categories
   // ==========================
@@ -184,10 +206,7 @@ function CategoryManagement() {
       showNotification("Failed to add sub category.", "error");
     }
   };
-const tableData = subCategories.map((item) => ({
-  category: item.category,
-  subCategory: item.subCategory,
-}));
+
 
 
   return (
@@ -235,61 +254,98 @@ const tableData = subCategories.map((item) => ({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap gap-4 mt-6 mb-4">
-          <button
-            onClick={() => setOpen(true)}
-            className="
-            flex-1
-            min-w-[200px]
-            h-[50px]
-            rounded-lg
-            text-sm
-            font-medium
-            text-white
-            bg-[#032A4E]
-            hover:opacity-90
-          "
-          >
-            Add Category
-          </button>
 
-          <button
-            onClick={() => setSubOpen(true)}
-            className="
-            flex-1
-            min-w-[200px]
-            h-[50px]
-            rounded-lg
-            text-sm
-            font-medium
-            text-white
-            bg-[#E59C11]
-            hover:opacity-90
-          "
-          >
-            Add Sub Category
-          </button>
+<div className="flex flex-wrap items-center gap-4 mt-6 mb-4">
+  {/* Add Category */}
+  <button
+    onClick={() => setOpen(true)}
+    className="
+      inline-flex
+      items-center
+      gap-2
+      px-3
+      h-10
+      rounded-lg
+      text-sm
+      font-medium
+      text-white
+      bg-[#032A4E]
+      hover:opacity-90
+      whitespace-nowrap
+    "
+  >
+    <FaPlus size={12} />
+    Add Category
+  </button>
 
-          <CategoryCard
-            open={open}
-            setOpen={setOpen}
-            category={category}
-            setCategory={setCategory}
-            handleCategorySubmit={handleCategorySubmit}
-          />
+  {/* Search */}
+  <div className="relative flex-1 min-w-[250px]">
+    <Search
+      className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+      size={18}
+    />
+    <input
+      type="text"
+      placeholder="Search category or subcategory..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      className="
+        w-full
+        h-10
+        rounded-lg
+        border
+        border-gray-300
+        pl-10
+        pr-4
+        text-sm
+        focus:outline-none
+        focus:ring-2
+        focus:ring-[#032A4E]
+      "
+    />
+  </div>
 
-          <SubCategoryCard
-            open={subOpen}
-            setOpen={setSubOpen}
-            categories={categories}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-            subCategory={subCategory}
-            setSubCategory={setSubCategory}
-            handleSubCategorySubmit={handleSubCategorySubmit}
-          />
-        </div>
+  {/* Add Sub Category */}
+  <button
+    onClick={() => setSubOpen(true)}
+    className="
+      inline-flex
+      items-center
+      gap-2
+      px-3
+      h-10
+      rounded-lg
+      text-sm
+      font-medium
+      text-white
+      bg-[#E59C11]
+      hover:opacity-90
+      whitespace-nowrap
+    "
+  >
+    <FaPlus size={12} />
+    Add Sub Category
+  </button>
 
+  <CategoryCard
+    open={open}
+    setOpen={setOpen}
+    category={category}
+    setCategory={setCategory}
+    handleCategorySubmit={handleCategorySubmit}
+  />
+
+  <SubCategoryCard
+    open={subOpen}
+    setOpen={setSubOpen}
+    categories={categories}
+    selectedCategory={selectedCategory}
+    setSelectedCategory={setSelectedCategory}
+    subCategory={subCategory}
+    setSubCategory={setSubCategory}
+    handleSubCategorySubmit={handleSubCategorySubmit}
+  />
+</div>
         {/* Notification */}
         <div className="flex justify-center mb-4">
           <Notification
@@ -303,7 +359,7 @@ const tableData = subCategories.map((item) => ({
           <SubCategoryDataTable
             title="Sub Categories"
             columns={categoryColumns}
-            data={tableData}
+            data={filteredTableData}
             rowHeight={56}
             onEdit={(row) => {
               console.log("Editing row:", row);

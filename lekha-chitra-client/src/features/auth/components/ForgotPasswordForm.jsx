@@ -193,10 +193,10 @@ function ForgotPasswordForm() {
       <div
         className="
           w-full
-          sm:w-[90%]
+          sm:w-[80%]
           md:w-[75%]
-          lg:w-[70%]
-          xl:w-[60%]
+          lg:w-[60%]
+          xl:w-[55%]
           2xl:w-[350px]
         "
       >
@@ -233,19 +233,19 @@ function ForgotPasswordForm() {
         disabled={loading}
         className="
           w-full
-          sm:w-[90%]
+            sm:w-[80%]
           md:w-[75%]
-          lg:w-[70%]
-          xl:w-[60%]
+          lg:w-[60%]
+          xl:w-[55%]
           2xl:w-[350px]
 
           bg-[#E59C11]
           text-white
 
-          h-10
-          sm:h-11
-          md:h-12
-          lg:h-14
+          h-8
+          sm:h-9
+          md:h-10
+          lg:h-12
 
           rounded-xl
           sm:rounded-2xl

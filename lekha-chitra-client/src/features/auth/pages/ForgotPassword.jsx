@@ -2,6 +2,8 @@ import Branding from "../components/Branding";
 import ForgotPasswordForm from "../components/ForgotPasswordForm";
 import bgImage from "../../../assets/images/login-banner.jpg";
 import "../../../authResponsive.css";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 function ForgotPassword() {
   return (
     <div className="flex h-screen overflow-hidden">
@@ -58,15 +60,24 @@ function ForgotPassword() {
                 leading-relaxed
               "
             >
-              Enter your registered email address and we'll send a verification
-              code (OTP) to reset your password.
+             A verification code (OTP) will be sent to reset your password.
             </p>
           </div>
 
           {/* Form */}
-          <div className="w-full">
-            <ForgotPasswordForm />
+         <div className="w-full">
+          <ForgotPasswordForm />
+
+          <div className="mt-6 text-center">
+            <Link
+              to="/login"
+              className="inline-flex items-center gap-2 text-[#E59C11] hover:text-[#f2b43c] transition-colors text-sm font-medium"
+            >
+              <ArrowLeft size={16} />
+              Back to Login
+            </Link>
           </div>
+        </div>
         </div>
       </div>
     </div>

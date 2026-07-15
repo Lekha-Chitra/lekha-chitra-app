@@ -99,9 +99,9 @@ function SubCategoryDataTable({
   return (
     <Box
       sx={{
-        height: 350, // fixed table height
+        height: 550, // fixed table height
         width: "100%",
-        p: 2,
+      
         background: "#fff",
         borderRadius: "12px",
         overflow: "hidden",
