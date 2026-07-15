@@ -217,7 +217,7 @@ function ClientDataTable({ columns,
           alignItems: "center",
           justifyContent: "space-between",
           p: 1,
-          gap: 1,
+          gap: 4,
         }}
       >
         {/* Left */}
