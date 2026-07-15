@@ -36,7 +36,7 @@ function LoginForm() {
       ...prev,
       [name]: value,
     }));
-
+x
     setErrors((prev) => ({
       ...prev,
       [name]: "",
@@ -327,7 +327,7 @@ function LoginForm() {
 
           <button
             type="button"
-            onClick={() => navigate("/forgot-password")}
+            onClick={() => navigate("/forgot-password", { replace: true })}
             className="
             text-white
 
