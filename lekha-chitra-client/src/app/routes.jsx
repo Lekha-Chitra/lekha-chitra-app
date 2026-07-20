@@ -11,6 +11,7 @@ import ProtectedRoute from "../routes/ProtectedRoute";
 import NotFound from "../routes/NotFound";
 import PublicRoute from "../routes/PublicRoute";
 import { Navigate } from "react-router-dom";
+import ProfilePage from "../features/profile/pages/ProfilePage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,9 +28,9 @@ const router = createBrowserRouter([
 
   {
     path: "/forgot-password",
-    element:(
+    element: (
       <PublicRoute>
-      <ForgotPassword />,
+        <ForgotPassword />,
       </PublicRoute>
     ),
   },
@@ -71,6 +72,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <TransactionPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <ProtectedRoute>
+        <ProfilePage />
       </ProtectedRoute>
     ),
   },
