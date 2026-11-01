@@ -12,30 +12,31 @@ function SubCategoryForm({
   onCancel,
 }) {
   return (
-    <div
-      className="
+   <form onSubmit={onSubmit} className="flex flex-col gap-8">
+      <div
+        className="
         flex
         flex-col
         gap-6
       "
-    >
-      {/* Category */}
-      <div className="flex flex-col gap-2">
-        <label
-          className="
+      >
+        {/* Category */}
+        <div className="flex flex-col gap-2">
+          <label
+            className="
             font-medium
             text-sm
             sm:text-base
           "
-        >
-          Category
-        </label>
+          >
+            Category
+          </label>
 
-        <div className="relative">
-          <select
-            value={selectedCategory}
-            onChange={onCategoryChange}
-            className="
+          <div className="relative">
+            <select
+              value={selectedCategory}
+              onChange={onCategoryChange}
+              className="
               w-full
               h-11
               md:h-12
@@ -51,55 +52,56 @@ function SubCategoryForm({
               appearance-none
               outline-none
             "
-          >
-            <option value="">Select Category</option>
+            >
+              <option value="">Select Category</option>
 
-            {categories.map((item, index) => (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
+              {categories.map((item, index) => (
+                <option key={index} value={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
 
-          <ChevronDown
-            size={18}
-            className="
+            <ChevronDown
+              size={18}
+              className="
               absolute
               right-4
               top-1/2
               -translate-y-1/2
               pointer-events-none
             "
-          />
+            />
+          </div>
         </div>
-      </div>
 
-      {/* Sub Category */}
-      <div className="flex flex-col gap-2">
-        <label
-          className="
+        {/* Sub Category */}
+        <div className="flex flex-col gap-2">
+          <label
+            className="
             font-medium
             text-sm
             sm:text-base
           "
-        >
-          Sub Category
-        </label>
+          >
+            Sub Category
+          </label>
 
-        <Input
-          placeholder="Enter Sub Category"
-          value={value}
-          onChange={onChange}
-          className="w-full"
-          inputClassName="
+          <Input
+            placeholder="Enter Sub Category"
+            value={value}
+            onChange={onChange}
+            className="w-full"
+            inputClassName="
             border
             border-[#E59C11]
           "
-        />
-      </div>
+          />
+        </div>
 
-      <FormButtons onSubmit={onSubmit} onCancel={onCancel} />
-    </div>
+        <FormButtons onSubmit={onSubmit} onCancel={onCancel} />
+      </div>
+    </form>
   );
 }
 

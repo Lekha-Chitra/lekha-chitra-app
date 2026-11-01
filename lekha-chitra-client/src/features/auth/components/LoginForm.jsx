@@ -36,7 +36,7 @@ function LoginForm() {
       ...prev,
       [name]: value,
     }));
-x
+
     setErrors((prev) => ({
       ...prev,
       [name]: "",

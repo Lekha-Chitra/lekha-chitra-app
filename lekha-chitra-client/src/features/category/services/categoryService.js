@@ -2,6 +2,7 @@ import api from "../../../app/api";
 
 export const getCategories = async () => {
   const response = await api.get("/V1/Category/getCategories");
+  console.log("getCategories response:", response.data); // Log the response data
   return response.data;
 };
 
