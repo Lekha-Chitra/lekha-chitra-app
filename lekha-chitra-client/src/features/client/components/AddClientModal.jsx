@@ -20,7 +20,7 @@ function AddClientModal({ open, onClose, onSuccess }) {
 
   const [formData, setFormData] = useState({
     clientName: "",
-    category: "",
+    
     subcategory: "",
     quantity: "",
     amount: "",
@@ -51,40 +51,12 @@ function AddClientModal({ open, onClose, onSuccess }) {
     return () => clearTimeout(timer);
   }, [message]);
 
-  // Load Subcategories
-  const loadSubCategories = async () => {
-    try {
-      const response = await getSubCategories();
-
-      console.log("Subcategories API Response:", response);
-
-      const data = response?.data;
-
-      setSubCategories(
-        Array.isArray(data)
-          ? data
-          : Array.isArray(data?.subCategories)
-            ? data.subCategories
-            : [],
-      );
-    } catch (error) {
-      console.error("Subcategories Error:", error);
-
-      setSubCategories([]);
-      setMessage("Failed to load subcategories");
-      setMessageType("error");
-    }
-  };
-
   // Load Categories
   const loadCategories = async () => {
     try {
       const response = await getCategories();
 
       console.log("Categories API Response:", response);
-
-      // API returns:
-      // response.data.categories = ["Bank", "Computer", ...]
 
       const categoryList = response?.data?.categories;
 
@@ -98,11 +70,42 @@ function AddClientModal({ open, onClose, onSuccess }) {
     }
   };
 
+  // Load Subcategories
+  const loadSubCategories = async () => {
+    try {
+      const response = await getSubCategories();
+
+      console.log("Subcategories API Response:", response);
+
+      const subCategoryList = response?.data;
+
+      setSubCategories(Array.isArray(subCategoryList) ? subCategoryList : []);
+    } catch (error) {
+      console.error("Subcategories Error:", error);
+
+      setSubCategories([]);
+      setMessage("Failed to load subcategories");
+      setMessageType("error");
+    }
+  };
+
+  // Filter subcategories based on selected category
+  const filteredSubCategories = subCategories.filter(
+    (item) => item.category === formData.category,
+  );
+
   // Handle input changes
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: value,
+
+      // Reset subcategory when category changes
+      ...(name === "category" && {
+        subcategory: "",
+      }),
     }));
   };
 
@@ -110,7 +113,7 @@ function AddClientModal({ open, onClose, onSuccess }) {
   const resetForm = () => {
     setFormData({
       clientName: "",
-      category: "",
+     
       subcategory: "",
       quantity: "",
       amount: "",
@@ -128,7 +131,7 @@ function AddClientModal({ open, onClose, onSuccess }) {
     try {
       setLoading(true);
 
-      // Category is intentionally NOT sent to backend
+      // Category is intentionally not sent to backend
       const payload = {
         client: {
           name: formData.clientName,
@@ -233,28 +236,7 @@ function AddClientModal({ open, onClose, onSuccess }) {
 
           {/* Subcategory + Category */}
           <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="block mb-0.5 text-xs font-medium text-gray-700">
-                Subcategory
-              </label>
-
-              <select
-                name="subcategory"
-                value={formData.subcategory}
-                onChange={handleChange}
-                className="w-full border border-[#E59C11] rounded-md px-2.5 py-1 text-sm outline-none"
-                required
-              >
-                <option value="">Select</option>
-
-                {subCategories.map((item, index) => (
-                  <option key={item.id || index} value={item.subCategory}>
-                    {item.subCategory}
-                  </option>
-                ))}
-              </select>
-            </div>
-
+            {/* Category */}
             <div>
               <label className="block mb-0.5 text-xs font-medium text-gray-700">
                 Category
@@ -265,12 +247,46 @@ function AddClientModal({ open, onClose, onSuccess }) {
                 value={formData.category}
                 onChange={handleChange}
                 className="w-full border border-[#E59C11] rounded-md px-2.5 py-1 text-sm outline-none"
+                required
               >
                 <option value="">Select Category</option>
 
                 {categories.map((item, index) => (
                   <option key={index} value={item}>
                     {item}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Subcategory */}
+            <div>
+              <label className="block mb-0.5 text-xs font-medium text-gray-700">
+                Subcategory
+              </label>
+
+              <select
+                name="subcategory"
+                value={formData.subcategory}
+                onChange={handleChange}
+                disabled={!formData.category}
+                className="w-full border border-[#E59C11] rounded-md px-2.5 py-1 text-sm outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
+                required
+              >
+                <option value="">
+                  {!formData.category
+                    ? "Select Category First"
+                    : filteredSubCategories.length === 0
+                      ? "No Subcategories"
+                      : "Select Subcategory"}
+                </option>
+
+                {filteredSubCategories.map((item, index) => (
+                  <option
+                    key={`${item.category}-${item.subCategory}-${index}`}
+                    value={item.subCategory}
+                  >
+                    {item.subCategory}
                   </option>
                 ))}
               </select>
